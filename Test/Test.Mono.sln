@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Mono", "Test\Test.Mono.csproj", "{ED2DDBD0-D92B-4422-A9EB-3F573A4357BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSocket4Net", "WebSocket4Net", "{7C222DBF-12EE-4696-BD69-C8D9460CE26C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Mono", "..\WebSocket4Net\WebSocket4Net.Mono.csproj", "{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED2DDBD0-D92B-4422-A9EB-3F573A4357BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2DDBD0-D92B-4422-A9EB-3F573A4357BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2DDBD0-D92B-4422-A9EB-3F573A4357BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2DDBD0-D92B-4422-A9EB-3F573A4357BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3} = {7C222DBF-12EE-4696-BD69-C8D9460CE26C}
+	EndGlobalSection
+EndGlobal
