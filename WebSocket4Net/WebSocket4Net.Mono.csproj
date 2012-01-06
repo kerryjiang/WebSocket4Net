@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebSocket4Net</RootNamespace>
+    <AssemblyName>WebSocket4Net</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Mono\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Mono\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SuperSocket.ClientEngine.Mono">
+      <HintPath>..\Reference\SuperSocket\SuperSocket.ClientEngine.Mono.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\Binary.cs" />
+    <Compile Include="Command\Close.cs" />
+    <Compile Include="Command\Handshake.cs" />
+    <Compile Include="Command\WebSocketCommandBase.cs" />
+    <Compile Include="Command\Pong.cs" />
+    <Compile Include="Command\Text.cs" />
+    <Compile Include="DataReceivedEventArgs.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GlobalAssemblyInfo.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
+    <Compile Include="OpCode.cs" />
+    <Compile Include="Properties\AssemblyInfo.Mono.cs" />
+    <Compile Include="Protocol\DraftHybi00DataReader.cs" />
+    <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
+    <Compile Include="Protocol\DraftHybi00Processor.cs" />
+    <Compile Include="Protocol\DraftHybi10DataReader.cs" />
+    <Compile Include="Protocol\DraftHybi10HandshakeReader.cs" />
+    <Compile Include="Protocol\DraftHybi10Processor.cs" />
+    <Compile Include="Protocol\FramePartReader\DataFramePartReader.cs" />
+    <Compile Include="Protocol\FramePartReader\ExtendedLenghtReader.cs" />
+    <Compile Include="Protocol\FramePartReader\FixPartReader.cs" />
+    <Compile Include="Protocol\FramePartReader\IDataFramePartReader.cs" />
+    <Compile Include="Protocol\FramePartReader\MaskKeyReader.cs" />
+    <Compile Include="Protocol\FramePartReader\PayloadDataReader.cs" />
+    <Compile Include="Protocol\HandshakeReader.cs" />
+    <Compile Include="Protocol\IProtocolProcessor.cs" />
+    <Compile Include="Protocol\ProtocolProcessorBase.cs" />
+    <Compile Include="Protocol\ReaderBase.cs" />
+    <Compile Include="Protocol\WebSocketDataFrame.cs" />
+    <Compile Include="WebSocket.cs" />
+    <Compile Include="WebSocket.Net.cs" />
+    <Compile Include="WebSocketCommandInfo.cs" />
+    <Compile Include="WebSocketContext.cs" />
+    <Compile Include="WebSocketState.cs" />
+    <Compile Include="WebSocketVersion.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
