@@ -5,18 +5,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}</ProjectGuid>
+    <ProjectGuid>{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebSocket4Net</RootNamespace>
     <AssemblyName>WebSocket4Net</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Mono\Debug\</OutputPath>
+    <OutputPath>..\bin\Net35\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,14 +26,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Mono\Release\</OutputPath>
+    <OutputPath>..\bin\Net35\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket\Mono\SuperSocket.ClientEngine.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket\Net35\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +50,7 @@
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
-    <Compile Include="Properties\AssemblyInfo.Mono.cs" />
+    <Compile Include="Properties\AssemblyInfo.Net35.cs" />
     <Compile Include="Protocol\DraftHybi00DataReader.cs" />
     <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
     <Compile Include="Protocol\DraftHybi00Processor.cs" />

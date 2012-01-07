@@ -40,8 +40,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\Reference\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Mono">
-      <HintPath>..\..\Reference\SuperSocket\SuperSocket.ClientEngine.Mono.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference\SuperSocket\Mono\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Common">
       <HintPath>..\Reference\SuperSocket.Common.dll</HintPath>
