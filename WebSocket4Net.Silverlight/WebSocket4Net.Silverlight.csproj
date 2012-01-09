@@ -47,6 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Reference\Json.NET\Silverlight\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SuperSocket.ClientEngine">
       <HintPath>..\Reference\SuperSocket\Silverlight\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
@@ -81,6 +84,15 @@
     </Compile>
     <Compile Include="..\WebSocket4Net\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\IJsonExecutor.cs">
+      <Link>IJsonExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonExecutor.cs">
+      <Link>JsonExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.cs">
+      <Link>JsonWebSocket.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\MessageReceivedEventArgs.cs">
       <Link>MessageReceivedEventArgs.cs</Link>

@@ -68,5 +68,5 @@ if not exist %mgbkdir% (
 	mkdir %mgbkdir%
 )
 move %mgdir%\* %mgbkdir%
-Tools\ILMerge /keyfile:websocket4net.snk /targetplatform:%ver%%ref% /ndebug /log /out:%mgdir%\WebSocket4Net.dll %mgbkdir%\WebSocket4Net.dll %mgbkdir%\SuperSocket.ClientEngine.dll
+Tools\ILMerge /keyfile:websocket4net.snk /targetplatform:%ver%%ref% /ndebug /log /out:%mgdir%\WebSocket4Net.dll %mgbkdir%\WebSocket4Net.dll %mgbkdir%\SuperSocket.ClientEngine.dll %mgbkdir%\Newtonsoft.Json.dll
 rmdir %mgbkdir% /S /Q

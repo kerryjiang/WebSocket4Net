@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Reference\Json.NET\Net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SuperSocket.ClientEngine">
       <HintPath>..\Reference\SuperSocket\Net35\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
@@ -48,6 +51,9 @@
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
+    <Compile Include="IJsonExecutor.cs" />
+    <Compile Include="JsonExecutor.cs" />
+    <Compile Include="JsonWebSocket.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
     <Compile Include="Properties\AssemblyInfo.Net35.cs" />
