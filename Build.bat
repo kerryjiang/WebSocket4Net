@@ -40,7 +40,11 @@ FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 set mgdir=Bin\Silverlight\Release
 set ver=v4
-set ref=,"C:\Program Files (x86)\Microsoft Silverlight\4.0.60531.0"
+set sldir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0
+if not exist "%sldir%" (
+	set sldir=%ProgramFiles%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0
+)
+set ref=,"%sldir%"
 call :Merge
 
 %msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj  /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
