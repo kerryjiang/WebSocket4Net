@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Mono", "WebSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net35", "WebSocket4Net\WebSocket4Net.Net35.csproj", "{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.WindowsPhone", "WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj", "{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,14 @@ Global
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

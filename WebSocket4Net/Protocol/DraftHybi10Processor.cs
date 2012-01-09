@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !SILVERLIGHT
 using System.Collections.Specialized;
+#endif
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;

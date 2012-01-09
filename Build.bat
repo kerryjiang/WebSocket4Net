@@ -43,6 +43,18 @@ set ver=v4
 set ref=,"C:\Program Files (x86)\Microsoft Silverlight\4.0.60531.0"
 call :Merge
 
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj  /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
+
+set mgdir=Bin\WindowsPhone\Release
+set ver=v4
+set wpdir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71
+if not exist "%wpdir%" (
+	set wpdir=%ProgramFiles%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71
+)
+set ref=,"%wpdir%"
+call :Merge
+
 pause
 goto:eof
 
