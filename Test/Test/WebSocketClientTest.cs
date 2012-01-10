@@ -103,26 +103,23 @@ namespace WebSocket4Net.Test
         [Test, Repeat(10)]
         public void CloseWebSocketTest()
         {
-            WebSocket websocket = new WebSocket("ws://localhost:2012/");
-            websocket.Opened += new EventHandler(websocket_Opened);
-            websocket.Closed += new EventHandler(websocket_Closed);
-            websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
-            websocket.Open();
-        }
+            WebSocket webSocketClient = new WebSocket(string.Format("ws://127.0.0.1:{0}/websocket", m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+            webSocketClient.Open();
 
-        void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+            if (!m_OpenedEvent.WaitOne(1000))
+                Assert.Fail("Failed to Opened session ontime");
 
-        void websocket_Closed(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+            Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
 
-        void websocket_Opened(object sender, EventArgs e)
-        {
-            websocket.Send("Hello World!");
+            webSocketClient.Send("QUIT");
+
+            if (!m_CloseEvent.WaitOne(1000))
+                Assert.Fail("Failed to close session ontime");
+
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
         void webSocketClient_MessageReceived(object sender, MessageReceivedEventArgs e)
