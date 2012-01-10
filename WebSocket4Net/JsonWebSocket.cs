@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebSocket4Net
 {
@@ -59,6 +60,23 @@ namespace WebSocket4Net
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
+            m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
+        }
+
+        private EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> m_Error;
+
+        public event EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> Error
+        {
+            add { m_Error += value; }
+            remove { m_Error -= value; }
+        }
+
+        void m_WebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        {
+            if (m_Error == null)
+                return;
+
+            m_Error(this, e);
         }
 
         private EventHandler m_Opened;
@@ -121,9 +139,17 @@ namespace WebSocket4Net
             m_Closed(this, e);
         }
 
-        public void RegisterMessageHandler<T>(string name, Action<T> executor)
+        public void RegisterHandler<T>(string name, Action<T> executor)
         {
             m_ExecutorDict[name] = new JsonExecutor<T>(executor);
+        }
+
+        public void Send(string name, object content)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            m_WebSocket.Send(name + " " + JsonConvert.SerializeObject(content));
         }
     }
 }
