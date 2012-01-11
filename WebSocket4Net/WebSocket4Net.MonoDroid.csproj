@@ -5,18 +5,23 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF689E8A-4CB0-4302-8D5E-2E9B759D32A3}</ProjectGuid>
+    <ProjectGuid>{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebSocket4Net</RootNamespace>
     <AssemblyName>WebSocket4Net</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidSupportedAbis>armeabi</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Mono\Debug\</OutputPath>
+    <OutputPath>..\bin\MonoDroid\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,18 +29,20 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Mono\Release\</OutputPath>
+    <OutputPath>..\bin\MonoDroid\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\Json.NET\Net\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Reference\Json.NET\WindowsPhone\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket\Mono\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Reference\SuperSocket\MonoDroid\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,9 +51,9 @@
     <Compile Include="Command\Binary.cs" />
     <Compile Include="Command\Close.cs" />
     <Compile Include="Command\Handshake.cs" />
-    <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />
+    <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
@@ -55,7 +62,7 @@
     <Compile Include="JsonWebSocket.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
-    <Compile Include="Properties\AssemblyInfo.Mono.cs" />
+    <Compile Include="Properties\AssemblyInfo.MonoDroid.cs" />
     <Compile Include="Protocol\DraftHybi00DataReader.cs" />
     <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
     <Compile Include="Protocol\DraftHybi00Processor.cs" />
@@ -80,8 +87,7 @@
     <Compile Include="WebSocketState.cs" />
     <Compile Include="WebSocketVersion.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
