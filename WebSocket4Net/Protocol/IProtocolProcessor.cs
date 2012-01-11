@@ -18,8 +18,12 @@ namespace WebSocket4Net.Protocol
 
         void SendMessage(string message);
 
+        void SendData(byte[] data, int offset, int length);
+
         void SendCloseHandshake(string closeReason);
 
         void SendPing(string ping);
+
+        bool SupportBinary { get; }
     }
 }

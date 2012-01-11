@@ -63,17 +63,22 @@ namespace WebSocket4Net.Protocol
             int bytesCount = Encoding.UTF8.GetBytes(message, 0, message.Length, sendBuffer, 1);
             sendBuffer[1 + bytesCount] = EndByte;
 
-            WebSocket.Send(sendBuffer, 0, bytesCount + 2);
+            Client.Send(sendBuffer, 0, bytesCount + 2);
+        }
+
+        public override void SendData(byte[] data, int offset, int length)
+        {
+            throw new NotSupportedException();
         }
 
         public override void SendCloseHandshake(string closeReason)
         {
-            WebSocket.Send(CloseHandshake, 0, CloseHandshake.Length);
+            Client.Send(CloseHandshake, 0, CloseHandshake.Length);
         }
 
         public override void SendPing(string ping)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void SendHandshake()
@@ -130,7 +135,7 @@ namespace WebSocket4Net.Protocol
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            WebSocket.Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
         private byte[] GetResponseSecurityKey(string secKey1, string secKey2, byte[] secKey3)
@@ -197,6 +202,11 @@ namespace WebSocket4Net.Protocol
             }
 
             return source.RandomOrder();
+        }
+
+        public override bool SupportBinary
+        {
+            get { return false; }
         }
     }
 }

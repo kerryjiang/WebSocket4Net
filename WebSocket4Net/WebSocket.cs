@@ -21,6 +21,11 @@ namespace WebSocket4Net
 
         internal IProtocolProcessor ProtocolProcessor { get; private set; }
 
+        public bool SupportBinary
+        {
+            get { return ProtocolProcessor.SupportBinary; }
+        }
+
         internal Uri TargetUri { get; private set; }
 
         internal string SubProtocol { get; private set; }
@@ -196,6 +201,11 @@ namespace WebSocket4Net
         public void Send(string message)
         {
             ProtocolProcessor.SendMessage(message);
+        }
+
+        public new void Send(byte[] data, int offset, int length)
+        {
+            ProtocolProcessor.SendData(data, offset, length);
         }
 
         protected override void OnClosed()

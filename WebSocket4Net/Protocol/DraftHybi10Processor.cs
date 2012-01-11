@@ -71,7 +71,7 @@ namespace WebSocket4Net.Protocol
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            WebSocket.Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
         public override ReaderBase CreateHandshakeReader()
@@ -82,9 +82,11 @@ namespace WebSocket4Net.Protocol
         private void SendMessage(int opCode, string message)
         {
             byte[] playloadData = Encoding.UTF8.GetBytes(message);
+            SendDataFragment(opCode, playloadData, 0, playloadData.Length);
+        }
 
-            int length = playloadData.Length;
-
+        private void SendDataFragment(int opCode, byte[] playloadData, int offset, int length)
+        {
             byte[] headData;
 
             if (length < 126)
@@ -119,11 +121,16 @@ namespace WebSocket4Net.Protocol
 
             headData[0] = (byte)(opCode | 0x80);
 
-            WebSocket.Send(new ArraySegment<byte>[]
+            Client.Send(new ArraySegment<byte>[]
                 {
                     new ArraySegment<byte>(headData, 0, headData.Length),
-                    new ArraySegment<byte>(playloadData, 0, playloadData.Length)
+                    new ArraySegment<byte>(playloadData, offset, length)
                 });
+        }
+
+        public override void SendData(byte[] data, int offset, int length)
+        {
+            SendDataFragment(OpCode.Binary, data, offset, length);
         }
 
         public override void SendMessage(string message)
@@ -212,6 +219,11 @@ namespace WebSocket4Net.Protocol
             //more validations
 
             return true;
+        }
+
+        public override bool SupportBinary
+        {
+            get { return true; }
         }
     }
 }

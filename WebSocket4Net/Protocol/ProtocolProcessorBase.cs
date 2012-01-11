@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Protocol
 {
@@ -9,9 +10,12 @@ namespace WebSocket4Net.Protocol
     {
         protected WebSocket WebSocket { get; private set; }
 
+        protected TcpClientSession Client { get; private set; }
+
         public void Initialize(WebSocket websocket)
         {
             WebSocket = websocket;
+            Client = websocket;
         }
 
         public abstract void SendHandshake();
@@ -25,5 +29,9 @@ namespace WebSocket4Net.Protocol
         public abstract void SendCloseHandshake(string closeReason);
 
         public abstract void SendPing(string ping);
+
+        public abstract void SendData(byte[] data, int offset, int length);
+
+        public abstract bool SupportBinary { get; }
     }
 }

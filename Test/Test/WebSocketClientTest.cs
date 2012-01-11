@@ -56,6 +56,7 @@ namespace WebSocket4Net.Test
             LogUtil.Setup(new ConsoleLogger());
 
             m_WebSocketServer = new WebSocketServer(new BasicSubProtocol("Basic", new List<Assembly> { this.GetType().Assembly }));
+            m_WebSocketServer.NewDataReceived += new SessionEventHandler<WebSocketSession, byte[]>(m_WebSocketServer_NewDataReceived);
             m_WebSocketServer.Setup(new RootConfig(), new ServerConfig
             {
                 Port = 2012,
@@ -64,6 +65,12 @@ namespace WebSocket4Net.Test
                 Mode = SocketMode.Async,
                 Name = "SuperWebSocket Server"
             }, SocketServerFactory.Instance);
+        }
+
+        void m_WebSocketServer_NewDataReceived(WebSocketSession session, byte[] e)
+        {
+            //Echo
+            session.SendResponse(e);
         }
 
         [SetUp]
@@ -181,6 +188,62 @@ namespace WebSocket4Net.Test
 
             if (!m_CloseEvent.WaitOne(1000))
                 Assert.Fail("Failed to close session ontime");
+        }
+
+        [Test, Repeat(10)]
+        public void SendDataTest()
+        {
+            WebSocket webSocketClient = new WebSocket(string.Format("ws://127.0.0.1:{0}/websocket", m_WebSocketServer.Config.Port), "basic", m_Version);
+
+            if (!webSocketClient.SupportBinary)
+                return;
+
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.DataReceived += new EventHandler<DataReceivedEventArgs>(webSocketClient_DataReceived);
+            webSocketClient.Open();
+
+            if (!m_OpenedEvent.WaitOne(1000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < 10; i++)
+            {
+                sb.Append(Guid.NewGuid().ToString());
+            }
+
+            string messageSource = sb.ToString();
+
+            Random rd = new Random();
+
+            for (int i = 0; i < 100; i++)
+            {
+                int startPos = rd.Next(0, messageSource.Length - 2);
+                int endPos = rd.Next(startPos + 1, messageSource.Length - 1);
+
+                string message = messageSource.Substring(startPos, endPos - startPos);
+
+                Console.WriteLine("Client:" + message);
+                var data = Encoding.UTF8.GetBytes(message);
+                webSocketClient.Send(data, 0, data.Length);
+
+                if (!m_MessageReceiveEvent.WaitOne())
+                    Assert.Fail("Cannot get response in time!");
+
+                Assert.AreEqual(message, m_CurrentMessage);
+            }
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(1000))
+                Assert.Fail("Failed to close session ontime");
+        }
+
+        void webSocketClient_DataReceived(object sender, DataReceivedEventArgs e)
+        {
+            m_CurrentMessage = Encoding.UTF8.GetString(e.Data);
+            m_MessageReceiveEvent.Set();
         }
     }
 }
