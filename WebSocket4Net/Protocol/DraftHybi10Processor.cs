@@ -11,11 +11,26 @@ using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Protocol
 {
+    /// <summary>
+    /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10
+    /// </summary>
     class DraftHybi10Processor : ProtocolProcessorBase
     {
         private const string m_Magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
         private string m_ExpectedAcceptKey;
+
+        protected readonly string m_VersionCode;
+
+        public DraftHybi10Processor()
+            : this("8")
+        {
+        }
+
+        protected DraftHybi10Processor(string versionCode)
+        {
+            m_VersionCode = versionCode;
+        }
 
         public override void SendHandshake()
         {
@@ -37,7 +52,8 @@ namespace WebSocket4Net.Protocol
 
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
             handshakeBuilder.AppendWithCrCf("Connection: Upgrade");
-            handshakeBuilder.AppendWithCrCf("Sec-WebSocket-Version: 8");
+            handshakeBuilder.Append("Sec-WebSocket-Version: ");
+            handshakeBuilder.AppendWithCrCf(m_VersionCode);
             handshakeBuilder.Append("Sec-WebSocket-Key: ");
             handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append("Host: ");

@@ -60,13 +60,13 @@ namespace WebSocket4Net
         }
 
         public WebSocket(string uri, List<KeyValuePair<string, string>> cookies)
-            : this(uri, string.Empty, cookies, WebSocketVersion.DraftHybi00)
+            : this(uri, string.Empty, cookies, WebSocketVersion.DraftHybi10)
         {
 
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
-            : this(uri, subProtocol, cookies, WebSocketVersion.DraftHybi00)
+            : this(uri, subProtocol, cookies, WebSocketVersion.DraftHybi10)
         {
 
         }
@@ -138,6 +138,8 @@ namespace WebSocket4Net
                     return new DraftHybi00Processor();
                 case(WebSocketVersion.DraftHybi10):
                     return new DraftHybi10Processor();
+                case(WebSocketVersion.Rfc6455):
+                    return new Rfc6455Processor();
             }
 
             throw new ArgumentException("Invalid websocket version");

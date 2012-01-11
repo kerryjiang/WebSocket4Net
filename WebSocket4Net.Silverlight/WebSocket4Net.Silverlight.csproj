@@ -148,6 +148,9 @@
     <Compile Include="..\WebSocket4Net\Protocol\ReaderBase.cs">
       <Link>Protocol\ReaderBase.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\Rfc6455Processor.cs">
+      <Link>Protocol\Rfc6455Processor.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\WebSocketDataFrame.cs">
       <Link>Protocol\WebSocketDataFrame.cs</Link>
     </Compile>

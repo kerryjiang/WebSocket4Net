@@ -8,6 +8,9 @@ using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Protocol
 {
+    /// <summary>
+    /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-00
+    /// </summary>
     class DraftHybi00Processor : ProtocolProcessorBase
     {
         private static List<char> m_CharLib = new List<char>();
