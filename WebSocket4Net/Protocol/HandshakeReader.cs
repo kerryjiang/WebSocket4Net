@@ -19,7 +19,7 @@ namespace WebSocket4Net.Protocol
             m_HeadSeachState = new SearchMarkState<byte>(HeaderTerminator);
         }
 
-        protected static readonly byte[] HeaderTerminator = Encoding.UTF8.GetBytes(Environment.NewLine + Environment.NewLine);
+        protected static readonly byte[] HeaderTerminator = Encoding.UTF8.GetBytes("\r\n\r\n");
 
         private SearchMarkState<byte> m_HeadSeachState;
 
