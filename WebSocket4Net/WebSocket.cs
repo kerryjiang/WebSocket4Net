@@ -239,6 +239,14 @@ namespace WebSocket4Net
 
         public override void Close()
         {
+            //The websocket never be opened
+            if (State == WebSocketState.None)
+            {
+                State = WebSocketState.Closed;
+                base.OnClosed();
+                return;
+            }
+
             Close(string.Empty);
         }
 
