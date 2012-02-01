@@ -36,6 +36,8 @@ namespace WebSocket4Net
 
         public WebSocketState State { get; private set; }
 
+        public bool Handshaked { get; private set; }
+
         protected IClientCommandReader<WebSocketCommandInfo> CommandReader { get; private set; }
 
         private Dictionary<string, ICommand<WebSocket, WebSocketCommandInfo>> m_CommandDict
@@ -154,6 +156,8 @@ namespace WebSocket4Net
         {
             State = WebSocketState.Open;
 
+            Handshaked = true;
+
             if (m_Opened == null)
                 return;
 
@@ -200,13 +204,23 @@ namespace WebSocket4Net
             m_DataReceived(this, new DataReceivedEventArgs(data));
         }
 
+        private const string m_NotOpenSendingMessage = "You must send data by websocket after websocket is opened!";
+
+        private void EnsureWebSocketOpen()
+        {
+            if (!Handshaked)
+                throw new Exception(m_NotOpenSendingMessage);
+        }
+
         public void Send(string message)
         {
+            EnsureWebSocketOpen();
             ProtocolProcessor.SendMessage(message);
         }
 
         public new void Send(byte[] data, int offset, int length)
         {
+            EnsureWebSocketOpen();
             ProtocolProcessor.SendData(data, offset, length);
         }
 
