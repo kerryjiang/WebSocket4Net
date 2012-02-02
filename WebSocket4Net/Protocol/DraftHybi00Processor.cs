@@ -13,6 +13,12 @@ namespace WebSocket4Net.Protocol
     /// </summary>
     class DraftHybi00Processor : ProtocolProcessorBase
     {
+        public DraftHybi00Processor()
+            : base(new CloseStatusCodeHybi10())
+        {
+
+        }
+
         private static List<char> m_CharLib = new List<char>();
         private static List<char> m_DigLib = new List<char>();
         private static Random m_Random = new Random();
@@ -74,7 +80,7 @@ namespace WebSocket4Net.Protocol
             throw new NotSupportedException();
         }
 
-        public override void SendCloseHandshake(string closeReason)
+        public override void SendCloseHandshake(int statusCode, string closeReason)
         {
             Client.Send(CloseHandshake, 0, CloseHandshake.Length);
         }

@@ -8,6 +8,11 @@ namespace WebSocket4Net.Protocol
 {
     abstract class ProtocolProcessorBase : IProtocolProcessor
     {
+        public ProtocolProcessorBase(ICloseStatusCode closeStatusCode)
+        {
+            CloseStatusCode = closeStatusCode;
+        }
+
         protected WebSocket WebSocket { get; private set; }
 
         protected TcpClientSession Client { get; private set; }
@@ -26,12 +31,14 @@ namespace WebSocket4Net.Protocol
 
         public abstract void SendMessage(string message);
 
-        public abstract void SendCloseHandshake(string closeReason);
+        public abstract void SendCloseHandshake(int statusCode, string closeReason);
 
         public abstract void SendPing(string ping);
 
         public abstract void SendData(byte[] data, int offset, int length);
 
         public abstract bool SupportBinary { get; }
+
+        public ICloseStatusCode CloseStatusCode { get; private set; }
     }
 }

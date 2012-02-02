@@ -252,8 +252,17 @@ namespace WebSocket4Net
 
         public void Close(string reason)
         {
+            Close(ProtocolProcessor.CloseStatusCode.NormalClosure, reason);
+        }
+
+        public void Close(int statusCode, string reason)
+        {
             State = WebSocketState.Closing;
-            ProtocolProcessor.SendCloseHandshake(reason);
+            ProtocolProcessor.SendCloseHandshake(statusCode, reason);
+        }
+
+        internal void CloseWithouHandshake()
+        {
             base.Close();
         }
 

@@ -101,6 +101,12 @@
     <Compile Include="..\WebSocket4Net\OpCode.cs">
       <Link>OpCode.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeHybi10.cs">
+      <Link>Protocol\CloseStatusCodeHybi10.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeRfc6455.cs">
+      <Link>Protocol\CloseStatusCodeRfc6455.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00DataReader.cs">
       <Link>Protocol\DraftHybi00DataReader.cs</Link>
     </Compile>
@@ -139,6 +145,9 @@
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\HandshakeReader.cs">
       <Link>Protocol\HandshakeReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ICloseStatusCode.cs">
+      <Link>Protocol\ICloseStatusCode.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\IProtocolProcessor.cs">
       <Link>Protocol\IProtocolProcessor.cs</Link>

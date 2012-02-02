@@ -25,11 +25,12 @@ namespace WebSocket4Net.Protocol
         private static Random m_Random = new Random();
 
         public DraftHybi10Processor()
-            : this("8")
+            : this("8", new CloseStatusCodeHybi10())
         {
         }
 
-        protected DraftHybi10Processor(string versionCode)
+        protected DraftHybi10Processor(string versionCode, ICloseStatusCode closeStatusCode)
+            : base(closeStatusCode)
         {
             m_VersionCode = versionCode;
         }
@@ -159,9 +160,25 @@ namespace WebSocket4Net.Protocol
             SendMessage(OpCode.Text, message);
         }
 
-        public override void SendCloseHandshake(string closeReason)
+        public override void SendCloseHandshake(int statusCode, string closeReason)
         {
-            SendMessage(OpCode.Close, closeReason);
+            byte[] playloadData = new byte[(string.IsNullOrEmpty(closeReason) ? 0 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2];
+
+            int highByte = statusCode / 256;
+            int lowByte = statusCode % 256;
+
+            playloadData[0] = (byte)highByte;
+            playloadData[1] = (byte)lowByte;
+
+            if (!string.IsNullOrEmpty(closeReason))
+            {
+                int bytesCount = Encoding.UTF8.GetBytes(closeReason, 0, closeReason.Length, playloadData, 2);
+                SendDataFragment(OpCode.Close, playloadData, 0, bytesCount + 2);
+            }
+            else
+            {
+                SendDataFragment(OpCode.Close, playloadData, 0, playloadData.Length);
+            }
         }
 
         public override void SendPing(string ping)

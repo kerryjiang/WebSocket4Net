@@ -63,6 +63,8 @@
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
     <Compile Include="Properties\AssemblyInfo.MonoDroid.cs" />
+    <Compile Include="Protocol\CloseStatusCodeHybi10.cs" />
+    <Compile Include="Protocol\CloseStatusCodeRfc6455.cs" />
     <Compile Include="Protocol\DraftHybi00DataReader.cs" />
     <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
     <Compile Include="Protocol\DraftHybi00Processor.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Protocol\FramePartReader\MaskKeyReader.cs" />
     <Compile Include="Protocol\FramePartReader\PayloadDataReader.cs" />
     <Compile Include="Protocol\HandshakeReader.cs" />
+    <Compile Include="Protocol\ICloseStatusCode.cs" />
     <Compile Include="Protocol\IProtocolProcessor.cs" />
     <Compile Include="Protocol\ProtocolProcessorBase.cs" />
     <Compile Include="Protocol\ReaderBase.cs" />
