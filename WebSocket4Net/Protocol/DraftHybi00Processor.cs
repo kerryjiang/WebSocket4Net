@@ -14,7 +14,7 @@ namespace WebSocket4Net.Protocol
     class DraftHybi00Processor : ProtocolProcessorBase
     {
         public DraftHybi00Processor()
-            : base(new CloseStatusCodeHybi10())
+            : base(0, new CloseStatusCodeHybi10())
         {
 
         }

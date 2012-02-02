@@ -20,19 +20,17 @@ namespace WebSocket4Net.Protocol
 
         private string m_ExpectedAcceptKey;
 
-        protected readonly string m_VersionCode;
-
         private static Random m_Random = new Random();
 
         public DraftHybi10Processor()
-            : this("8", new CloseStatusCodeHybi10())
+            : base(8, new CloseStatusCodeHybi10())
         {
         }
 
-        protected DraftHybi10Processor(string versionCode, ICloseStatusCode closeStatusCode)
-            : base(closeStatusCode)
+        protected DraftHybi10Processor(int version, ICloseStatusCode closeStatusCode)
+            : base(version, closeStatusCode)
         {
-            m_VersionCode = versionCode;
+
         }
 
         public override void SendHandshake()
@@ -56,7 +54,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
             handshakeBuilder.AppendWithCrCf("Connection: Upgrade");
             handshakeBuilder.Append("Sec-WebSocket-Version: ");
-            handshakeBuilder.AppendWithCrCf(m_VersionCode);
+            handshakeBuilder.AppendWithCrCf(VersionTag);
             handshakeBuilder.Append("Sec-WebSocket-Key: ");
             handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append("Host: ");

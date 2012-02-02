@@ -8,9 +8,11 @@ namespace WebSocket4Net.Protocol
 {
     abstract class ProtocolProcessorBase : IProtocolProcessor
     {
-        public ProtocolProcessorBase(ICloseStatusCode closeStatusCode)
+        public ProtocolProcessorBase(int version, ICloseStatusCode closeStatusCode)
         {
             CloseStatusCode = closeStatusCode;
+            Version = version;
+            VersionTag = version.ToString();
         }
 
         protected WebSocket WebSocket { get; private set; }
@@ -40,5 +42,9 @@ namespace WebSocket4Net.Protocol
         public abstract bool SupportBinary { get; }
 
         public ICloseStatusCode CloseStatusCode { get; private set; }
+
+        public int Version { get; private set; }
+
+        protected string VersionTag { get; private set; }
     }
 }
