@@ -8,6 +8,10 @@ namespace WebSocket4Net.Protocol
 {
     class HandshakeReader : ReaderBase
     {
+        private const string m_BadRequestPrefix = "HTTP/1.1 400 ";
+
+        protected static readonly string BadRequestCode = OpCode.BadRequest.ToString();
+
         static HandshakeReader()
         {
 
@@ -47,11 +51,22 @@ namespace WebSocket4Net.Protocol
 
             m_HeadSeachState.Matched = 0;
 
-            return new WebSocketCommandInfo
+            if (!handshake.StartsWith(m_BadRequestPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                return new WebSocketCommandInfo
+                    {
+                        Key = OpCode.Handshake.ToString(),
+                        Text = handshake
+                    };
+            }
+            else
+            {
+                return new WebSocketCommandInfo
                 {
-                    Key = OpCode.Handshake.ToString(),
+                    Key = OpCode.BadRequest.ToString(),
                     Text = handshake
                 };
+            }
         }
     }
 }

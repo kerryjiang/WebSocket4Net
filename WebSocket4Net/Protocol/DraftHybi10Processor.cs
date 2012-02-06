@@ -23,17 +23,17 @@ namespace WebSocket4Net.Protocol
         private static Random m_Random = new Random();
 
         public DraftHybi10Processor()
-            : base(8, new CloseStatusCodeHybi10())
+            : base(WebSocketVersion.DraftHybi10, new CloseStatusCodeHybi10())
         {
         }
 
-        protected DraftHybi10Processor(int version, ICloseStatusCode closeStatusCode)
+        protected DraftHybi10Processor(WebSocketVersion version, ICloseStatusCode closeStatusCode)
             : base(version, closeStatusCode)
         {
 
         }
 
-        public override void SendHandshake()
+        public override void SendHandshake(WebSocket websocket)
         {
             var secKey = Guid.NewGuid().ToString().Substring(0, 5);
 
@@ -46,9 +46,9 @@ namespace WebSocket4Net.Protocol
             var handshakeBuilder = new StringBuilder();
 
 #if SILVERLIGHT
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", WebSocket.TargetUri.GetPathAndQuery());
+            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
 #else
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", WebSocket.TargetUri.PathAndQuery);
+            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.PathAndQuery);
 #endif
 
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
@@ -58,17 +58,17 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Sec-WebSocket-Key: ");
             handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append("Host: ");
-            handshakeBuilder.AppendWithCrCf(WebSocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
             handshakeBuilder.Append("Origin: ");
-            handshakeBuilder.AppendWithCrCf(WebSocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
 
-            if (!string.IsNullOrEmpty(WebSocket.SubProtocol))
+            if (!string.IsNullOrEmpty(websocket.SubProtocol))
             {
                 handshakeBuilder.Append("Sec-WebSocket-Protocol: ");
-                handshakeBuilder.AppendWithCrCf(WebSocket.SubProtocol);
+                handshakeBuilder.AppendWithCrCf(websocket.SubProtocol);
             }
 
-            var cookies = WebSocket.Cookies;
+            var cookies = websocket.Cookies;
 
             if (cookies != null && cookies.Count > 0)
             {
@@ -88,21 +88,21 @@ namespace WebSocket4Net.Protocol
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            ((TcpClientSession)websocket).Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
-        public override ReaderBase CreateHandshakeReader()
+        public override ReaderBase CreateHandshakeReader(WebSocket websocket)
         {
-            return new DraftHybi10HandshakeReader(WebSocket);
+            return new DraftHybi10HandshakeReader(websocket);
         }
 
-        private void SendMessage(int opCode, string message)
+        private void SendMessage(WebSocket websocket, int opCode, string message)
         {
             byte[] playloadData = Encoding.UTF8.GetBytes(message);
-            SendDataFragment(opCode, playloadData, 0, playloadData.Length);
+            SendDataFragment(websocket, opCode, playloadData, 0, playloadData.Length);
         }
 
-        private void SendDataFragment(int opCode, byte[] playloadData, int offset, int length)
+        private void SendDataFragment(WebSocket websocket, int opCode, byte[] playloadData, int offset, int length)
         {
             byte[] headData;
 
@@ -141,24 +141,24 @@ namespace WebSocket4Net.Protocol
             GenerateMask(headData, headData.Length - 4);
             MaskData(playloadData, offset, length, headData, headData.Length - 4);
 
-            Client.Send(new ArraySegment<byte>[]
+            websocket.Send(new ArraySegment<byte>[]
             {
                 new ArraySegment<byte>(headData, 0, headData.Length),
                 new ArraySegment<byte>(playloadData, offset, length)
             });
         }
 
-        public override void SendData(byte[] data, int offset, int length)
+        public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
         {
-            SendDataFragment(OpCode.Binary, data, offset, length);
+            SendDataFragment(websocket, OpCode.Binary, data, offset, length);
         }
 
-        public override void SendMessage(string message)
+        public override void SendMessage(WebSocket websocket, string message)
         {
-            SendMessage(OpCode.Text, message);
+            SendMessage(websocket, OpCode.Text, message);
         }
 
-        public override void SendCloseHandshake(int statusCode, string closeReason)
+        public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
             byte[] playloadData = new byte[(string.IsNullOrEmpty(closeReason) ? 0 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2];
 
@@ -171,89 +171,61 @@ namespace WebSocket4Net.Protocol
             if (!string.IsNullOrEmpty(closeReason))
             {
                 int bytesCount = Encoding.UTF8.GetBytes(closeReason, 0, closeReason.Length, playloadData, 2);
-                SendDataFragment(OpCode.Close, playloadData, 0, bytesCount + 2);
+                SendDataFragment(websocket, OpCode.Close, playloadData, 0, bytesCount + 2);
             }
             else
             {
-                SendDataFragment(OpCode.Close, playloadData, 0, playloadData.Length);
+                SendDataFragment(websocket, OpCode.Close, playloadData, 0, playloadData.Length);
             }
         }
 
-        public override void SendPing(string ping)
+        public override void SendPing(WebSocket websocket, string ping)
         {
-            SendMessage(OpCode.Ping, ping);
+            SendMessage(websocket, OpCode.Ping, ping);
         }
 
-        private NameValueCollection ParseHandshake(string handshake)
-        {
-            var items = new NameValueCollection();
 
-            string line;
-            string firstLine = string.Empty;
-            string prevKey = string.Empty;
+        private const string m_Error_InvalidHandshake = "invalid handshake";
+        private const string m_Error_SubProtocolNotMatch = "subprotocol doesn't match";
+        private const string m_Error_AcceptKeyNotMatch = "accept key doesn't match";
 
-            var reader = new StringReader(handshake);
-
-            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-            {
-                if (string.IsNullOrEmpty(firstLine))
-                {
-                    firstLine = line;
-                    continue;
-                }
-
-                if (line.StartsWith("\t") && !string.IsNullOrEmpty(prevKey))
-                {
-                    string currentValue = items.GetValue(prevKey, string.Empty);
-                    items[prevKey] = currentValue + line.Trim();
-                    continue;
-                }
-
-                int pos = line.IndexOf(':');
-
-                string key = line.Substring(0, pos);
-
-                if (!string.IsNullOrEmpty(key))
-                    key = key.Trim();
-
-                string value = line.Substring(pos + 1);
-                if (!string.IsNullOrEmpty(value) && value.StartsWith(" ") && value.Length > 1)
-                    value = value.Substring(1);
-
-                if (string.IsNullOrEmpty(key))
-                    continue;
-
-                items[key] = value;
-                prevKey = key;
-            }
-
-            return items;
-        }
-
-        public override bool VerifyHandshake(WebSocketCommandInfo handshakeInfo)
+        public override bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description)
         {
             var handshake = handshakeInfo.Text;
 
             if (string.IsNullOrEmpty(handshake))
-                return false;
-
-            var items = ParseHandshake(handshake);
-
-            if (!string.IsNullOrEmpty(WebSocket.SubProtocol))
             {
-                var protocol = items.GetValue("Sec-WebSocket-Protocol", string.Empty);
-
-                if (!WebSocket.SubProtocol.Equals(protocol, StringComparison.OrdinalIgnoreCase))
-                    return false;
+                description = m_Error_InvalidHandshake;
+                return false;
             }
 
-            var acceptKey = items.GetValue("Sec-WebSocket-Accept", string.Empty);
+            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items))
+            {
+                description = m_Error_InvalidHandshake;
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(websocket.SubProtocol))
+            {
+                var protocol = websocket.Items.GetValue("Sec-WebSocket-Protocol", string.Empty);
+
+                if (!websocket.SubProtocol.Equals(protocol, StringComparison.OrdinalIgnoreCase))
+                {
+                    description = m_Error_SubProtocolNotMatch;
+                    return false;
+                }
+            }
+
+            var acceptKey = websocket.Items.GetValue("Sec-WebSocket-Accept", string.Empty);
 
             if (!m_ExpectedAcceptKey.Equals(acceptKey, StringComparison.OrdinalIgnoreCase))
+            {
+                description = m_Error_AcceptKeyNotMatch;
                 return false;
+            }
 
             //more validations
-
+            description = string.Empty;
             return true;
         }
 

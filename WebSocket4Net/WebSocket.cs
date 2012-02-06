@@ -30,7 +30,7 @@ namespace WebSocket4Net
 
         internal string SubProtocol { get; private set; }
 
-        internal IDictionary<object, object> Items { get; private set; }
+        internal IDictionary<string, object> Items { get; private set; }
 
         internal List<KeyValuePair<string, string>> Cookies { get; private set; }
 
@@ -43,10 +43,19 @@ namespace WebSocket4Net
         private Dictionary<string, ICommand<WebSocket, WebSocketCommandInfo>> m_CommandDict
             = new Dictionary<string, ICommand<WebSocket, WebSocketCommandInfo>>(StringComparer.OrdinalIgnoreCase);
 
+        private static ProtocolProcessorFactory m_ProtocolProcessorFactory;
+
+        internal bool NotSpecifiedVersion { get; private set; }
+
+        static WebSocket()
+        {
+            m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
+        }
+
         public WebSocket(string uri)
             : this(uri, string.Empty)
         {
-
+            NotSpecifiedVersion = true;
         }
 
         public WebSocket(string uri, WebSocketVersion version)
@@ -56,21 +65,21 @@ namespace WebSocket4Net
         }
 
         public WebSocket(string uri, string subProtocol)
-            : this(uri, subProtocol, null, WebSocketVersion.DraftHybi10)
+            : this(uri, subProtocol, null, WebSocketVersion.Rfc6455)
         {
-
+            NotSpecifiedVersion = true;
         }
 
         public WebSocket(string uri, List<KeyValuePair<string, string>> cookies)
-            : this(uri, string.Empty, cookies, WebSocketVersion.DraftHybi10)
+            : this(uri, string.Empty, cookies, WebSocketVersion.Rfc6455)
         {
-
+            NotSpecifiedVersion = true;
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
-            : this(uri, subProtocol, cookies, WebSocketVersion.DraftHybi10)
+            : this(uri, subProtocol, cookies, WebSocketVersion.Rfc6455)
         {
-
+            NotSpecifiedVersion = true;
         }
 
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
@@ -83,8 +92,7 @@ namespace WebSocket4Net
         {
             Version = version;
             ProtocolProcessor = GetProtocolProcessor(version);
-            ProtocolProcessor.Initialize(this);
-            CommandReader = ProtocolProcessor.CreateHandshakeReader();
+            CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
 
             Cookies = cookies;
 
@@ -98,6 +106,8 @@ namespace WebSocket4Net
             m_CommandDict.Add(closeCmd.Name, closeCmd);
             var pongCmd = new Command.Pong();
             m_CommandDict.Add(pongCmd.Name, pongCmd);
+            var badRequestCmd = new Command.BadRequest();
+            m_CommandDict.Add(badRequestCmd.Name, badRequestCmd);
             
             State = WebSocketState.None;
 
@@ -105,7 +115,7 @@ namespace WebSocket4Net
 
             SubProtocol = subProtocol;
 
-            Items = new Dictionary<object, object>();
+            Items = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
             if ("wss".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
             {
@@ -116,6 +126,17 @@ namespace WebSocket4Net
             {
                 throw new ArgumentException("Invalid websocket address's schema.", "uri");
             }
+        }
+
+        internal bool GetAvailableProcessor(int[] availableVersions)
+        {
+            var processor = m_ProtocolProcessorFactory.GetPreferedProcessorFromAvialable(availableVersions);
+
+            if (processor == null)
+                return false;
+
+            this.ProtocolProcessor = processor;
+            return true;
         }
 
         public void Open()
@@ -134,22 +155,17 @@ namespace WebSocket4Net
 
         private static IProtocolProcessor GetProtocolProcessor(WebSocketVersion version)
         {
-            switch (version)
-            {
-                case(WebSocketVersion.DraftHybi00):
-                    return new DraftHybi00Processor();
-                case(WebSocketVersion.DraftHybi10):
-                    return new DraftHybi10Processor();
-                case(WebSocketVersion.Rfc6455):
-                    return new Rfc6455Processor();
-            }
+            var processor = m_ProtocolProcessorFactory.GetProcessorByVersion(version);
 
-            throw new ArgumentException("Invalid websocket version");
+            if (processor == null)
+                throw new ArgumentException("Invalid websocket version");
+
+            return processor;
         }
 
         protected override void OnConnected()
         {
-            ProtocolProcessor.SendHandshake();
+            ProtocolProcessor.SendHandshake(this);
         }
 
         protected internal virtual void OnHandshaked()
@@ -206,22 +222,31 @@ namespace WebSocket4Net
 
         private const string m_NotOpenSendingMessage = "You must send data by websocket after websocket is opened!";
 
-        private void EnsureWebSocketOpen()
+        private bool EnsureWebSocketOpen()
         {
             if (!Handshaked)
-                throw new Exception(m_NotOpenSendingMessage);
+            {
+                OnError(new Exception(m_NotOpenSendingMessage));
+                return false;
+            }
+
+            return true;
         }
 
         public void Send(string message)
         {
-            EnsureWebSocketOpen();
-            ProtocolProcessor.SendMessage(message);
+            if (!EnsureWebSocketOpen())
+                return;
+
+            ProtocolProcessor.SendMessage(this, message);
         }
 
         public new void Send(byte[] data, int offset, int length)
         {
-            EnsureWebSocketOpen();
-            ProtocolProcessor.SendData(data, offset, length);
+            if (!EnsureWebSocketOpen())
+                return;
+
+            ProtocolProcessor.SendData(this, data, offset, length);
         }
 
         protected override void OnClosed()
@@ -258,7 +283,7 @@ namespace WebSocket4Net
         public void Close(int statusCode, string reason)
         {
             State = WebSocketState.Closing;
-            ProtocolProcessor.SendCloseHandshake(statusCode, reason);
+            ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
         }
 
         internal void CloseWithouHandshake()
@@ -298,6 +323,11 @@ namespace WebSocket4Net
                 offset = offset + length - left;
                 length = left;
             }
+        }
+
+        internal void FireError(Exception error)
+        {
+            OnError(error);
         }
     }
 }

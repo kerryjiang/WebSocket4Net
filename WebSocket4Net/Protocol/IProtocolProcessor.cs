@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SuperSocket.ClientEngine;
-
+﻿
 namespace WebSocket4Net.Protocol
 {
     public interface IProtocolProcessor
     {
-        void Initialize(WebSocket websocket);
+        void SendHandshake(WebSocket websocket);
 
-        void SendHandshake();
+        bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description);
 
-        bool VerifyHandshake(WebSocketCommandInfo handshakeInfo);
+        ReaderBase CreateHandshakeReader(WebSocket websocket);
 
-        ReaderBase CreateHandshakeReader();
+        void SendMessage(WebSocket websocket, string message);
 
-        void SendMessage(string message);
+        void SendData(WebSocket websocket, byte[] data, int offset, int length);
 
-        void SendData(byte[] data, int offset, int length);
+        void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason);
 
-        void SendCloseHandshake(int statusCode, string closeReason);
-
-        void SendPing(string ping);
+        void SendPing(WebSocket websocket, string ping);
 
         bool SupportBinary { get; }
 
         ICloseStatusCode CloseStatusCode { get; }
+
+        WebSocketVersion Version { get; }
     }
 }

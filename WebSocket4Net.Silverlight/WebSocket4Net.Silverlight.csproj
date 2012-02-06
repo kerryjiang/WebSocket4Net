@@ -58,6 +58,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\WebSocket4Net\Command\BadRequest.cs">
+      <Link>Command\BadRequest.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Command\Binary.cs">
       <Link>Command\Binary.cs</Link>
     </Compile>
@@ -153,6 +156,9 @@
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorBase.cs">
       <Link>Protocol\ProtocolProcessorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorFactory.cs">
+      <Link>Protocol\ProtocolProcessorFactory.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ReaderBase.cs">
       <Link>Protocol\ReaderBase.cs</Link>

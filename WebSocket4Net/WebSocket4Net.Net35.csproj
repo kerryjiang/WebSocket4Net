@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\BadRequest.cs" />
     <Compile Include="Command\Binary.cs" />
     <Compile Include="Command\Close.cs" />
     <Compile Include="Command\Handshake.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Protocol\ICloseStatusCode.cs" />
     <Compile Include="Protocol\IProtocolProcessor.cs" />
     <Compile Include="Protocol\ProtocolProcessorBase.cs" />
+    <Compile Include="Protocol\ProtocolProcessorFactory.cs" />
     <Compile Include="Protocol\ReaderBase.cs" />
     <Compile Include="Protocol\Rfc6455Processor.cs" />
     <Compile Include="Protocol\WebSocketDataFrame.cs" />

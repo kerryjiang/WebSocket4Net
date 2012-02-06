@@ -7,8 +7,8 @@ namespace WebSocket4Net
 {
     public enum WebSocketVersion
     {
-        DraftHybi00,
-        DraftHybi10,
-        Rfc6455
+        DraftHybi00 = 0,
+        DraftHybi10 = 8,
+        Rfc6455 = 13,
     }
 }

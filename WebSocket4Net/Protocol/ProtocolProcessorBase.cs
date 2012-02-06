@@ -8,42 +8,32 @@ namespace WebSocket4Net.Protocol
 {
     abstract class ProtocolProcessorBase : IProtocolProcessor
     {
-        public ProtocolProcessorBase(int version, ICloseStatusCode closeStatusCode)
+        public ProtocolProcessorBase(WebSocketVersion version, ICloseStatusCode closeStatusCode)
         {
             CloseStatusCode = closeStatusCode;
             Version = version;
-            VersionTag = version.ToString();
+            VersionTag = ((int)version).ToString();
         }
 
-        protected WebSocket WebSocket { get; private set; }
+        public abstract void SendHandshake(WebSocket websocket);
 
-        protected TcpClientSession Client { get; private set; }
+        public abstract ReaderBase CreateHandshakeReader(WebSocket websocket);
 
-        public void Initialize(WebSocket websocket)
-        {
-            WebSocket = websocket;
-            Client = websocket;
-        }
+        public abstract bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description);
 
-        public abstract void SendHandshake();
+        public abstract void SendMessage(WebSocket websocket, string message);
 
-        public abstract ReaderBase CreateHandshakeReader();
+        public abstract void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason);
 
-        public abstract bool VerifyHandshake(WebSocketCommandInfo handshakeInfo);
+        public abstract void SendPing(WebSocket websocket, string ping);
 
-        public abstract void SendMessage(string message);
-
-        public abstract void SendCloseHandshake(int statusCode, string closeReason);
-
-        public abstract void SendPing(string ping);
-
-        public abstract void SendData(byte[] data, int offset, int length);
+        public abstract void SendData(WebSocket websocket, byte[] data, int offset, int length);
 
         public abstract bool SupportBinary { get; }
 
         public ICloseStatusCode CloseStatusCode { get; private set; }
 
-        public int Version { get; private set; }
+        public WebSocketVersion Version { get; private set; }
 
         protected string VersionTag { get; private set; }
     }

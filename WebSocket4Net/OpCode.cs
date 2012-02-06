@@ -13,5 +13,6 @@ namespace WebSocket4Net
         public const int Close = 8;
         public const int Ping = 9;
         public const int Pong = 10;
+        public const int BadRequest = 400;
     }
 }

@@ -14,7 +14,7 @@ namespace WebSocket4Net.Protocol
     class DraftHybi00Processor : ProtocolProcessorBase
     {
         public DraftHybi00Processor()
-            : base(0, new CloseStatusCodeHybi10())
+            : base(WebSocketVersion.DraftHybi00, new CloseStatusCodeHybi10())
         {
 
         }
@@ -43,28 +43,45 @@ namespace WebSocket4Net.Protocol
             }
         }
 
-        public override ReaderBase CreateHandshakeReader()
+        public override ReaderBase CreateHandshakeReader(WebSocket websocket)
         {
-            return new DraftHybi00HandshakeReader(WebSocket);
+            return new DraftHybi00HandshakeReader(websocket);
         }
 
-        public override bool VerifyHandshake(WebSocketCommandInfo handshakeInfo)
+        private const string m_Error_ChallengeLengthNotMatch = "challenge length doesn't match";
+        private const string m_Error_ChallengeNotMatch = "challenge doesn't match";
+        private const string m_Error_InvalidHandshake = "invalid handshake";
+
+        public override bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description)
         {
             var challenge = handshakeInfo.Data;
 
             if (challenge.Length != challenge.Length)
+            {
+                description = m_Error_ChallengeLengthNotMatch;
                 return false;
+            }
 
             for (var i = 0; i < m_ExpectedChallenge.Length; i++)
             {
                 if (challenge[i] != m_ExpectedChallenge[i])
+                {
+                    description = m_Error_ChallengeNotMatch;
                     return false;
+                }
             }
 
+            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items))
+            {
+                description = m_Error_InvalidHandshake;
+                return false;
+            }
+
+            description = string.Empty;
             return true;
         }
 
-        public override void SendMessage(string message)
+        public override void SendMessage(WebSocket websocket, string message)
         {
             var maxByteCount = Encoding.UTF8.GetMaxByteCount(message.Length) + 2;
             var sendBuffer = new byte[maxByteCount];
@@ -72,25 +89,25 @@ namespace WebSocket4Net.Protocol
             int bytesCount = Encoding.UTF8.GetBytes(message, 0, message.Length, sendBuffer, 1);
             sendBuffer[1 + bytesCount] = EndByte;
 
-            Client.Send(sendBuffer, 0, bytesCount + 2);
+            ((TcpClientSession)websocket).Send(sendBuffer, 0, bytesCount + 2);
         }
 
-        public override void SendData(byte[] data, int offset, int length)
+        public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
         {
             throw new NotSupportedException();
         }
 
-        public override void SendCloseHandshake(int statusCode, string closeReason)
+        public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
-            Client.Send(CloseHandshake, 0, CloseHandshake.Length);
+            ((TcpClientSession)websocket).Send(CloseHandshake, 0, CloseHandshake.Length);
         }
 
-        public override void SendPing(string ping)
+        public override void SendPing(WebSocket websocket, string ping)
         {
             throw new NotSupportedException();
         }
 
-        public override void SendHandshake()
+        public override void SendHandshake(WebSocket websocket)
         {
             string secKey1 = Encoding.UTF8.GetString(GenerateSecKey());
 
@@ -103,9 +120,9 @@ namespace WebSocket4Net.Protocol
             var handshakeBuilder = new StringBuilder();
 
 #if SILVERLIGHT
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", WebSocket.TargetUri.GetPathAndQuery());
+            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
 #else
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", WebSocket.TargetUri.PathAndQuery);
+            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.PathAndQuery);
 #endif
 
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
@@ -115,17 +132,17 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Sec-WebSocket-Key2: ");
             handshakeBuilder.AppendWithCrCf(secKey2);
             handshakeBuilder.Append("Host: ");
-            handshakeBuilder.AppendWithCrCf(WebSocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
             handshakeBuilder.Append("Origin: ");
-            handshakeBuilder.AppendWithCrCf(WebSocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
 
-            if (!string.IsNullOrEmpty(WebSocket.SubProtocol))
+            if (!string.IsNullOrEmpty(websocket.SubProtocol))
             {
                 handshakeBuilder.Append("Sec-WebSocket-Protocol: ");
-                handshakeBuilder.AppendWithCrCf(WebSocket.SubProtocol);
+                handshakeBuilder.AppendWithCrCf(websocket.SubProtocol);
             }
 
-            var cookies = WebSocket.Cookies;
+            var cookies = websocket.Cookies;
 
             if (cookies != null && cookies.Count > 0)
             {
@@ -144,7 +161,7 @@ namespace WebSocket4Net.Protocol
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            ((TcpClientSession)websocket).Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
         private byte[] GetResponseSecurityKey(string secKey1, string secKey2, byte[] secKey3)

@@ -15,6 +15,8 @@ namespace WebSocket4Net.Protocol
         private WebSocketCommandInfo m_HandshakeCommand = null;
         private byte[] m_Challenges = new byte[16];
 
+        
+
         public DraftHybi00HandshakeReader(WebSocket websocket)
             : base(websocket)
         {
@@ -35,6 +37,10 @@ namespace WebSocket4Net.Protocol
 
                 if (commandInfo == null)
                     return null;
+
+                //Bad request
+                if (BadRequestCode.Equals(commandInfo.Key))
+                    return commandInfo;
 
                 m_ReceivedChallengeLength = 0;
                 m_HandshakeCommand = commandInfo;
