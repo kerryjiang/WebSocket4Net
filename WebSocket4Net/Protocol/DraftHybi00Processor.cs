@@ -89,7 +89,7 @@ namespace WebSocket4Net.Protocol
             int bytesCount = Encoding.UTF8.GetBytes(message, 0, message.Length, sendBuffer, 1);
             sendBuffer[1 + bytesCount] = EndByte;
 
-            ((TcpClientSession)websocket).Send(sendBuffer, 0, bytesCount + 2);
+            websocket.Client.Send(sendBuffer, 0, bytesCount + 2);
         }
 
         public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
@@ -99,7 +99,7 @@ namespace WebSocket4Net.Protocol
 
         public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
-            ((TcpClientSession)websocket).Send(CloseHandshake, 0, CloseHandshake.Length);
+            websocket.Client.Send(CloseHandshake, 0, CloseHandshake.Length);
         }
 
         public override void SendPing(WebSocket websocket, string ping)
@@ -156,12 +156,22 @@ namespace WebSocket4Net.Protocol
                 handshakeBuilder.AppendWithCrCf(string.Join(";", cookiePairs));
             }
 
+            if (websocket.CustomHeaderItems != null)
+            {
+                for (var i = 0; i < websocket.CustomHeaderItems.Count; i++)
+                {
+                    var item = websocket.CustomHeaderItems[i];
+
+                    handshakeBuilder.AppendFormatWithCrCf(HeaderItemFormat, item.Key, item.Value);
+                }
+            }
+
             handshakeBuilder.AppendWithCrCf();
             handshakeBuilder.Append(Encoding.UTF8.GetString(secKey3, 0, secKey3.Length));
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            ((TcpClientSession)websocket).Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            websocket.Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
         private byte[] GetResponseSecurityKey(string secKey1, string secKey2, byte[] secKey3)

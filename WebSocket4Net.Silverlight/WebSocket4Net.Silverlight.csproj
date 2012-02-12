@@ -172,6 +172,9 @@
     <Compile Include="..\WebSocket4Net\WebSocket.cs">
       <Link>WebSocket.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocket.Net.cs">
+      <Link>WebSocket.Net.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\WebSocketCommandInfo.cs">
       <Link>WebSocketCommandInfo.cs</Link>
     </Compile>

@@ -84,11 +84,21 @@ namespace WebSocket4Net.Protocol
                 handshakeBuilder.AppendWithCrCf(string.Join(";", cookiePairs));
             }
 
+            if (websocket.CustomHeaderItems != null)
+            {
+                for (var i = 0; i < websocket.CustomHeaderItems.Count; i++)
+                {
+                    var item = websocket.CustomHeaderItems[i];
+
+                    handshakeBuilder.AppendFormatWithCrCf(HeaderItemFormat, item.Key, item.Value);
+                }
+            }
+
             handshakeBuilder.AppendWithCrCf();
 
             byte[] handshakeBuffer = Encoding.UTF8.GetBytes(handshakeBuilder.ToString());
 
-            ((TcpClientSession)websocket).Send(handshakeBuffer, 0, handshakeBuffer.Length);
+            websocket.Client.Send(handshakeBuffer, 0, handshakeBuffer.Length);
         }
 
         public override ReaderBase CreateHandshakeReader(WebSocket websocket)
@@ -141,7 +151,7 @@ namespace WebSocket4Net.Protocol
             GenerateMask(headData, headData.Length - 4);
             MaskData(playloadData, offset, length, headData, headData.Length - 4);
 
-            websocket.Send(new ArraySegment<byte>[]
+            websocket.Client.Send(new ArraySegment<byte>[]
             {
                 new ArraySegment<byte>(headData, 0, headData.Length),
                 new ArraySegment<byte>(playloadData, offset, length)

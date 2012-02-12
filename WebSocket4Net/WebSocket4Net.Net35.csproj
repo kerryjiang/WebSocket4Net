@@ -81,7 +81,7 @@
     <Compile Include="Protocol\Rfc6455Processor.cs" />
     <Compile Include="Protocol\WebSocketDataFrame.cs" />
     <Compile Include="WebSocket.cs" />
-    <Compile Include="WebSocket.Net.cs" />
+    <Compile Include="WebSocket.Net35.cs" />
     <Compile Include="WebSocketCommandInfo.cs" />
     <Compile Include="WebSocketContext.cs" />
     <Compile Include="WebSocketState.cs" />

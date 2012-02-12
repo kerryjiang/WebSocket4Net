@@ -8,6 +8,8 @@ namespace WebSocket4Net.Protocol
 {
     abstract class ProtocolProcessorBase : IProtocolProcessor
     {
+        protected const string HeaderItemFormat = "{0}: {1}";
+
         public ProtocolProcessorBase(WebSocketVersion version, ICloseStatusCode closeStatusCode)
         {
             CloseStatusCode = closeStatusCode;

@@ -13,11 +13,15 @@ using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
 {
-    public partial class WebSocket : TcpClientSession
+    public partial class WebSocket
     {
+        internal IClientSession Client { get; private set; }
+
         public WebSocketVersion Version { get; private set; }
 
         public DateTime LastActiveTime { get; internal set; }
+
+        protected const string UserAgentKey = "UserAgent";
 
         internal IProtocolProcessor ProtocolProcessor { get; private set; }
 
@@ -33,6 +37,8 @@ namespace WebSocket4Net
         internal IDictionary<string, object> Items { get; private set; }
 
         internal List<KeyValuePair<string, string>> Cookies { get; private set; }
+
+        internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
 
         public WebSocketState State { get; private set; }
 
@@ -52,49 +58,26 @@ namespace WebSocket4Net
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
         }
 
-        public WebSocket(string uri)
-            : this(uri, string.Empty)
-        {
-            NotSpecifiedVersion = true;
-        }
+        
 
-        public WebSocket(string uri, WebSocketVersion version)
-            : this(uri, string.Empty, null, version)
-        {
-
-        }
-
-        public WebSocket(string uri, string subProtocol)
-            : this(uri, subProtocol, null, WebSocketVersion.Rfc6455)
-        {
-            NotSpecifiedVersion = true;
-        }
-
-        public WebSocket(string uri, List<KeyValuePair<string, string>> cookies)
-            : this(uri, string.Empty, cookies, WebSocketVersion.Rfc6455)
-        {
-            NotSpecifiedVersion = true;
-        }
-
-        public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
-            : this(uri, subProtocol, cookies, WebSocketVersion.Rfc6455)
-        {
-            NotSpecifiedVersion = true;
-        }
-
-        public WebSocket(string uri, string subProtocol, WebSocketVersion version)
-            : this(uri, subProtocol, null, version)
-        {
-
-        }
-
-        public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, WebSocketVersion version)
+        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
         {
             Version = version;
             ProtocolProcessor = GetProtocolProcessor(version);
             CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
 
             Cookies = cookies;
+
+            if (!string.IsNullOrEmpty(userAgent))
+            {
+                if (customHeaderItems == null)
+                    customHeaderItems = new List<KeyValuePair<string, string>>();
+
+                customHeaderItems.Add(new KeyValuePair<string, string>(UserAgentKey, userAgent));
+            }
+
+            if (customHeaderItems != null && customHeaderItems.Count > 0)
+                CustomHeaderItems = customHeaderItems;
 
             var handshakeCmd = new Command.Handshake();
             m_CommandDict.Add(handshakeCmd.Name, handshakeCmd);
@@ -117,15 +100,60 @@ namespace WebSocket4Net
 
             Items = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
+            IPAddress ipAddress;
+
+            EndPoint remoteEndPoint;
+
+            if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
+                remoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
+            else
+                remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
+
+            IClientSession client;
+
             if ("wss".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException("SuperWebSocket cannot support wss yet.", "uri");
+#if SILVERLIGHT
+                throw new ArgumentException("WebSocket4Net (Silverlight/WindowsPhone) cannot support wss yet.", "uri");
+#else
+                client = new SslStreamTcpSession(remoteEndPoint);
+#endif
             }
-
-            if (!"ws".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
+            else if ("ws".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
+            {
+                client = new AsyncTcpSession(remoteEndPoint);
+            }
+            else
             {
                 throw new ArgumentException("Invalid websocket address's schema.", "uri");
             }
+
+            client.Connected += new EventHandler(client_Connected);
+            client.Closed += new EventHandler(client_Closed);
+            client.Error += new EventHandler<ErrorEventArgs>(client_Error);
+            client.DataReceived += new EventHandler<DataEventArgs>(client_DataReceived);
+
+            Client = client;
+        }
+
+        void client_DataReceived(object sender, DataEventArgs e)
+        {
+            OnDataReceived(e.Data, e.Offset, e.Length);
+        }
+
+        void client_Error(object sender, ErrorEventArgs e)
+        {
+            OnError(e);
+        }
+
+        void client_Closed(object sender, EventArgs e)
+        {
+            OnClosed();
+        }
+
+        void client_Connected(object sender, EventArgs e)
+        {
+            OnConnected();
         }
 
         internal bool GetAvailableProcessor(int[] availableVersions)
@@ -142,15 +170,7 @@ namespace WebSocket4Net
         public void Open()
         {
             State = WebSocketState.Connecting;
-            
-            IPAddress ipAddress;
-
-            if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
-                RemoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
-            else
-                RemoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
-            
-            Connect();
+            Client.Connect();
         }
 
         private static IProtocolProcessor GetProtocolProcessor(WebSocketVersion version)
@@ -163,7 +183,7 @@ namespace WebSocket4Net
             return processor;
         }
 
-        protected override void OnConnected()
+        void OnConnected()
         {
             ProtocolProcessor.SendHandshake(this);
         }
@@ -241,7 +261,7 @@ namespace WebSocket4Net
             ProtocolProcessor.SendMessage(this, message);
         }
 
-        public new void Send(byte[] data, int offset, int length)
+        public void Send(byte[] data, int offset, int length)
         {
             if (!EnsureWebSocketOpen())
                 return;
@@ -249,7 +269,7 @@ namespace WebSocket4Net
             ProtocolProcessor.SendData(this, data, offset, length);
         }
 
-        protected override void OnClosed()
+        private void OnClosed()
         {
             var fireBaseClose = false;
 
@@ -259,16 +279,16 @@ namespace WebSocket4Net
             State = WebSocketState.Closed;
 
             if (fireBaseClose)
-                base.OnClosed();
+                FireClosed();
         }
 
-        public override void Close()
+        public void Close()
         {
             //The websocket never be opened
             if (State == WebSocketState.None)
             {
                 State = WebSocketState.Closed;
-                base.OnClosed();
+                OnClosed();
                 return;
             }
 
@@ -288,7 +308,7 @@ namespace WebSocket4Net
 
         internal void CloseWithouHandshake()
         {
-            base.Close();
+            Client.Close();
         }
 
         protected void ExecuteCommand(WebSocketCommandInfo commandInfo)
@@ -301,7 +321,7 @@ namespace WebSocket4Net
             }
         }
 
-        protected override void OnDataReceived(byte[] data, int offset, int length)
+        private void OnDataReceived(byte[] data, int offset, int length)
         {
             while (true)
             {
@@ -328,6 +348,43 @@ namespace WebSocket4Net
         internal void FireError(Exception error)
         {
             OnError(error);
+        }
+
+        private EventHandler m_Closed;
+
+        public event EventHandler Closed
+        {
+            add { m_Closed += value; }
+            remove { m_Closed -= value; }
+        }
+
+        private void FireClosed()
+        {
+            var handler = m_Closed;
+
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        private EventHandler<ErrorEventArgs> m_Error;
+
+        public event EventHandler<ErrorEventArgs> Error
+        {
+            add { m_Error += value; }
+            remove { m_Error -= value; }
+        }
+
+        private void OnError(ErrorEventArgs e)
+        {
+            if (m_Error == null)
+                return;
+
+            m_Error(this, e);
+        }
+
+        private void OnError(Exception e)
+        {
+            m_Error(this, new ErrorEventArgs(e));
         }
     }
 }

@@ -31,19 +31,19 @@ namespace WebSocket4Net
         }
 
         public JsonWebSocket(string uri, string subProtocol)
-            : this(uri, subProtocol, null, WebSocketVersion.DraftHybi10)
+            : this(uri, subProtocol, null, WebSocketVersion.None)
         {
 
         }
 
         public JsonWebSocket(string uri, List<KeyValuePair<string, string>> cookies)
-            : this(uri, string.Empty, cookies, WebSocketVersion.DraftHybi00)
+            : this(uri, string.Empty, cookies, WebSocketVersion.None)
         {
 
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
-            : this(uri, subProtocol, cookies, WebSocketVersion.DraftHybi00)
+            : this(uri, subProtocol, cookies, WebSocketVersion.None)
         {
 
         }
@@ -55,8 +55,14 @@ namespace WebSocket4Net
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, WebSocketVersion version)
+            : this(uri, subProtocol, cookies, null, string.Empty, version)
         {
-            m_WebSocket = new WebSocket(uri, subProtocol, cookies, version);
+
+        }
+
+        public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
+        {
+            m_WebSocket = new WebSocket(uri, subProtocol, cookies, customHeaderItems, userAgent, version);
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);

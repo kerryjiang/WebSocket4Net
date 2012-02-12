@@ -16,6 +16,26 @@ using WebSocket4Net;
 namespace WebSocket4Net.Test
 {
     [TestFixture]
+    public class SecureWebSocketClientTestHybi00 : WebSocketClientTest
+    {
+        public SecureWebSocketClientTestHybi00()
+            : base(WebSocketVersion.DraftHybi00, "Tls", "supersocket.pfx", "supersocket")
+        {
+
+        }
+    }
+
+    [TestFixture]
+    public class SecureWebSocketClientTestHybi10 : WebSocketClientTest
+    {
+        public SecureWebSocketClientTestHybi10()
+            : base(WebSocketVersion.DraftHybi10, "Tls", "supersocket.pfx", "supersocket")
+        {
+
+        }
+    }
+
+    [TestFixture]
     public class WebSocketClientTestHybi00 : WebSocketClientTest
     {
         public WebSocketClientTestHybi00()
@@ -45,9 +65,22 @@ namespace WebSocket4Net.Test
 
         private WebSocketVersion m_Version = WebSocketVersion.DraftHybi00;
 
+        private string m_Security;
+        private string m_CertificateFile;
+        private string m_Password;
+
         protected WebSocketClientTest(WebSocketVersion version)
+            : this(version, string.Empty, string.Empty, string.Empty)
+        {
+            
+        }
+
+        protected WebSocketClientTest(WebSocketVersion version, string security, string certificateFile, string password)
         {
             m_Version = version;
+            m_Security = security;
+            m_CertificateFile = certificateFile;
+            m_Password = password;
         }
 
         [TestFixtureSetUp]
@@ -63,7 +96,9 @@ namespace WebSocket4Net.Test
                 Ip = "Any",
                 MaxConnectionNumber = 100,
                 Mode = SocketMode.Async,
-                Name = "SuperWebSocket Server"
+                Name = "SuperWebSocket Server",
+                Security = m_Security,
+                Certificate = new CertificateConfig { IsEnabled = true, FilePath = m_CertificateFile, Password = m_Password }
             }, SocketServerFactory.Instance);
         }
 
