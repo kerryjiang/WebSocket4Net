@@ -145,7 +145,7 @@ namespace WebSocket4Net
             m_Closed(this, e);
         }
 
-        public void RegisterHandler<T>(string name, Action<T> executor)
+        public void On<T>(string name, Action<T> executor)
         {
             m_ExecutorDict[name] = new JsonExecutor<T>(executor);
         }
