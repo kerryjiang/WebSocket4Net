@@ -26,7 +26,7 @@ namespace WebSocket4Net.Test
 
         protected override string Host
         {
-            get { return "supersocket"; }
+            get { return "wss://supersocket"; }
         }
     }
 
@@ -41,7 +41,7 @@ namespace WebSocket4Net.Test
 
         protected override string Host
         {
-            get { return "supersocket"; }
+            get { return "wss://supersocket"; }
         }
     }
 
@@ -81,7 +81,7 @@ namespace WebSocket4Net.Test
 
         protected virtual string Host
         {
-            get { return "127.0.0.1"; }
+            get { return "ws://127.0.0.1"; }
         }
 
         protected WebSocketClientTest(WebSocketVersion version)
@@ -138,7 +138,7 @@ namespace WebSocket4Net.Test
         [Test]
         public void ConnectionTest()
         {
-            WebSocket webSocketClient = new WebSocket(string.Format("ws://{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -160,7 +160,7 @@ namespace WebSocket4Net.Test
         [Test, Repeat(10)]
         public void CloseWebSocketTest()
         {
-            WebSocket webSocketClient = new WebSocket(string.Format("ws://{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -198,7 +198,7 @@ namespace WebSocket4Net.Test
         [Test, Repeat(10)]
         public void SendMessageTest()
         {
-            WebSocket webSocketClient = new WebSocket(string.Format("ws://{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -243,7 +243,7 @@ namespace WebSocket4Net.Test
         [Test, Repeat(10)]
         public void SendDataTest()
         {
-            WebSocket webSocketClient = new WebSocket(string.Format("ws://{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
 
             if (!webSocketClient.SupportBinary)
                 return;
@@ -278,7 +278,7 @@ namespace WebSocket4Net.Test
                 var data = Encoding.UTF8.GetBytes(message);
                 webSocketClient.Send(data, 0, data.Length);
 
-                if (!m_MessageReceiveEvent.WaitOne())
+                if (!m_MessageReceiveEvent.WaitOne(1000))
                     Assert.Fail("Cannot get response in time!");
 
                 Assert.AreEqual(message, m_CurrentMessage);

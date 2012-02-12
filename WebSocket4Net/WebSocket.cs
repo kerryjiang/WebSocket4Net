@@ -384,7 +384,7 @@ namespace WebSocket4Net
 
         private void OnError(Exception e)
         {
-            m_Error(this, new ErrorEventArgs(e));
+            OnError(new ErrorEventArgs(e));
         }
     }
 }
