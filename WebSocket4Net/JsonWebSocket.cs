@@ -16,8 +16,6 @@ namespace WebSocket4Net
             get { return m_WebSocket.State; }
         }
 
-        private Dictionary<string, IJsonExecutor> m_ExecutorDict = new Dictionary<string, IJsonExecutor>(StringComparer.OrdinalIgnoreCase);
-
         public JsonWebSocket(string uri)
             : this(uri, string.Empty)
         {
@@ -110,11 +108,23 @@ namespace WebSocket4Net
 
             string name;
             string parameter;
+            string token = string.Empty;
 
             if (spacePos > 0)
             {
                 name = e.Message.Substring(0, spacePos);
                 parameter = e.Message.Substring(spacePos + 1);
+
+                if (char.IsDigit(parameter[0]))
+                {
+                    spacePos = parameter.IndexOf(' ');
+
+                    if (spacePos > 0)
+                    {
+                        token = parameter.Substring(0, spacePos);
+                        parameter = parameter.Substring(spacePos + 1);
+                    }
+                }
             }
             else
             {
@@ -122,9 +132,7 @@ namespace WebSocket4Net
                 parameter = string.Empty;
             }
 
-            IJsonExecutor executor;
-            if (!m_ExecutorDict.TryGetValue(name, out executor))
-                return;
+            IJsonExecutor executor = GetExecutor(name, token);
 
             executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
         }
@@ -147,7 +155,7 @@ namespace WebSocket4Net
 
         public void On<T>(string name, Action<T> executor)
         {
-            m_ExecutorDict[name] = new JsonExecutor<T>(executor);
+            RegisterExecutor<T>(name, string.Empty, executor);
         }
 
         public void Send(string name, object content)
@@ -155,7 +163,71 @@ namespace WebSocket4Net
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            m_WebSocket.Send(name + " " + JsonConvert.SerializeObject(content));
+            if(content != null)
+                m_WebSocket.Send(string.Format(m_QueryTemplateB, name, JsonConvert.SerializeObject(content)));
+            else
+                m_WebSocket.Send(name);
+        }
+
+        private static Random m_Random = new Random();
+
+        private const string m_QueryTemplateA = "{0} {1} {2}";
+        private const string m_QueryTemplateB = "{0} {1}";
+        private const string m_QueryTokenTemplate = "{0}-{1}";
+
+        public void Query<T>(string name, object content, Action<T> executor)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            int token = m_Random.Next(1000, 9999);
+
+            RegisterExecutor<T>(name, token.ToString(), executor);
+
+            if (content != null)
+                m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, JsonConvert.SerializeObject(content)));
+            else
+                m_WebSocket.Send(string.Format(m_QueryTemplateB, name, token));
+        }
+
+        private Dictionary<string, IJsonExecutor> m_ExecutorDict = new Dictionary<string, IJsonExecutor>(StringComparer.OrdinalIgnoreCase);
+
+        void RegisterExecutor<T>(string name, string token, Action<T> executor)
+        {
+            lock (m_ExecutorDict)
+            {
+                if (string.IsNullOrEmpty(name))
+                    m_ExecutorDict.Add(name, new JsonExecutor<T>(executor));
+                else
+                    m_ExecutorDict.Add(string.Format(m_QueryTokenTemplate, name, token), new JsonExecutor<T>(executor));
+            }
+        }
+
+        IJsonExecutor GetExecutor(string name, string token)
+        {
+            string key = name;
+            bool removeExecutor = false;
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                key = string.Format(m_QueryTokenTemplate, name, token);
+                removeExecutor = true;
+            }
+
+            lock (m_ExecutorDict)
+            {
+                IJsonExecutor executor;
+
+                if (!m_ExecutorDict.TryGetValue(key, out executor))
+                    return null;
+
+                if (removeExecutor)
+                {
+                    m_ExecutorDict.Remove(key);
+                }
+
+                return executor;
+            }
         }
     }
 }
