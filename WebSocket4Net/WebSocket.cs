@@ -58,10 +58,14 @@ namespace WebSocket4Net
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
         }
 
-        
-
         private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
         {
+            if (version == WebSocketVersion.None)
+            {
+                NotSpecifiedVersion = true;
+                version = WebSocketVersion.Rfc6455;
+            }
+
             Version = version;
             ProtocolProcessor = GetProtocolProcessor(version);
             CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
