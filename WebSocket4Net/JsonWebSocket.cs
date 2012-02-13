@@ -115,7 +115,7 @@ namespace WebSocket4Net
                 name = e.Message.Substring(0, spacePos);
                 parameter = e.Message.Substring(spacePos + 1);
 
-                if (char.IsDigit(parameter[0]))
+                if (parameter[0] == '{')
                 {
                     spacePos = parameter.IndexOf(' ');
 
