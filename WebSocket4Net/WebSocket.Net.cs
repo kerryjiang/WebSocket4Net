@@ -7,8 +7,10 @@ namespace WebSocket4Net
 {
     public partial class WebSocket
     {
+        private static List<KeyValuePair<string, string>> EmptyCookies = null;
+
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
-            : this(uri, subProtocol, null, null, string.Empty, version)
+            : this(uri, subProtocol, EmptyCookies, null, string.Empty, version)
         {
 
         }
