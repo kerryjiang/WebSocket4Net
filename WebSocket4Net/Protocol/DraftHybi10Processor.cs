@@ -244,6 +244,11 @@ namespace WebSocket4Net.Protocol
             get { return true; }
         }
 
+        public override bool SupportPingPong
+        {
+            get { return true; }
+        }
+
         private void GenerateMask(byte[] mask, int offset)
         {
             for (var i = offset; i < offset + 4; i++)

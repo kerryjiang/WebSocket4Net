@@ -33,6 +33,8 @@ namespace WebSocket4Net.Protocol
 
         public abstract bool SupportBinary { get; }
 
+        public abstract bool SupportPingPong { get; }
+
         public ICloseStatusCode CloseStatusCode { get; private set; }
 
         public WebSocketVersion Version { get; private set; }

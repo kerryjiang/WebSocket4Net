@@ -19,6 +19,8 @@ namespace WebSocket4Net.Protocol
 
         bool SupportBinary { get; }
 
+        bool SupportPingPong { get; }
+
         ICloseStatusCode CloseStatusCode { get; }
 
         WebSocketVersion Version { get; }

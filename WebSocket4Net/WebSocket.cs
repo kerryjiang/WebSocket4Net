@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using SuperSocket.ClientEngine;
 using WebSocket4Net.Protocol;
+using System.Threading;
 
 namespace WebSocket4Net
 {
@@ -52,6 +53,14 @@ namespace WebSocket4Net
         private static ProtocolProcessorFactory m_ProtocolProcessorFactory;
 
         internal bool NotSpecifiedVersion { get; private set; }
+
+        private Timer m_PingTimer;
+
+        private const int m_PingInterval = 1000 * 60;
+
+        internal string LastPongResponse { get; set; }
+
+        private string m_LastPingRequest;
 
         static WebSocket()
         {
@@ -202,6 +211,22 @@ namespace WebSocket4Net
                 return;
 
             m_Opened(this, EventArgs.Empty);
+
+            if (ProtocolProcessor.SupportPingPong)
+                m_PingTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, m_PingInterval, m_PingInterval);
+        }
+
+        private void OnPingTimerCallback(object state)
+        {
+            if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
+            {
+                //have not got last response
+                return;
+            }
+
+            var protocolProcessor = state as IProtocolProcessor;
+            m_LastPingRequest = DateTime.Now.ToString();
+            protocolProcessor.SendPing(this, m_LastPingRequest);
         }
 
         private EventHandler m_Opened;
@@ -364,6 +389,13 @@ namespace WebSocket4Net
 
         private void FireClosed()
         {
+            if (m_PingTimer != null)
+            {
+                m_PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                m_PingTimer.Dispose();
+                m_PingTimer = null;
+            }
+
             var handler = m_Closed;
 
             if (handler != null)

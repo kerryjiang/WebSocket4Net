@@ -244,5 +244,10 @@ namespace WebSocket4Net.Protocol
         {
             get { return false; }
         }
+
+        public override bool SupportPingPong
+        {
+            get { return false; }
+        }
     }
 }
