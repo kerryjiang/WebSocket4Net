@@ -81,7 +81,7 @@ namespace WebSocket4Net.Test
 
         protected virtual string Host
         {
-            get { return "ws://127.0.0.1"; }
+            get { return "ws://localhost"; }
         }
 
         protected WebSocketClientTest(WebSocketVersion version)
@@ -144,7 +144,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1000))
+            if (!m_OpenedEvent.WaitOne())
                 Assert.Fail("Failed to Opened session ontime");
 
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
@@ -166,7 +166,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1000))
+            if (!m_OpenedEvent.WaitOne(2000))
                 Assert.Fail("Failed to Opened session ontime");
 
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
