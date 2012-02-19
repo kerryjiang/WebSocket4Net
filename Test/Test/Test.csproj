@@ -41,14 +41,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Reference\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>..\..\Reference\SuperSocket\Net40\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
     <Reference Include="SuperSocket.Common">
-      <HintPath>..\..\..\SuperWebSocket\mainline\Reference\SuperSocket\Net40\SuperSocket.Common.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketBase">
-      <HintPath>..\..\..\SuperWebSocket\mainline\Reference\SuperSocket\Net40\SuperSocket.SocketBase.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\..\..\SuperWebSocket\mainline\Reference\SuperSocket\Net40\SuperSocket.SocketEngine.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>..\Reference\SuperWebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -66,10 +72,6 @@
     <Compile Include="WebSocketClientTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SuperWebSocket\mainline\SuperWebSocket\SuperWebSocket.csproj">
-      <Project>{2DC79E40-BB70-4F6A-B378-905F2FBC6E97}</Project>
-      <Name>SuperWebSocket</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WebSocket4Net\WebSocket4Net.csproj">
       <Project>{6920447F-76B1-4739-822E-9CE3A2882718}</Project>
       <Name>WebSocket4Net %28WebSocket4Net\WebSocket4Net%29</Name>
