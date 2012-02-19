@@ -18,7 +18,7 @@ namespace WebSocket4Net.Protocol
     {
         private const string m_Magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
-        private string m_ExpectedAcceptKey;
+        private string m_ExpectedAcceptKey = "ExpectedAccept";
 
         private static Random m_Random = new Random();
 
@@ -38,10 +38,12 @@ namespace WebSocket4Net.Protocol
             var secKey = Guid.NewGuid().ToString().Substring(0, 5);
 
 #if !SILVERLIGHT
-            m_ExpectedAcceptKey = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(secKey + m_Magic)));
+            string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(secKey + m_Magic)));
 #else
-            m_ExpectedAcceptKey = Convert.ToBase64String(SHA1.Create().ComputeHash(ASCIIEncoding.Instance.GetBytes(secKey + m_Magic)));
+            string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(ASCIIEncoding.Instance.GetBytes(secKey + m_Magic)));
 #endif
+
+            websocket.Items[m_ExpectedAcceptKey] = expectedAccept;
 
             var handshakeBuilder = new StringBuilder();
 
@@ -227,8 +229,9 @@ namespace WebSocket4Net.Protocol
             }
 
             var acceptKey = websocket.Items.GetValue("Sec-WebSocket-Accept", string.Empty);
+            var expectedAcceptKey = websocket.Items.GetValue(m_ExpectedAcceptKey, string.Empty);
 
-            if (!m_ExpectedAcceptKey.Equals(acceptKey, StringComparison.OrdinalIgnoreCase))
+            if (!expectedAcceptKey.Equals(acceptKey, StringComparison.OrdinalIgnoreCase))
             {
                 description = m_Error_AcceptKeyNotMatch;
                 return false;
