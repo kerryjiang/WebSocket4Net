@@ -67,6 +67,12 @@ namespace WebSocket4Net
             m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
         }
 
+        public int ReceiveBufferSize
+        {
+            get { return m_WebSocket.ReceiveBufferSize; }
+            set { m_WebSocket.ReceiveBufferSize = value; }
+        }
+
         public void Open()
         {
             if (m_WebSocket.State == WebSocketState.None)

@@ -180,6 +180,12 @@ namespace WebSocket4Net
             return true;
         }
 
+        public int ReceiveBufferSize
+        {
+            get { return Client.ReceiveBufferSize; }
+            set { Client.ReceiveBufferSize = value; }
+        }
+
         public void Open()
         {
             State = WebSocketState.Connecting;
