@@ -67,6 +67,12 @@ namespace WebSocket4Net
             m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
         }
 
+        public void Open()
+        {
+            if (m_WebSocket.State == WebSocketState.None)
+                m_WebSocket.Open();
+        }
+
         private EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> m_Error;
 
         public event EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> Error
