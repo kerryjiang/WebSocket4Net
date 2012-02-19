@@ -121,7 +121,7 @@ namespace WebSocket4Net
                 name = e.Message.Substring(0, spacePos);
                 parameter = e.Message.Substring(spacePos + 1);
 
-                if (parameter[0] == '{')
+                if (parameter[0] != '{')
                 {
                     spacePos = parameter.IndexOf(' ');
 
@@ -140,7 +140,8 @@ namespace WebSocket4Net
 
             IJsonExecutor executor = GetExecutor(name, token);
 
-            executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
+            if (executor != null)
+                executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
         }
 
         private EventHandler m_Closed;
@@ -202,7 +203,7 @@ namespace WebSocket4Net
         {
             lock (m_ExecutorDict)
             {
-                if (string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(token))
                     m_ExecutorDict.Add(name, new JsonExecutor<T>(executor));
                 else
                     m_ExecutorDict.Add(string.Format(m_QueryTokenTemplate, name, token), new JsonExecutor<T>(executor));
