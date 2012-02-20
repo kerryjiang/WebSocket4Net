@@ -79,6 +79,15 @@ namespace WebSocket4Net
                 m_WebSocket.Open();
         }
 
+        public void Close()
+        {
+            if (m_WebSocket == null)
+                return;
+
+            if (m_WebSocket.State == WebSocketState.Open || m_WebSocket.State == WebSocketState.Connecting)
+                m_WebSocket.Close();
+        }
+
         private EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> m_Error;
 
         public event EventHandler<SuperSocket.ClientEngine.ErrorEventArgs> Error

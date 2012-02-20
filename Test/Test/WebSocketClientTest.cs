@@ -144,7 +144,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne())
+            if (!m_OpenedEvent.WaitOne(1000))
                 Assert.Fail("Failed to Opened session ontime");
 
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);

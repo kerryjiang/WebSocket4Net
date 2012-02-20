@@ -66,8 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\ADD.cs" />
+    <Compile Include="Command\ADDX.cs" />
     <Compile Include="Command\ECHO.cs" />
+    <Compile Include="Command\ECHOJSON.cs" />
     <Compile Include="Command\QUIT.cs" />
+    <Compile Include="JsonWebSocketTest.cs" />
+    <Compile Include="Json\AddIn.cs" />
+    <Compile Include="Json\AddOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebSocketClientTest.cs" />
   </ItemGroup>
