@@ -8,28 +8,28 @@ if not exist %fdir% (
 
 set msbuild=%fdir%\v4.0.30319\msbuild.exe
 
-%msbuild% WebSocket4Net\WebSocket4Net.csproj /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+%msbuild% WebSocket4Net\WebSocket4Net.csproj /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-set mgdir=Bin\Net40
+set mgdir=Bin\net40
 set ver=v4
 set ref=
 set mergejson=1
 call :Merge
 
-%msbuild% WebSocket4Net\WebSocket4Net.Net35.csproj /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+%msbuild% WebSocket4Net\WebSocket4Net.Net35.csproj /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-set mgdir=Bin\Net35
+set mgdir=Bin\net35
 set ver=v2
 set ref=
 set mergejson=1
 call :Merge
 
-%msbuild% WebSocket4Net\WebSocket4Net.MonoDroid.csproj /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+%msbuild% WebSocket4Net\WebSocket4Net.MonoDroid.csproj /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-set mgdir=Bin\MonoDroid
+set mgdir=Bin\monodroid22
 set ver=v4
 set mddir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0
 if not exist "%mddir%" (
@@ -42,10 +42,10 @@ call :Merge
 set fdir=%WINDIR%\Microsoft.NET\Framework
 set msbuild=%fdir%\v4.0.30319\msbuild.exe
 
-%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.Silverlight.csproj  /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.Silverlight.csproj  /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-set mgdir=Bin\Silverlight
+set mgdir=Bin\sl40
 set ver=v4
 set mergejson=1
 set sldir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0
@@ -58,7 +58,7 @@ call :Merge
 %msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj  /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-set mgdir=Bin\WindowsPhone
+set mgdir=Bin\sl40-windowsphone71
 set ver=v4
 set mergejson=
 set wpdir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71
