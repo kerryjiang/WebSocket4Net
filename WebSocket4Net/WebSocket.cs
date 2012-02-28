@@ -62,9 +62,63 @@ namespace WebSocket4Net
 
         private string m_LastPingRequest;
 
+        private const string m_UriScheme = "ws";
+
+        private const string m_UriPrefix = m_UriScheme + "://";
+
+        private const string m_SecureUriScheme = "wss";
+
+        private const string m_SecureUriPrefix = m_SecureUriScheme + "://";
+
         static WebSocket()
         {
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
+        }
+
+        private EndPoint ResolveUri(string uri)
+        {
+            TargetUri = new Uri(uri);
+
+            IPAddress ipAddress;
+
+            EndPoint remoteEndPoint;
+
+            if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
+                remoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
+            else
+                remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
+
+            return remoteEndPoint;
+        }
+
+        IClientSession CreateClient(string uri)
+        {
+            return new AsyncTcpSession(ResolveUri(uri));
+        }
+
+        IClientSession CreateSecureClient(string uri)
+        {
+            int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
+
+            if (hostPos < 0)//wss://localhost
+            {
+                uri = uri + ":443/";
+            }
+            else if (hostPos == 0)//wss:///
+            {
+                throw new ArgumentException("Invalid uri", "uri");
+            }
+            else//wss://xxx/xxx
+            {
+                int colonPos = uri.IndexOf(':', m_SecureUriPrefix.Length, hostPos - m_SecureUriScheme.Length);
+
+                if (colonPos < 0)
+                {
+                    uri = uri.Substring(0, hostPos) + ":443" + uri.Substring(hostPos);
+                }
+            }
+
+            return new SslStreamTcpSession(ResolveUri(uri));
         }
 
         private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
@@ -107,38 +161,27 @@ namespace WebSocket4Net
             
             State = WebSocketState.None;
 
-            TargetUri = new Uri(uri);
-
             SubProtocol = subProtocol;
 
             Items = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
-            IPAddress ipAddress;
-
-            EndPoint remoteEndPoint;
-
-            if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
-                remoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
-            else
-                remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
-
             IClientSession client;
 
-            if ("wss".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
+            if (uri.StartsWith(m_UriPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                client = CreateClient(uri);
+            }
+            else if (uri.StartsWith(m_SecureUriPrefix, StringComparison.OrdinalIgnoreCase))
             {
 #if SILVERLIGHT
                 throw new ArgumentException("WebSocket4Net (Silverlight/WindowsPhone) cannot support wss yet.", "uri");
 #else
-                client = new SslStreamTcpSession(remoteEndPoint);
+                client = CreateSecureClient(uri);
 #endif
-            }
-            else if ("ws".Equals(TargetUri.Scheme, StringComparison.OrdinalIgnoreCase))
-            {
-                client = new AsyncTcpSession(remoteEndPoint);
             }
             else
             {
-                throw new ArgumentException("Invalid websocket address's schema.", "uri");
+                throw new ArgumentException("Invalid uri", "uri");
             }
 
             client.Connected += new EventHandler(client_Connected);
