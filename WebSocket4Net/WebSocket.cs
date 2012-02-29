@@ -96,6 +96,8 @@ namespace WebSocket4Net
             return new AsyncTcpSession(ResolveUri(uri));
         }
 
+#if !SILVERLIGHT
+
         IClientSession CreateSecureClient(string uri)
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
@@ -120,6 +122,8 @@ namespace WebSocket4Net
 
             return new SslStreamTcpSession(ResolveUri(uri));
         }
+
+#endif
 
         private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
         {
