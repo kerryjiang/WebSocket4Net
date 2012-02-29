@@ -104,13 +104,13 @@ namespace WebSocket4Net
             {
                 uri = uri + ":443/";
             }
-            else if (hostPos == 0)//wss:///
+            else if (hostPos == m_SecureUriPrefix.Length)//wss:///
             {
                 throw new ArgumentException("Invalid uri", "uri");
             }
             else//wss://xxx/xxx
             {
-                int colonPos = uri.IndexOf(':', m_SecureUriPrefix.Length, hostPos - m_SecureUriScheme.Length);
+                int colonPos = uri.IndexOf(':', m_SecureUriPrefix.Length, hostPos - m_SecureUriPrefix.Length);
 
                 if (colonPos < 0)
                 {
