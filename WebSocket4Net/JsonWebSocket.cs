@@ -156,7 +156,12 @@ namespace WebSocket4Net
             IJsonExecutor executor = GetExecutor(name, token);
 
             if (executor != null)
-                executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
+            {
+                if(!executor.Type.IsPrimitive)
+                    executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
+                else
+                    executor.Execute(Convert.ChangeType(parameter, executor.Type, null));
+            }
         }
 
         private EventHandler m_Closed;
