@@ -52,7 +52,7 @@
       <HintPath>..\Reference\Json.NET\WindowsPhone\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket\Silverlight\SuperSocket.ClientEngine.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket\WindowsPhone\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core" />

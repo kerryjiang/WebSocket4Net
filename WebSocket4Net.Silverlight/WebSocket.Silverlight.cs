@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Collections.Generic;
+using System.Net.Sockets;
 
 namespace WebSocket4Net
 {
@@ -38,5 +39,24 @@ namespace WebSocket4Net
 
             Initialize(uri, subProtocol, cookieList, customHeaderItems, userAgent, version);
         }
+
+        /// <summary>
+        /// Windows Phone doesn't have this feature
+        /// </summary>
+#if !WINDOWS_PHONE
+        private SocketClientAccessPolicyProtocol m_ClientAccessPolicyProtocol = SocketClientAccessPolicyProtocol.Http;
+
+        public SocketClientAccessPolicyProtocol ClientAccessPolicyProtocol
+        {
+            get { return m_ClientAccessPolicyProtocol; }
+            set
+            {
+                if (this.State != WebSocketState.None)
+                    throw new Exception("You cannot set ClientAccessPolicyProtocol after the connection was established!");
+
+                m_ClientAccessPolicyProtocol = value;
+            }
+        }
+#endif
     }
 }

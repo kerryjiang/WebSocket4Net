@@ -16,7 +16,7 @@ namespace WebSocket4Net
 {
     public partial class WebSocket
     {
-        internal IClientSession Client { get; private set; }
+        internal TcpClientSession Client { get; private set; }
 
         public WebSocketVersion Version { get; private set; }
 
@@ -91,14 +91,14 @@ namespace WebSocket4Net
             return remoteEndPoint;
         }
 
-        IClientSession CreateClient(string uri)
+        TcpClientSession CreateClient(string uri)
         {
             return new AsyncTcpSession(ResolveUri(uri));
         }
 
 #if !SILVERLIGHT
 
-        IClientSession CreateSecureClient(string uri)
+        TcpClientSession CreateSecureClient(string uri)
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
 
@@ -169,7 +169,7 @@ namespace WebSocket4Net
 
             Items = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
-            IClientSession client;
+            TcpClientSession client;
 
             if (uri.StartsWith(m_UriPrefix, StringComparison.OrdinalIgnoreCase))
             {
@@ -187,6 +187,12 @@ namespace WebSocket4Net
             {
                 throw new ArgumentException("Invalid uri", "uri");
             }
+
+#if SILVERLIGHT
+    #if !WINDOWS_PHONE
+            client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
+    #endif
+#endif
 
             client.Connected += new EventHandler(client_Connected);
             client.Closed += new EventHandler(client_Closed);

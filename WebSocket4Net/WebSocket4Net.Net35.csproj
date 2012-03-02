@@ -41,7 +41,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Reference\Json.NET\Net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine">
+    <Reference Include="SuperSocket.ClientEngine, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Reference\SuperSocket\Net35\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
