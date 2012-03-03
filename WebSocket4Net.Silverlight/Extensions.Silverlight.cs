@@ -14,8 +14,12 @@ namespace WebSocket4Net
 
         public static string GetPathAndQuery(this Uri uri)
         {
-            int pos = uri.OriginalString.IndexOf(uri.Host);
-            return uri.OriginalString.Substring(pos + uri.Host.Length);
+            int pos = uri.OriginalString.IndexOf('/', uri.Scheme.Length + 3 + uri.Host.Length);
+
+            if (pos < 0)
+                return "/";
+
+            return uri.OriginalString.Substring(pos);
         }
     }
 
