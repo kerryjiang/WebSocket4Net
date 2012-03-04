@@ -71,6 +71,9 @@
     <Compile Include="..\WebSocket4Net\Command\Handshake.cs">
       <Link>Command\Handshake.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Ping.cs">
+      <Link>Command\Ping.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Command\Pong.cs">
       <Link>Command\Pong.cs</Link>
     </Compile>

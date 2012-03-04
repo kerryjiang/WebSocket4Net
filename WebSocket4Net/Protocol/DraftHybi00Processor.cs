@@ -107,6 +107,11 @@ namespace WebSocket4Net.Protocol
             throw new NotSupportedException();
         }
 
+        public override void SendPong(WebSocket websocket, string pong)
+        {
+            throw new NotSupportedException();
+        }
+
         public override void SendHandshake(WebSocket websocket)
         {
             string secKey1 = Encoding.UTF8.GetString(GenerateSecKey());

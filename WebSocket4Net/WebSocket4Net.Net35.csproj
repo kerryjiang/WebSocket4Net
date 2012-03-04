@@ -53,6 +53,7 @@
     <Compile Include="Command\Binary.cs" />
     <Compile Include="Command\Close.cs" />
     <Compile Include="Command\Handshake.cs" />
+    <Compile Include="Command\Ping.cs" />
     <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />

@@ -178,6 +178,8 @@ namespace WebSocket4Net
             m_CommandDict.Add(dataCmd.Name, dataCmd);
             var closeCmd = new Command.Close();
             m_CommandDict.Add(closeCmd.Name, closeCmd);
+            var pingCmd = new Command.Ping();
+            m_CommandDict.Add(pingCmd.Name, pingCmd);
             var pongCmd = new Command.Pong();
             m_CommandDict.Add(pongCmd.Name, pongCmd);
             var badRequestCmd = new Command.BadRequest();

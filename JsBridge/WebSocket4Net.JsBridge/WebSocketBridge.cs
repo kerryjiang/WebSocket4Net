@@ -2,6 +2,7 @@
 using System.Net;
 using System.Windows.Browser;
 using System.ComponentModel;
+using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.JsBridge
 {
@@ -36,7 +37,13 @@ namespace WebSocket4Net.JsBridge
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
+            m_WebSocket.Error += new EventHandler<ErrorEventArgs>(m_WebSocket_Error);
             m_WebSocket.Open();
+        }
+
+        void m_WebSocket_Error(object sender, ErrorEventArgs e)
+        {
+            m_AsyncOper.Post((s) => FireError((string)s), e.Exception.Message);
         }
 
         void m_WebSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -110,6 +117,19 @@ namespace WebSocket4Net.JsBridge
                 return;
 
             handler(null, new MessageEventArgs { Data = message });
+        }
+
+        [ScriptableMember(ScriptAlias = "onerror")]
+        public event EventHandler<MessageEventArgs> Error;
+
+        private void FireError(string error)
+        {
+            var handler = Error;
+
+            if (handler == null)
+                return;
+
+            handler(null, new MessageEventArgs { Data = error });
         }
     }
 }

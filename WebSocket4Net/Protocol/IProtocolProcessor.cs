@@ -17,6 +17,8 @@ namespace WebSocket4Net.Protocol
 
         void SendPing(WebSocket websocket, string ping);
 
+        void SendPong(WebSocket websocket, string pong);
+
         bool SupportBinary { get; }
 
         bool SupportPingPong { get; }

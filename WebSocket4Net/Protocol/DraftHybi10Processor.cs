@@ -196,6 +196,10 @@ namespace WebSocket4Net.Protocol
             SendMessage(websocket, OpCode.Ping, ping);
         }
 
+        public override void SendPong(WebSocket websocket, string pong)
+        {
+            SendMessage(websocket, OpCode.Pong, pong);
+        }
 
         private const string m_Error_InvalidHandshake = "invalid handshake";
         private const string m_Error_SubProtocolNotMatch = "subprotocol doesn't match";
