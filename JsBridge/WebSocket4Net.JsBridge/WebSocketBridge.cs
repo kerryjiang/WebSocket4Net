@@ -22,7 +22,17 @@ namespace WebSocket4Net.JsBridge
         public void Open(string uri, string protocol)
         {
             m_AsyncOper = AsyncOperationManager.CreateOperation(null);
-            m_WebSocket = new WebSocket(uri, protocol, cookies: HtmlPage.Document.Cookies);
+
+            //pass in Origin
+            var hostName = HtmlPage.Document.DocumentUri.Host;
+            var port = HtmlPage.Document.DocumentUri.Port;
+
+            string origin = hostName;
+
+            if (port != 80)
+                origin += ":" + port;
+
+            m_WebSocket = new WebSocket(uri, protocol, cookies: HtmlPage.Document.Cookies, origin: origin);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
