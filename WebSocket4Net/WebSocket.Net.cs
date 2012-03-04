@@ -10,14 +10,14 @@ namespace WebSocket4Net
         private static List<KeyValuePair<string, string>> EmptyCookies = null;
 
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
-            : this(uri, subProtocol, EmptyCookies, null, string.Empty, version)
+            : this(uri, subProtocol, EmptyCookies, null, string.Empty, string.Empty, version)
         {
 
         }
 
-        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", WebSocketVersion version = WebSocketVersion.None)
+        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None)
         {
-            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, version);
+            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version);
         }
     }
 }

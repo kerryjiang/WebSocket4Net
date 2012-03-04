@@ -134,7 +134,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Host: ");
             handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
             handshakeBuilder.Append("Origin: ");
-            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(string.IsNullOrEmpty(websocket.Origin) ? websocket.TargetUri.Host : websocket.Origin);
 
             if (!string.IsNullOrEmpty(websocket.SubProtocol))
             {

@@ -55,8 +55,14 @@ namespace WebSocket4Net
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
+            : this(uri, subProtocol, cookies, customHeaderItems, userAgent, string.Empty, version)
         {
-            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, version);
+
+        }
+
+        public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
+        {
+            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version);
         }
     }
 }

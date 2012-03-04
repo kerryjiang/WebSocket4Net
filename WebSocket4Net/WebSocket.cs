@@ -72,6 +72,8 @@ namespace WebSocket4Net
 
         internal string HandshakeHost { get; private set; }
 
+        internal string Origin { get; private set; }
+
         static WebSocket()
         {
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
@@ -141,7 +143,7 @@ namespace WebSocket4Net
 
 #endif
 
-        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
+        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
         {
             if (version == WebSocketVersion.None)
             {
@@ -154,6 +156,8 @@ namespace WebSocket4Net
             CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
 
             Cookies = cookies;
+
+            Origin = origin;
 
             if (!string.IsNullOrEmpty(userAgent))
             {
