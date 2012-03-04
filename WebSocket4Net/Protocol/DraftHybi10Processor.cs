@@ -60,7 +60,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Sec-WebSocket-Key: ");
             handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append("Host: ");
-            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(websocket.HandshakeHost);
             handshakeBuilder.Append("Origin: ");
             handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
 

@@ -70,6 +70,8 @@ namespace WebSocket4Net
 
         private const string m_SecureUriPrefix = m_SecureUriScheme + "://";
 
+        internal string HandshakeHost { get; private set; }
+
         static WebSocket()
         {
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
@@ -93,7 +95,14 @@ namespace WebSocket4Net
 
         TcpClientSession CreateClient(string uri)
         {
-            return new AsyncTcpSession(ResolveUri(uri));
+            var targetEndPoint = ResolveUri(uri);
+
+            if (TargetUri.Port == 80)
+                HandshakeHost = TargetUri.Host;
+            else
+                HandshakeHost = TargetUri.Host + ":" + TargetUri.Port;
+
+            return new AsyncTcpSession(targetEndPoint);
         }
 
 #if !SILVERLIGHT
@@ -120,7 +129,14 @@ namespace WebSocket4Net
                 }
             }
 
-            return new SslStreamTcpSession(ResolveUri(uri));
+            var targetEndPoint = ResolveUri(uri);
+
+            if (TargetUri.Port == 443)
+                HandshakeHost = TargetUri.Host;
+            else
+                HandshakeHost = TargetUri.Host + ":" + TargetUri.Port;
+
+            return new SslStreamTcpSession(targetEndPoint);
         }
 
 #endif
