@@ -10,28 +10,15 @@ using System.Threading;
 
 namespace WebSocket4Net.Test.Command
 {
-    public class ADDX : JsonSubCommand<AddIn>
+    public class ADDX : AsyncJsonSubCommand<AddIn>
     {
-        protected override void ExecuteJsonCommand(WebSocketSession session, AddIn commandInfo)
+        protected override void ExecuteAsyncJsonCommand(WebSocketSession session, string token, AddIn commandInfo)
         {
-            Async.Run((o) => Calculate(o), new
-            {
-                Session = session,
-                Parameter = commandInfo,
-                Token = session.CurrentToken
-            });
-        }
-
-        private void Calculate(dynamic state)
-        {
-            var session = state.Session as WebSocketSession;
-            var parameter = state.Parameter as AddIn;
-
-            var result = new AddOut { Result = parameter.A + parameter.B };
+            var result = new AddOut { Result = commandInfo.A + commandInfo.B };
 
             Thread.Sleep(2000);
 
-            this.SendJsonResponseWithToken(session, state.Token, result);
+            this.SendJsonResponse(session, token, result);
         }
     }
 }
