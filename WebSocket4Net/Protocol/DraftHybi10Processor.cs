@@ -150,14 +150,22 @@ namespace WebSocket4Net.Protocol
 
             headData[0] = (byte)(opCode | 0x80);
 
-            GenerateMask(headData, headData.Length - 4);
-            MaskData(playloadData, offset, length, headData, headData.Length - 4);
-
-            websocket.Client.Send(new ArraySegment<byte>[]
+            if (length > 0)
             {
-                new ArraySegment<byte>(headData, 0, headData.Length),
-                new ArraySegment<byte>(playloadData, offset, length)
-            });
+                GenerateMask(headData, headData.Length - 4);
+
+                MaskData(playloadData, offset, length, headData, headData.Length - 4);
+
+                websocket.Client.Send(new ArraySegment<byte>[]
+                    {
+                        new ArraySegment<byte>(headData, 0, headData.Length),
+                        new ArraySegment<byte>(playloadData, offset, length)
+                    });
+            }
+            else
+            {
+                websocket.Client.Send(headData, 0, headData.Length);
+            }
         }
 
         public override void SendData(WebSocket websocket, byte[] data, int offset, int length)

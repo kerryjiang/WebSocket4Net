@@ -70,6 +70,7 @@
     <Compile Include="Command\ADDX.cs" />
     <Compile Include="Command\ECHO.cs" />
     <Compile Include="Command\ECHOJSON.cs" />
+    <Compile Include="Command\PING.cs" />
     <Compile Include="Command\QUIT.cs" />
     <Compile Include="JsonWebSocketTest.cs" />
     <Compile Include="Json\AddIn.cs" />

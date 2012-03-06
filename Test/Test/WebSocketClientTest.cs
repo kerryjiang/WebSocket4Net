@@ -290,6 +290,48 @@ namespace WebSocket4Net.Test
                 Assert.Fail("Failed to close session ontime");
         }
 
+        [Test]
+        public void SendPingReactTest()
+        {
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+            webSocketClient.Open();
+
+            if (!m_OpenedEvent.WaitOne(1000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < 10; i++)
+            {
+                sb.Append(Guid.NewGuid().ToString());
+            }
+
+            string messageSource = sb.ToString();
+
+            Random rd = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                int startPos = rd.Next(0, messageSource.Length - 2);
+                int endPos = rd.Next(startPos + 1, messageSource.Length - 1);
+
+                string message = messageSource.Substring(startPos, endPos - startPos);
+
+                Console.WriteLine("PING:" + message);
+                webSocketClient.Send("PING " + message);
+            }
+
+            Thread.Sleep(5000);
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(1000))
+                Assert.Fail("Failed to close session ontime");
+        }
+
         void webSocketClient_DataReceived(object sender, DataReceivedEventArgs e)
         {
             m_CurrentMessage = Encoding.UTF8.GetString(e.Data);
