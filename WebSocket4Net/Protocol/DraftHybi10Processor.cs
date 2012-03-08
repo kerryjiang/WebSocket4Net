@@ -35,11 +35,11 @@ namespace WebSocket4Net.Protocol
 
         public override void SendHandshake(WebSocket websocket)
         {
-            var secKey = Guid.NewGuid().ToString().Substring(0, 5);
-
 #if !SILVERLIGHT
+            var secKey = Convert.ToBase64String(Encoding.ASCII.GetBytes(Guid.NewGuid().ToString().Substring(0, 16)));
             string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(secKey + m_Magic)));
 #else
+            var secKey = Convert.ToBase64String(ASCIIEncoding.Instance.GetBytes(Guid.NewGuid().ToString().Substring(0, 16)));
             string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(ASCIIEncoding.Instance.GetBytes(secKey + m_Magic)));
 #endif
 
@@ -180,7 +180,7 @@ namespace WebSocket4Net.Protocol
 
         public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
-            byte[] playloadData = new byte[(string.IsNullOrEmpty(closeReason) ? 0 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2];
+            byte[] playloadData = new byte[(string.IsNullOrEmpty(closeReason) ? 2 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2];
 
             int highByte = statusCode / 256;
             int lowByte = statusCode % 256;
