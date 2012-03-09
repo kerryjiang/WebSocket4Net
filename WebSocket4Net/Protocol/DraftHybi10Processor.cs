@@ -118,22 +118,24 @@ namespace WebSocket4Net.Protocol
         {
             byte[] headData;
 
+            int maskLength = length <= 0 ? 0 : 4;
+
             if (length < 126)
             {
-                headData = new byte[6];
-                headData[1] = (byte) (length | 0x80);
+                headData = new byte[2 + maskLength];
+                headData[1] = (byte)length;
             }
             else if (length < 65536)
             {
-                headData = new byte[8];
-                headData[1] = (byte)(126 | 0x80);
+                headData = new byte[4 + maskLength];
+                headData[1] = (byte)126;
                 headData[2] = (byte)(length / 256);
                 headData[3] = (byte)(length % 256);
             }
             else
             {
-                headData = new byte[14];
-                headData[1] = (byte)(127 | 0x80);
+                headData = new byte[10 + maskLength];
+                headData[1] = (byte)127;
 
                 int left = length;
                 int unit = 256;
@@ -152,6 +154,8 @@ namespace WebSocket4Net.Protocol
 
             if (length > 0)
             {
+                headData[1] = (byte)(headData[1] | 0x80);
+
                 GenerateMask(headData, headData.Length - 4);
 
                 MaskData(playloadData, offset, length, headData, headData.Length - 4);
@@ -268,7 +272,9 @@ namespace WebSocket4Net.Protocol
 
         private void GenerateMask(byte[] mask, int offset)
         {
-            for (var i = offset; i < offset + 4; i++)
+            int maxPos = Math.Min(offset + 4, mask.Length);
+
+            for (var i = offset; i < maxPos; i++)
             {
                 mask[i] = (byte)m_Random.Next(0, 255);
             }
