@@ -180,7 +180,9 @@ namespace WebSocket4Net.Protocol
 
         public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
-            byte[] playloadData = new byte[(string.IsNullOrEmpty(closeReason) ? 2 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2];
+            int size = (string.IsNullOrEmpty(closeReason) ? 0 : Encoding.UTF8.GetMaxByteCount(closeReason.Length)) + 2;
+
+            byte[] playloadData = new byte[size];
 
             int highByte = statusCode / 256;
             int lowByte = statusCode % 256;
