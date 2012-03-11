@@ -116,33 +116,33 @@ namespace WebSocket4Net.Protocol
 
         private void SendDataFragment(WebSocket websocket, int opCode, byte[] playloadData, int offset, int length)
         {
-            byte[] headData;
+            byte[] fragment;
 
-            int maskLength = length <= 0 ? 0 : 4;
+            int maskLength = 4;
 
             if (length < 126)
             {
-                headData = new byte[2 + maskLength];
-                headData[1] = (byte)length;
+                fragment = new byte[2 + maskLength + length];
+                fragment[1] = (byte)length;
             }
             else if (length < 65536)
             {
-                headData = new byte[4 + maskLength];
-                headData[1] = (byte)126;
-                headData[2] = (byte)(length / 256);
-                headData[3] = (byte)(length % 256);
+                fragment = new byte[4 + maskLength + length];
+                fragment[1] = (byte)126;
+                fragment[2] = (byte)(length / 256);
+                fragment[3] = (byte)(length % 256);
             }
             else
             {
-                headData = new byte[10 + maskLength];
-                headData[1] = (byte)127;
+                fragment = new byte[10 + maskLength + length];
+                fragment[1] = (byte)127;
 
                 int left = length;
                 int unit = 256;
 
                 for (int i = 9; i > 1; i--)
                 {
-                    headData[i] = (byte)(left % unit);
+                    fragment[i] = (byte)(left % unit);
                     left = left / unit;
 
                     if (left == 0)
@@ -150,26 +150,18 @@ namespace WebSocket4Net.Protocol
                 }
             }
 
-            headData[0] = (byte)(opCode | 0x80);
+            //Set FIN
+            fragment[0] = (byte)(opCode | 0x80);
 
-            if (length > 0)
-            {
-                headData[1] = (byte)(headData[1] | 0x80);
+            //Set mask bit
+            fragment[1] = (byte)(fragment[1] | 0x80);
 
-                GenerateMask(headData, headData.Length - 4);
+            GenerateMask(fragment, fragment.Length - maskLength - length);
 
-                MaskData(playloadData, offset, length, headData, headData.Length - 4);
+            if(length > 0)
+                MaskData(playloadData, offset, length, fragment, fragment.Length - length, fragment, fragment.Length - maskLength - length);
 
-                websocket.Client.Send(new ArraySegment<byte>[]
-                    {
-                        new ArraySegment<byte>(headData, 0, headData.Length),
-                        new ArraySegment<byte>(playloadData, offset, length)
-                    });
-            }
-            else
-            {
-                websocket.Client.Send(headData, 0, headData.Length);
-            }
+            websocket.Client.Send(fragment, 0, fragment.Length);
         }
 
         public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
@@ -280,12 +272,12 @@ namespace WebSocket4Net.Protocol
             }
         }
 
-        private void MaskData(byte[] rawData, int offset, int length, byte[] mask, int maskOffset)
+        private void MaskData(byte[] rawData, int offset, int length, byte[] outputData, int outputOffset, byte[] mask, int maskOffset)
         {
             for (var i = 0; i < length; i++)
             {
                 var pos = offset + i;
-                rawData[pos] = (byte)(rawData[pos] ^ mask[maskOffset + i % 4]);
+                outputData[outputOffset++] = (byte)(rawData[pos] ^ mask[maskOffset + i % 4]);
             }
         }
     }
