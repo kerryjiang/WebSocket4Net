@@ -7,6 +7,11 @@ namespace WebSocket4Net
 {
     public partial class WebSocket
     {
+        public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None)
+        {
+            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version);
+        }
+
         public WebSocket(string uri, string subProtocol = "", string cookies = "", List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None)
         {
             List<KeyValuePair<string, string>> cookieList = null;
