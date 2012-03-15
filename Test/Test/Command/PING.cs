@@ -12,7 +12,7 @@ namespace WebSocket4Net.Test.Command
     {
         public override void ExecuteCommand(WebSocketSession session, StringCommandInfo commandInfo)
         {
-            session.ProtocolProcessor.SendPing(session, "");
+            session.ProtocolProcessor.SendPing(session, new byte[0]);
         }
     }
 }
