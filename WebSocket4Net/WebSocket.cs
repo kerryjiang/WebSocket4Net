@@ -210,12 +210,6 @@ namespace WebSocket4Net
                 throw new ArgumentException("Invalid uri", "uri");
             }
 
-#if SILVERLIGHT
-    #if !WINDOWS_PHONE
-            client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
-    #endif
-#endif
-
             client.Connected += new EventHandler(client_Connected);
             client.Closed += new EventHandler(client_Closed);
             client.Error += new EventHandler<ErrorEventArgs>(client_Error);
@@ -264,6 +258,11 @@ namespace WebSocket4Net
         public void Open()
         {
             State = WebSocketState.Connecting;
+#if SILVERLIGHT
+    #if !WINDOWS_PHONE
+            Client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
+    #endif
+#endif
             Client.Connect();
         }
 

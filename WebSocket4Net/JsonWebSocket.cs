@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -72,6 +73,14 @@ namespace WebSocket4Net
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
             m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
         }
+
+#if SILVERLIGHT && !WINDOWS_PHONE
+        public SocketClientAccessPolicyProtocol ClientAccessPolicyProtocol
+        {
+            get { return m_WebSocket.ClientAccessPolicyProtocol; }
+            set { m_WebSocket.ClientAccessPolicyProtocol = value; }
+        }
+#endif
 
         public int ReceiveBufferSize
         {
