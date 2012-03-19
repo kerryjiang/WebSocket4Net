@@ -90,7 +90,12 @@ namespace WebSocket4Net
             if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
                 remoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
             else
-                remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
+            {
+                if (TargetUri.Port <= 0)
+                    remoteEndPoint = new DnsEndPoint(TargetUri.Host, 80);
+                else
+                    remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
+            }
 
             return remoteEndPoint;
         }
