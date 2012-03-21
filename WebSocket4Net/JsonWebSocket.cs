@@ -8,6 +8,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace WebSocket4Net
 {
+    /// <summary>
+    /// WebSocket client wrapping which serializes/deserializes objects by JSON
+    /// </summary>
     public class JsonWebSocket
     {
         private WebSocket m_WebSocket;
@@ -173,9 +176,9 @@ namespace WebSocket4Net
             if (executor != null)
             {
                 if(!executor.Type.IsPrimitive)
-                    executor.Execute(JsonConvert.DeserializeObject(parameter, executor.Type));
+                    executor.Execute(token, JsonConvert.DeserializeObject(parameter, executor.Type));
                 else
-                    executor.Execute(Convert.ChangeType(parameter, executor.Type, null));
+                    executor.Execute(token, Convert.ChangeType(parameter, executor.Type, null));
             }
         }
 
@@ -195,11 +198,22 @@ namespace WebSocket4Net
             m_Closed(this, e);
         }
 
+        /// <summary>
+        /// Registers the message handler.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The message's name.</param>
+        /// <param name="executor">The message handler.</param>
         public void On<T>(string name, Action<T> executor)
         {
-            RegisterExecutor<T>(name, string.Empty, executor);
+            RegisterExecutor<T>(name, string.Empty, new JsonExecutor<T>(executor));
         }
 
+        /// <summary>
+        /// Sends object with specific name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="content">The object you want to send.</param>
         public void Send(string name, object content)
         {
             if (string.IsNullOrEmpty(name))
@@ -217,7 +231,33 @@ namespace WebSocket4Net
         private const string m_QueryTemplateB = "{0} {1}";
         private const string m_QueryTokenTemplate = "{0}-{1}";
 
-        public void Query<T>(string name, object content, Action<T> executor)
+        /// <summary>
+        /// Queries server.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The request name.</param>
+        /// <param name="content">The request content.</param>
+        /// <param name="executor">The response handler.</param>
+        /// <returns>return token of the request</returns>
+        public string Query<T>(string name, object content, Action<T> executor)
+        {
+            return Query<T>(name, content, new JsonExecutor<T>(executor));
+        }
+
+        /// <summary>
+        /// Queries server.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The request name.</param>
+        /// <param name="content">The request content.</param>
+        /// <param name="executor">The response handler.</param>
+        /// <returns>return token of the request</returns>
+        public string Query<T>(string name, object content, Action<string, T> executor)
+        {
+            return Query<T>(name, content, new JsonExecutor<T>(executor));
+        }
+
+        string Query<T>(string name, object content, IJsonExecutor executor)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
@@ -230,18 +270,20 @@ namespace WebSocket4Net
                 m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, JsonConvert.SerializeObject(content)));
             else
                 m_WebSocket.Send(string.Format(m_QueryTemplateB, name, token));
+
+            return token.ToString();
         }
 
         private Dictionary<string, IJsonExecutor> m_ExecutorDict = new Dictionary<string, IJsonExecutor>(StringComparer.OrdinalIgnoreCase);
 
-        void RegisterExecutor<T>(string name, string token, Action<T> executor)
+        void RegisterExecutor<T>(string name, string token, IJsonExecutor executor)
         {
             lock (m_ExecutorDict)
             {
                 if (string.IsNullOrEmpty(token))
-                    m_ExecutorDict.Add(name, new JsonExecutor<T>(executor));
+                    m_ExecutorDict.Add(name, executor);
                 else
-                    m_ExecutorDict.Add(string.Format(m_QueryTokenTemplate, name, token), new JsonExecutor<T>(executor));
+                    m_ExecutorDict.Add(string.Format(m_QueryTokenTemplate, name, token), executor);
             }
         }
 

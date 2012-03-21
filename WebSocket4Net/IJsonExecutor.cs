@@ -8,6 +8,7 @@ namespace WebSocket4Net
     interface IJsonExecutor
     {
         Type Type { get; }
-        void Execute(object param);
+
+        void Execute(string token, object param);
     }
 }

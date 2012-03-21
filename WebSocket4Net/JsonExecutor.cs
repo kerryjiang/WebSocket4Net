@@ -15,16 +15,29 @@ namespace WebSocket4Net
             }
         }
 
+        private bool m_WithToken;
+
         private Action<T> m_ExecutorAction;
+
+        private Action<string, T> m_ExecutorActionWithToken;
 
         public JsonExecutor(Action<T> action)
         {
             m_ExecutorAction = action;
         }
 
-        public void Execute(object param)
+        public JsonExecutor(Action<string, T> action)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
+            m_ExecutorActionWithToken = action;
+            m_WithToken = true;
+        }
+
+        public void Execute(string token, object param)
+        {
+            if (m_WithToken)
+                m_ExecutorActionWithToken.Method.Invoke(m_ExecutorActionWithToken.Target, new object[] { token, param });
+            else
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
         }
     }
 }
