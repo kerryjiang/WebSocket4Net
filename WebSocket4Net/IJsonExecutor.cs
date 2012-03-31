@@ -9,6 +9,6 @@ namespace WebSocket4Net
     {
         Type Type { get; }
 
-        void Execute(string token, object param);
+        void Execute(JsonWebSocket websocket, string token, object param);
     }
 }

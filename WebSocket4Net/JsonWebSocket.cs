@@ -176,9 +176,9 @@ namespace WebSocket4Net
             if (executor != null)
             {
                 if(!executor.Type.IsPrimitive)
-                    executor.Execute(token, JsonConvert.DeserializeObject(parameter, executor.Type));
+                    executor.Execute(this, token, JsonConvert.DeserializeObject(parameter, executor.Type));
                 else
-                    executor.Execute(token, Convert.ChangeType(parameter, executor.Type, null));
+                    executor.Execute(this, token, Convert.ChangeType(parameter, executor.Type, null));
             }
         }
 
@@ -207,6 +207,18 @@ namespace WebSocket4Net
         public void On<T>(string name, Action<T> executor)
         {
             RegisterExecutor<T>(name, string.Empty, new JsonExecutor<T>(executor));
+        }
+
+
+        /// <summary>
+        /// Registers the message handler.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The name.</param>
+        /// <param name="executor">The executor.</param>
+        public void On<T>(string name, Action<JsonWebSocket, T> executor)
+        {
+            RegisterExecutor<T>(name, string.Empty, new JsonExecutorWithSender<T>(executor));
         }
 
         /// <summary>
@@ -254,7 +266,33 @@ namespace WebSocket4Net
         /// <returns>return token of the request</returns>
         public string Query<T>(string name, object content, Action<string, T> executor)
         {
-            return Query<T>(name, content, new JsonExecutor<T>(executor));
+            return Query<T>(name, content, new JsonExecutorWithToken<T>(executor));
+        }
+
+        /// <summary>
+        /// Queries server.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The request name.</param>
+        /// <param name="content">The request content.</param>
+        /// <param name="executor">The response handler.</param>
+        /// <returns></returns>
+        public string Query<T>(string name, object content, Action<JsonWebSocket, T> executor)
+        {
+            return Query<T>(name, content, new JsonExecutorWithSender<T>(executor));
+        }
+
+        /// <summary>
+        /// Queries server.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The request name.</param>
+        /// <param name="content">The request content.</param>
+        /// <param name="executor">The response handler.</param>
+        /// <returns></returns>
+        public string Query<T>(string name, object content, Action<JsonWebSocket, string, T> executor)
+        {
+            return Query<T>(name, content, new JsonExecutorFull<T>(executor));
         }
 
         string Query<T>(string name, object content, IJsonExecutor executor)
