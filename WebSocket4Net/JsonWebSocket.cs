@@ -232,16 +232,17 @@ namespace WebSocket4Net
                 throw new ArgumentNullException("name");
 
             if(content != null)
-                m_WebSocket.Send(string.Format(m_QueryTemplateB, name, JsonConvert.SerializeObject(content)));
+                m_WebSocket.Send(string.Format(m_QueryTemplateC, name, JsonConvert.SerializeObject(content)));
             else
                 m_WebSocket.Send(name);
         }
 
         private static Random m_Random = new Random();
 
-        private const string m_QueryTemplateA = "{0} {1} {2}";
-        private const string m_QueryTemplateB = "{0} {1}";
-        private const string m_QueryTokenTemplate = "{0}-{1}";
+        private const string m_QueryTemplateA = "{0}-{1} {2}"; //With token and content
+        private const string m_QueryTemplateB = "{0}-{1}"; //With token
+        private const string m_QueryTemplateC = "{0} {1}"; //No token
+        private const string m_QueryKeyTokenTemplate = "{0}-{1}";
 
         /// <summary>
         /// Queries server.
@@ -321,7 +322,7 @@ namespace WebSocket4Net
                 if (string.IsNullOrEmpty(token))
                     m_ExecutorDict.Add(name, executor);
                 else
-                    m_ExecutorDict.Add(string.Format(m_QueryTokenTemplate, name, token), executor);
+                    m_ExecutorDict.Add(string.Format(m_QueryKeyTokenTemplate, name, token), executor);
             }
         }
 
@@ -332,7 +333,7 @@ namespace WebSocket4Net
 
             if (!string.IsNullOrEmpty(token))
             {
-                key = string.Format(m_QueryTokenTemplate, name, token);
+                key = string.Format(m_QueryKeyTokenTemplate, name, token);
                 removeExecutor = true;
             }
 
