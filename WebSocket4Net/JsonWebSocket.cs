@@ -143,26 +143,23 @@ namespace WebSocket4Net
             if (string.IsNullOrEmpty(e.Message))
                 return;
 
-            int spacePos = e.Message.IndexOf(' ');
+            int pos = e.Message.IndexOf(' ');
 
             string name;
             string parameter;
             string token = string.Empty;
 
-            if (spacePos > 0)
+            if (pos > 0)
             {
-                name = e.Message.Substring(0, spacePos);
-                parameter = e.Message.Substring(spacePos + 1);
+                name = e.Message.Substring(0, pos);
+                parameter = e.Message.Substring(pos + 1);
 
-                if (parameter[0] != '{')
+                pos = name.IndexOf('-');
+
+                if (pos > 0)
                 {
-                    spacePos = parameter.IndexOf(' ');
-
-                    if (spacePos > 0)
-                    {
-                        token = parameter.Substring(0, spacePos);
-                        parameter = parameter.Substring(spacePos + 1);
-                    }
+                    token = name.Substring(pos + 1);
+                    name = name.Substring(0, pos);
                 }
             }
             else
