@@ -27,7 +27,7 @@ namespace WebSocket4Net.Test
 
         protected string Host
         {
-            get { return "ws://localhost"; }
+            get { return "ws://127.0.0.1"; }
         }
 
         [TestFixtureSetUp]

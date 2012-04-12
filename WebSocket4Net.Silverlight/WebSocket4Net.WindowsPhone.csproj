@@ -48,11 +48,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Reference\Json.NET\WindowsPhone\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SimpleJson">
+      <HintPath>..\Reference\SimpleJson\WP7\SimpleJson.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket\WindowsPhone\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -188,7 +194,6 @@
     <Compile Include="..\WebSocket4Net\WebSocketVersion.cs">
       <Link>WebSocketVersion.cs</Link>
     </Compile>
-    <Compile Include="ASCIIEncoding.cs" />
     <Compile Include="Extensions.Silverlight.cs" />
     <Compile Include="MD5.cs" />
     <Compile Include="MD5Managed.cs" />

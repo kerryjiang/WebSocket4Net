@@ -55,12 +55,12 @@ if not exist "%sldir%" (
 set ref=,"%sldir%"
 call :Merge
 
-%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj  /p:Configuration=Release /t:Clean;Rebuild /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=..\websocket4net.snk
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj  /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 set mgdir=Bin\sl40-windowsphone71
 set ver=v4
-set mergejson=
+set mergejson=1
 set wpdir=%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71
 if not exist "%wpdir%" (
 	set wpdir=%ProgramFiles%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71
@@ -79,11 +79,9 @@ if not exist %mgbkdir% (
 )
 set json=
 if "%mergejson%" equ "1" (
-	set json=%mgbkdir%\Newtonsoft.Json.dll
+	set json=%mgbkdir%\SimpleJson.dll
 )
 move %srcdir%\* %mgbkdir%
-Tools\ILMerge /keyfile:websocket4net.snk /targetplatform:%ver%%ref% /ndebug /log /out:%mgdir%\WebSocket4Net.dll %mgbkdir%\WebSocket4Net.dll %mgbkdir%\SuperSocket.ClientEngine.dll %json%
-if "%mergejson%" neq "1" (
-	copy %mgbkdir%\Newtonsoft.Json.dll %mgdir%
-)
+Tools\ILMerge /keyfile:websocket4net.snk /targetplatform:%ver%%ref% /ndebug /log /out:%mgdir%\WebSocket4Net.dll %mgbkdir%\WebSocket4Net.dll %mgbkdir%\SuperSocket.ClientEngine.Common.dll %mgbkdir%\SuperSocket.ClientEngine.Core.dll %mgbkdir%\SuperSocket.ClientEngine.Protocol.dll %json%
+
 rmdir %mgbkdir% /S /Q

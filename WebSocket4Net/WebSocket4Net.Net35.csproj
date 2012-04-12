@@ -38,12 +38,17 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Reference\Json.NET\Net35\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SimpleJson">
+      <HintPath>..\Reference\SimpleJson\Net35\SimpleJson.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\SuperSocket\Net35\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net35\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net35\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net35\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

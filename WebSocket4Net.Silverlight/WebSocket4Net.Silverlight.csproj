@@ -53,11 +53,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Reference\Json.NET\Silverlight\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SimpleJson">
+      <HintPath>..\Reference\SimpleJson\SL4\SimpleJson.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket\Silverlight\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -193,7 +199,6 @@
     <Compile Include="..\WebSocket4Net\WebSocketVersion.cs">
       <Link>WebSocketVersion.cs</Link>
     </Compile>
-    <Compile Include="ASCIIEncoding.cs" />
     <Compile Include="Extensions.Silverlight.cs" />
     <Compile Include="MD5.cs" />
     <Compile Include="MD5Managed.cs" />

@@ -16,6 +16,7 @@
     <AndroidSupportedAbis>armeabi</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
+    <TargetFrameworkVersion>v2.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,13 +37,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\Json.NET\WindowsPhone\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SimpleJson">
+      <HintPath>..\Reference\SimpleJson\MD22\SimpleJson.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\SuperSocket\MonoDroid\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

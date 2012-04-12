@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-#if !SILVERLIGHT
 using System.Collections.Specialized;
-#endif
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using SuperSocket.ClientEngine;
-using WebSocket4Net.Protocol;
 using System.Threading;
+using SuperSocket.ClientEngine;
+using SuperSocket.ClientEngine.Protocol;
+using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
 {

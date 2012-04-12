@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace WebSocket4Net
 {
@@ -173,7 +171,7 @@ namespace WebSocket4Net
             if (executor != null)
             {
                 if(!executor.Type.IsPrimitive)
-                    executor.Execute(this, token, JsonConvert.DeserializeObject(parameter, executor.Type));
+                    executor.Execute(this, token, SimpleJson.SimpleJson.DeserializeObject(parameter, executor.Type));
                 else
                     executor.Execute(this, token, Convert.ChangeType(parameter, executor.Type, null));
             }
@@ -229,7 +227,7 @@ namespace WebSocket4Net
                 throw new ArgumentNullException("name");
 
             if(content != null)
-                m_WebSocket.Send(string.Format(m_QueryTemplateC, name, JsonConvert.SerializeObject(content)));
+                m_WebSocket.Send(string.Format(m_QueryTemplateC, name, SimpleJson.SimpleJson.SerializeObject(content)));
             else
                 m_WebSocket.Send(name);
         }
@@ -303,7 +301,7 @@ namespace WebSocket4Net
             RegisterExecutor<T>(name, token.ToString(), executor);
 
             if (content != null)
-                m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, JsonConvert.SerializeObject(content)));
+                m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, SimpleJson.SimpleJson.SerializeObject(content)));
             else
                 m_WebSocket.Send(string.Format(m_QueryTemplateB, name, token));
 

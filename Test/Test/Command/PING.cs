@@ -10,7 +10,7 @@ namespace WebSocket4Net.Test.Command
 {
     public class PING : SubCommandBase
     {
-        public override void ExecuteCommand(WebSocketSession session, StringCommandInfo commandInfo)
+        public override void ExecuteCommand(WebSocketSession session, SubRequestInfo requestInfo)
         {
             session.ProtocolProcessor.SendPing(session, new byte[0]);
         }

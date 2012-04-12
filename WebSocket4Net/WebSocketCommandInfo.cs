@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SuperSocket.ClientEngine;
+using SuperSocket.ClientEngine.Protocol;
 using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
