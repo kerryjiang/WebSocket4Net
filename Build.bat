@@ -26,6 +26,15 @@ set ref=
 set mergejson=1
 call :Merge
 
+%msbuild% WebSocket4Net\WebSocket4Net.Net20.csproj /p:Configuration=Release /t:Clean;Rebuild
+FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
+
+set mgdir=Bin\net20
+set ver=v2
+set ref=
+set mergejson=1
+call :Merge
+
 %msbuild% WebSocket4Net\WebSocket4Net.MonoDroid.csproj /p:Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 

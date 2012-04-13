@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 
@@ -8,12 +7,7 @@ namespace WebSocket4Net
 {
     public static partial class Extensions
     {
-        private readonly static char[] m_CrCf;
-
-        static Extensions()
-        {
-            m_CrCf = "\r\n".ToArray();
-        }
+        private readonly static char[] m_CrCf = new char[] { '\r', '\n' };
 
         public static void AppendFormatWithCrCf(this StringBuilder builder, string format, object arg)
         {
