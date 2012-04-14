@@ -43,6 +43,8 @@ namespace WebSocket4Net
 
         public bool Handshaked { get; private set; }
 
+        public IProxyConnector Proxy { get; set; }
+
         protected IClientCommandReader<WebSocketCommandInfo> CommandReader { get; private set; }
 
         private Dictionary<string, ICommand<WebSocket, WebSocketCommandInfo>> m_CommandDict
@@ -261,6 +263,10 @@ namespace WebSocket4Net
         public void Open()
         {
             State = WebSocketState.Connecting;
+
+            if (Proxy != null)
+                Client.Proxy = Proxy;
+
 #if SILVERLIGHT
     #if !WINDOWS_PHONE
             Client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;

@@ -10,9 +10,9 @@ namespace TestServer.Test
 {
     public class ECHO : SubCommandBase
     {
-        public override void ExecuteCommand(WebSocketSession session, StringCommandInfo commandInfo)
+        public override void ExecuteCommand(WebSocketSession session, SubRequestInfo requestInfo)
         {
-            foreach(var p in commandInfo.Parameters)
+            foreach (var p in requestInfo.Data.Split(' '))
             {
                 session.SendResponse(p);
             }

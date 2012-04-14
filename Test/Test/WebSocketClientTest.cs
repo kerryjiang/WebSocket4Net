@@ -144,7 +144,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1200))
+            if (!m_OpenedEvent.WaitOne(2000))
                 Assert.Fail("Failed to Opened session ontime");
 
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
@@ -204,7 +204,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1000))
+            if (!m_OpenedEvent.WaitOne(2000))
                 Assert.Fail("Failed to Opened session ontime");
 
             StringBuilder sb = new StringBuilder();
@@ -253,7 +253,7 @@ namespace WebSocket4Net.Test
             webSocketClient.DataReceived += new EventHandler<DataReceivedEventArgs>(webSocketClient_DataReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1000))
+            if (!m_OpenedEvent.WaitOne(2000))
                 Assert.Fail("Failed to Opened session ontime");
 
             StringBuilder sb = new StringBuilder();
@@ -299,7 +299,7 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(1000))
+            if (!m_OpenedEvent.WaitOne(2000))
                 Assert.Fail("Failed to Opened session ontime");
 
             StringBuilder sb = new StringBuilder();
