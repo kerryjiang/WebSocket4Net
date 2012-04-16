@@ -61,8 +61,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\..\Reference\SuperSocket\Silverlight\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\..\..\..\SuperSocket.ProxyServer\master\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\..\..\..\SuperSocket.ProxyServer\master\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\..\..\..\SuperSocket.ProxyServer\master\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
