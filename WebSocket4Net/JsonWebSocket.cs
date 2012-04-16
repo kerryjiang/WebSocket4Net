@@ -170,7 +170,7 @@ namespace WebSocket4Net
             if (executor != null)
             {
                 if(!executor.Type.IsPrimitive)
-                    executor.Execute(this, token, SimpleJson.SimpleJson.DeserializeObject(parameter, executor.Type));
+                    executor.Execute(this, token, DeserializeObject(parameter, executor.Type));
                 else
                     executor.Execute(this, token, Convert.ChangeType(parameter, executor.Type, null));
             }
@@ -216,6 +216,27 @@ namespace WebSocket4Net
         }
 
         /// <summary>
+        /// Serializes the object.
+        /// </summary>
+        /// <param name="target">The target object is being serialized.</param>
+        /// <returns></returns>
+        protected virtual string SerializeObject(object target)
+        {
+            return SimpleJson.SimpleJson.SerializeObject(target);
+        }
+
+        /// <summary>
+        /// Deserializes the json string to obeject.
+        /// </summary>
+        /// <param name="json">The json string.</param>
+        /// <param name="type">The type of the target object.</param>
+        /// <returns></returns>
+        protected virtual object DeserializeObject(string json, Type type)
+        {
+            return SimpleJson.SimpleJson.DeserializeObject(json, type);
+        }
+
+        /// <summary>
         /// Sends object with specific name.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -226,7 +247,7 @@ namespace WebSocket4Net
                 throw new ArgumentNullException("name");
 
             if(content != null)
-                m_WebSocket.Send(string.Format(m_QueryTemplateC, name, SimpleJson.SimpleJson.SerializeObject(content)));
+                m_WebSocket.Send(string.Format(m_QueryTemplateC, name, SerializeObject(content)));
             else
                 m_WebSocket.Send(name);
         }
@@ -300,7 +321,7 @@ namespace WebSocket4Net
             RegisterExecutor<T>(name, token.ToString(), executor);
 
             if (content != null)
-                m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, SimpleJson.SimpleJson.SerializeObject(content)));
+                m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, SerializeObject(content)));
             else
                 m_WebSocket.Send(string.Format(m_QueryTemplateB, name, token));
 
