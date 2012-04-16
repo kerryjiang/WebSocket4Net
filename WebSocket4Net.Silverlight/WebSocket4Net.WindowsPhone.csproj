@@ -52,13 +52,13 @@
       <HintPath>..\Reference\SimpleJson\WP7\SimpleJson.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\WP71\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core" />

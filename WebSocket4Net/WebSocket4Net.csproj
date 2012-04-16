@@ -11,7 +11,6 @@
     <RootNamespace>WebSocket4Net</RootNamespace>
     <AssemblyName>WebSocket4Net</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,17 +41,16 @@
       <HintPath>..\Reference\SimpleJson\Net40\SimpleJson.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\Release\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\Release\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\Net40\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\BadRequest.cs" />

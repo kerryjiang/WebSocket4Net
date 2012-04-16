@@ -8,7 +8,7 @@ if not exist %fdir% (
 
 set msbuild=%fdir%\v4.0.30319\msbuild.exe
 
-%msbuild% WebSocket4Net\WebSocket4Net.csproj /p:Configuration=Release /t:Clean;Rebuild
+%msbuild% WebSocket4Net\WebSocket4Net.csproj /p:Configuration=Release;TargetFrameworkProfile= /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 set mgdir=Bin\net40
@@ -17,7 +17,7 @@ set ref=
 set mergejson=1
 call :Merge
 
-%msbuild% WebSocket4Net\WebSocket4Net.Net35.csproj /p:Configuration=Release /t:Clean;Rebuild
+%msbuild% WebSocket4Net\WebSocket4Net.Net35.csproj /p:Configuration=Release;TargetFrameworkProfile= /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 set mgdir=Bin\net35
