@@ -5,6 +5,7 @@ WebSocket4Net is a .NET implementation of WebSocket client.
 It originates from SuperWebSocket WebSocket Client. For better developing of the websocket client, it was separated from SuperWebSocket and was renamed to WebSocket4Net.
 WebSocket4Net aims to provide a crossplatform, simple and standard websocket client implementation.
 Currently, it has released assemblies for many different runtimes:
+* .Net 2.0
 * .Net 3.5
 * .Net 4.0
 * Mono
