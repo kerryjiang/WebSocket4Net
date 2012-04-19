@@ -26,7 +26,7 @@ namespace WebSocket4Net.Test
 
         protected override string Host
         {
-            get { return "wss://supersocket"; }
+            get { return "wss://127.0.0.1"; }
         }
     }
 
@@ -41,7 +41,7 @@ namespace WebSocket4Net.Test
 
         protected override string Host
         {
-            get { return "wss://supersocket"; }
+            get { return "wss://127.0.0.1"; }
         }
     }
 
@@ -139,6 +139,8 @@ namespace WebSocket4Net.Test
         public void ConnectionTest()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
+            webSocketClient.AllowUnstrustedCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -157,10 +159,21 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
+        void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        {
+            Console.WriteLine(e.Exception.GetType() + ":" + e.Exception.Message + Environment.NewLine + e.Exception.StackTrace);
+
+            if (e.Exception.InnerException != null)
+            {
+                Console.WriteLine(e.Exception.InnerException.GetType());
+            }
+        }
+
         [Test, Repeat(10)]
         public void CloseWebSocketTest()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.AllowUnstrustedCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -199,6 +212,7 @@ namespace WebSocket4Net.Test
         public void SendMessageTest()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.AllowUnstrustedCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -248,6 +262,7 @@ namespace WebSocket4Net.Test
             if (!webSocketClient.SupportBinary)
                 return;
 
+            webSocketClient.AllowUnstrustedCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.DataReceived += new EventHandler<DataReceivedEventArgs>(webSocketClient_DataReceived);
@@ -294,6 +309,7 @@ namespace WebSocket4Net.Test
         public void SendPingReactTest()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.AllowUnstrustedCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);

@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Reference\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core">
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\Net40\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SuperSocket.Common">
       <HintPath>..\Reference\SuperSocket.Common.dll</HintPath>
     </Reference>
