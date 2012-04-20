@@ -102,7 +102,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\Tools\ILMerge /keyfile:$(SolutionDir)websocket4net.snk /targetplatform:v2 /ndebug /out:WebSocket4Net.dll WebSocket4Net.dll SuperSocket.ClientEngine.Common.dll SuperSocket.ClientEngine.Core.dll SuperSocket.ClientEngine.Protocol.dll SimpleJson.dll
+    <PostBuildEvent>$(SolutionDir)Tools\ILMerge /keyfile:$(SolutionDir)websocket4net.snk /targetplatform:v2 /ndebug /out:WebSocket4Net.dll WebSocket4Net.dll SuperSocket.ClientEngine.Common.dll SuperSocket.ClientEngine.Core.dll SuperSocket.ClientEngine.Protocol.dll SimpleJson.dll
 del SuperSocket.ClientEngine.Common.*
 del SuperSocket.ClientEngine.Core.*
 del SuperSocket.ClientEngine.Protocol.*
