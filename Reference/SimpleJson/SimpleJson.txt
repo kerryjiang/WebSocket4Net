@@ -1,0 +1,5 @@
+Simple-JSON:
+https://github.com/facebook-csharp-sdk/simple-json
+
+The version used here:
+https://github.com/kerryjiang/simple-json
