@@ -34,46 +34,64 @@ namespace WebSocket4Net
 
     class JsonExecutorWithToken<T> : JsonExecutorBase<T>
     {
-        private Action<string, T> m_ExecutorActionWithToken;
+        private Action<string, T> m_ExecutorAction;
 
         public JsonExecutorWithToken(Action<string, T> action)
         {
-            m_ExecutorActionWithToken = action;
+            m_ExecutorAction = action;
         }
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorActionWithToken.Method.Invoke(m_ExecutorActionWithToken.Target, new object[] { token, param });
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { token, param });
         }
     }
 
     class JsonExecutorWithSender<T> : JsonExecutorBase<T>
     {
-        private Action<JsonWebSocket, T> m_ExecutorActionWithSender;
+        private Action<JsonWebSocket, T> m_ExecutorAction;
 
         public JsonExecutorWithSender(Action<JsonWebSocket, T> action)
         {
-            m_ExecutorActionWithSender = action;
+            m_ExecutorAction = action;
         }
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorActionWithSender.Method.Invoke(m_ExecutorActionWithSender.Target, new object[] { websocket, param });
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param });
         }
     }
 
     class JsonExecutorFull<T> : JsonExecutorBase<T>
     {
-        private Action<JsonWebSocket, string, T> m_ExecutorActionFull;
+        private Action<JsonWebSocket, string, T> m_ExecutorAction;
 
         public JsonExecutorFull(Action<JsonWebSocket, string, T> action)
         {
-            m_ExecutorActionFull = action;
+            m_ExecutorAction = action;
         }
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorActionFull.Method.Invoke(m_ExecutorActionFull.Target, new object[] { websocket, token, param });
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, token, param });
+        }
+    }
+
+    class JsonExecutorWithSenderAndState<T> : JsonExecutorBase<T>
+    {
+        private Action<JsonWebSocket, T, object> m_ExecutorAction;
+
+        private object m_State;
+
+        public JsonExecutorWithSenderAndState(Action<JsonWebSocket, T, object> action, object state)
+        {
+            m_ExecutorAction = action;
+            m_State = state;
+        }
+
+        public override void Execute(JsonWebSocket websocket, string token, object param)
+        {
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param, m_State });
         }
     }
 }

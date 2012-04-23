@@ -38,8 +38,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Reference\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleJson">
+      <HintPath>..\..\Reference\SimpleJson\Net40\SimpleJson.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Common">
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\Net40\Debug\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
       <HintPath>..\..\Reference\SuperSocket.ClientEngine\Net40\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol">
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\Net40\Debug\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Common">
       <HintPath>..\Reference\SuperSocket.Common.dll</HintPath>
