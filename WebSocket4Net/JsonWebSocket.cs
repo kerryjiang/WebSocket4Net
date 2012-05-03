@@ -9,7 +9,7 @@ namespace WebSocket4Net
     /// <summary>
     /// WebSocket client wrapping which serializes/deserializes objects by JSON
     /// </summary>
-    public class JsonWebSocket
+    public partial class JsonWebSocket
     {
         private WebSocket m_WebSocket;
 

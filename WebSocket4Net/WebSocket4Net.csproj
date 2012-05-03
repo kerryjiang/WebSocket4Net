@@ -67,6 +67,7 @@
     <Compile Include="IJsonExecutor.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
+    <Compile Include="JsonWebSocket.Net.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
