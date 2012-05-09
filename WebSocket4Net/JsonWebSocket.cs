@@ -13,6 +13,30 @@ namespace WebSocket4Net
     {
         private WebSocket m_WebSocket;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable auto send ping].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [enable auto send ping]; otherwise, <c>false</c>.
+        /// </value>
+        public bool EnableAutoSendPing
+        {
+            get { return m_WebSocket.EnableAutoSendPing; }
+            set { m_WebSocket.EnableAutoSendPing = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the interval of ping auto sending, in seconds.
+        /// </summary>
+        /// <value>
+        /// The auto send ping internal.
+        /// </value>
+        public int AutoSendPingInterval
+        {
+            get { return m_WebSocket.AutoSendPingInterval; }
+            set { m_WebSocket.AutoSendPingInterval = value; }
+        }
+
         public WebSocketState State
         {
             get { return m_WebSocket.State; }
@@ -73,6 +97,7 @@ namespace WebSocket4Net
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
             m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
+            m_WebSocket.EnableAutoSendPing = true;
         }
 
 #if SILVERLIGHT && !WINDOWS_PHONE

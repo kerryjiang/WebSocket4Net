@@ -16,9 +16,31 @@ namespace WebSocket4Net
     {
         internal TcpClientSession Client { get; private set; }
 
+        /// <summary>
+        /// Gets the version of the websocket protocol.
+        /// </summary>
         public WebSocketVersion Version { get; private set; }
 
+        /// <summary>
+        /// Gets the last active time of the websocket.
+        /// </summary>
         public DateTime LastActiveTime { get; internal set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable auto send ping].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [enable auto send ping]; otherwise, <c>false</c>.
+        /// </value>
+        public bool EnableAutoSendPing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the interval of ping auto sending, in seconds.
+        /// </summary>
+        /// <value>
+        /// The auto send ping internal.
+        /// </value>
+        public int AutoSendPingInterval { get; set; }
 
         protected const string UserAgentKey = "UserAgent";
 
@@ -55,8 +77,6 @@ namespace WebSocket4Net
         internal bool NotSpecifiedVersion { get; private set; }
 
         private Timer m_PingTimer;
-
-        private const int m_PingInterval = 1000 * 60;
 
         internal string LastPongResponse { get; set; }
 
@@ -221,6 +241,9 @@ namespace WebSocket4Net
             client.DataReceived += new EventHandler<DataEventArgs>(client_DataReceived);
 
             Client = client;
+
+            //Ping auto sending is enabled by default
+            EnableAutoSendPing = true;
         }
 
         void client_DataReceived(object sender, DataEventArgs e)
@@ -301,8 +324,14 @@ namespace WebSocket4Net
 
             m_Opened(this, EventArgs.Empty);
 
-            if (ProtocolProcessor.SupportPingPong)
-                m_PingTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, m_PingInterval, m_PingInterval);
+            if (EnableAutoSendPing && ProtocolProcessor.SupportPingPong)
+            {
+                //Ping auto sending interval's default value is 60 seconds
+                if (AutoSendPingInterval <= 0)
+                    AutoSendPingInterval = 60;
+
+                m_PingTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
+            }
         }
 
         private void OnPingTimerCallback(object state)
