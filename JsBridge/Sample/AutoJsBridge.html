@@ -25,7 +25,7 @@
         var ws;
 
         window.onload = function () {
-            var websocket = new WebSocketEx('ws://localhost:8080/websocket', function () {
+            var websocket = new WebSocketEx('ws://localhost:4502/websocket', function () {
                 ws = websocket;
                 alert("websocket is opened");
             }, function () {

@@ -2,14 +2,22 @@
 var silverlightHostID = 'silverlightControlHost';
 var silverlightControlID = 'silverlightControl';
 
-function WebSocketEx(uri, protocol, onopen, onclose, onmessage, onerror) {
-
+function WebSocketEx(uri, p1, p2, p3, p4, p5) {
     this.uri = uri;
-    this.protocol = protocol;
-    this.onmessage = onmessage;
-    this.onopen = onopen;
-    this.onclose = onclose;
-    this.onerror = onerror;
+    this.protocol = '';
+    if(typeof(p1) == 'function') {
+        this.onopen = p1;
+        this.onclose = p2;
+        this.onmessage = p3;
+        this.onerror = p4;
+    } else {
+        this.protocol = p1;
+        this.onopen = p2;
+        this.onclose = p3;
+        this.onmessage = p4;
+        this.onerror = p5;
+    }
+    
     this.websocket = null;
     this.send = function (msg) {
         websocket.send(msg);
@@ -63,10 +71,10 @@ function WebSocketEx(uri, protocol, onopen, onclose, onmessage, onerror) {
         //using native websocket
         var ws;
 
-        if (protocol && protocol.length > 0)
-            ws = new window[support](uri, protocol);
+        if (this.protocol && this.protocol.length > 0)
+            ws = new window[support](this.uri, this.protocol);
         else
-            ws = new window[support](uri);
+            ws = new window[support](this.uri);
 
         ws.onmessage = this.onmessage;
 
@@ -83,6 +91,7 @@ function WebSocketEx(uri, protocol, onopen, onclose, onmessage, onerror) {
 
     if (Silverlight && Silverlight.isInstalled()) {
         if (app == null || app == undefined) {
+            var protocol = this.protocol;
             window.onSilverlightLoaded = function (sender, args) {
                 websocket = createBirdgeWebSocket();
                 websocket.open(uri, protocol);
@@ -92,7 +101,7 @@ function WebSocketEx(uri, protocol, onopen, onclose, onmessage, onerror) {
         }
 
         this.websocket = createBirdgeWebSocket();
-        this.websocket.open(uri, protocol);
+        this.websocket.open(this.uri, this.protocol);
         return;
     }
 

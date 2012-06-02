@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Net;
-using System.Windows.Browser;
 using System.ComponentModel;
+using System.Net;
+using System.Net.Sockets;
+using System.Windows.Browser;
 using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.JsBridge
@@ -13,14 +14,34 @@ namespace WebSocket4Net.JsBridge
 
         private AsyncOperation m_AsyncOper;
 
+        private const int m_DefaultAutoSendPingInterval = 60;
+
         [ScriptableMember(ScriptAlias = "open")]
         public void Open(string uri)
         {
-            Open(uri, string.Empty);
+            Open(uri, string.Empty, ClientAccessPolicyProtocol.Http, true, m_DefaultAutoSendPingInterval);
         }
 
         [ScriptableMember(ScriptAlias = "open")]
         public void Open(string uri, string protocol)
+        {
+            Open(uri, protocol, ClientAccessPolicyProtocol.Http, true, m_DefaultAutoSendPingInterval);
+        }
+
+        [ScriptableMember(ScriptAlias = "open")]
+        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol)
+        {
+            Open(uri, protocol, policyProtocol, true, m_DefaultAutoSendPingInterval);
+        }
+
+        [ScriptableMember(ScriptAlias = "open")]
+        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol, bool enableAutoSendPing)
+        {
+            Open(uri, protocol, policyProtocol, enableAutoSendPing, m_DefaultAutoSendPingInterval);
+        }
+
+        [ScriptableMember(ScriptAlias = "open")]
+        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol, bool enableAutoSendPing, int autoSendPingInterval)
         {
             m_AsyncOper = AsyncOperationManager.CreateOperation(null);
 
@@ -38,6 +59,9 @@ namespace WebSocket4Net.JsBridge
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Error += new EventHandler<ErrorEventArgs>(m_WebSocket_Error);
+            m_WebSocket.ClientAccessPolicyProtocol = (policyProtocol == ClientAccessPolicyProtocol.Http) ? SocketClientAccessPolicyProtocol.Http : SocketClientAccessPolicyProtocol.Tcp;
+            m_WebSocket.EnableAutoSendPing = enableAutoSendPing;
+            m_WebSocket.AutoSendPingInterval = autoSendPingInterval;
             m_WebSocket.Open();
         }
 
