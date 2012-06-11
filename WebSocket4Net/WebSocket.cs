@@ -99,7 +99,7 @@ namespace WebSocket4Net
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
         }
 
-        private EndPoint ResolveUri(string uri)
+        private EndPoint ResolveUri(string uri, int defaultPort, out int port)
         {
             TargetUri = new Uri(uri);
 
@@ -107,27 +107,28 @@ namespace WebSocket4Net
 
             EndPoint remoteEndPoint;
 
+            port = TargetUri.Port;
+
+            if (port <= 0)
+                port = defaultPort;
+
             if (IPAddress.TryParse(TargetUri.Host, out ipAddress))
-                remoteEndPoint = new IPEndPoint(ipAddress, TargetUri.Port);
+                remoteEndPoint = new IPEndPoint(ipAddress, port);
             else
-            {
-                if (TargetUri.Port <= 0)
-                    remoteEndPoint = new DnsEndPoint(TargetUri.Host, 80);
-                else
-                    remoteEndPoint = new DnsEndPoint(TargetUri.Host, TargetUri.Port);
-            }
+                remoteEndPoint = new DnsEndPoint(TargetUri.Host, port);
 
             return remoteEndPoint;
         }
 
         TcpClientSession CreateClient(string uri)
         {
-            var targetEndPoint = ResolveUri(uri);
+            int port;
+            var targetEndPoint = ResolveUri(uri, 80, out port);
 
-            if (TargetUri.Port == 80)
+            if (port == 80)
                 HandshakeHost = TargetUri.Host;
             else
-                HandshakeHost = TargetUri.Host + ":" + TargetUri.Port;
+                HandshakeHost = TargetUri.Host + ":" + port;
 
             return new AsyncTcpSession(targetEndPoint);
         }
@@ -156,12 +157,13 @@ namespace WebSocket4Net
                 }
             }
 
-            var targetEndPoint = ResolveUri(uri);
+            int port;
+            var targetEndPoint = ResolveUri(uri, 443, out port);
 
-            if (TargetUri.Port == 443)
+            if (port == 443)
                 HandshakeHost = TargetUri.Host;
             else
-                HandshakeHost = TargetUri.Host + ":" + TargetUri.Port;
+                HandshakeHost = TargetUri.Host + ":" + port;
 
             return new SslStreamTcpSession(targetEndPoint);
         }
