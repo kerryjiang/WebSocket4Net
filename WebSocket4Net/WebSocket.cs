@@ -418,6 +418,14 @@ namespace WebSocket4Net
             ProtocolProcessor.SendData(this, data, offset, length);
         }
 
+        public void Send(IList<ArraySegment<byte>> segments)
+        {
+            if (!EnsureWebSocketOpen())
+                return;
+
+            ProtocolProcessor.SendData(this, segments);
+        }
+
         private void OnClosed()
         {
             var fireBaseClose = false;

@@ -32,6 +32,8 @@ namespace WebSocket4Net.Protocol
 
         public abstract void SendData(WebSocket websocket, byte[] data, int offset, int length);
 
+        public abstract void SendData(WebSocket websocket, IList<ArraySegment<byte>> segments);
+
         public abstract bool SupportBinary { get; }
 
         public abstract bool SupportPingPong { get; }

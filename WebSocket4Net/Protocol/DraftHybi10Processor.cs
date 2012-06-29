@@ -113,7 +113,7 @@ namespace WebSocket4Net.Protocol
             SendDataFragment(websocket, opCode, playloadData, 0, playloadData.Length);
         }
 
-        private void SendDataFragment(WebSocket websocket, int opCode, byte[] playloadData, int offset, int length)
+        private byte[] EncodeDataFrame(int opCode, byte[] playloadData, int offset, int length)
         {
             byte[] fragment;
 
@@ -157,15 +157,34 @@ namespace WebSocket4Net.Protocol
 
             GenerateMask(fragment, fragment.Length - maskLength - length);
 
-            if(length > 0)
+            if (length > 0)
                 MaskData(playloadData, offset, length, fragment, fragment.Length - length, fragment, fragment.Length - maskLength - length);
 
+            return fragment;
+        }
+
+        private void SendDataFragment(WebSocket websocket, int opCode, byte[] playloadData, int offset, int length)
+        {
+            byte[] fragment = EncodeDataFrame(opCode, playloadData, offset, length);
             websocket.Client.Send(fragment, 0, fragment.Length);
         }
 
         public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
         {
             SendDataFragment(websocket, OpCode.Binary, data, offset, length);
+        }
+
+        public override void SendData(WebSocket websocket, IList<ArraySegment<byte>> segments)
+        {
+            var fragments = new List<ArraySegment<byte>>(segments.Count);
+
+            for (var i = 0; i < segments.Count; i++)
+            {
+                var playloadData = segments[i];
+                fragments.Add(new ArraySegment<byte>(EncodeDataFrame(OpCode.Binary, playloadData.Array, 0, playloadData.Count)));
+            }
+
+            websocket.Client.Send(fragments);
         }
 
         public override void SendMessage(WebSocket websocket, string message)

@@ -1,4 +1,7 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
+
 namespace WebSocket4Net.Protocol
 {
     public interface IProtocolProcessor
@@ -12,6 +15,8 @@ namespace WebSocket4Net.Protocol
         void SendMessage(WebSocket websocket, string message);
 
         void SendData(WebSocket websocket, byte[] data, int offset, int length);
+
+        void SendData(WebSocket websocket, IList<ArraySegment<byte>> segments);
 
         void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason);
 

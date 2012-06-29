@@ -97,6 +97,11 @@ namespace WebSocket4Net.Protocol
             throw new NotSupportedException();
         }
 
+        public override void SendData(WebSocket websocket, IList<ArraySegment<byte>> segments)
+        {
+            throw new NotSupportedException();
+        }
+
         public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
             websocket.Client.Send(CloseHandshake, 0, CloseHandshake.Length);
