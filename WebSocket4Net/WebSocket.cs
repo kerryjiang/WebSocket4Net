@@ -87,6 +87,7 @@ namespace WebSocket4Net
         private const string m_UriPrefix = m_UriScheme + "://";
 
         private const string m_SecureUriScheme = "wss";
+        private const int m_SecurePort = 443;
 
         private const string m_SecureUriPrefix = m_SecureUriScheme + "://";
 
@@ -139,11 +140,16 @@ namespace WebSocket4Net
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
 
-            if (hostPos < 0)//wss://localhost
+            if (hostPos < 0)//wss://localhost or wss://localhost:xxxx
             {
-                uri = uri + ":443/";
+                hostPos = uri.IndexOf(':', m_SecureUriPrefix.Length, uri.Length - m_SecureUriPrefix.Length);
+
+                if (hostPos < 0)
+                    uri = uri + ":" + m_SecurePort + "/";
+                else
+                    uri = uri + "/";
             }
-            else if (hostPos == m_SecureUriPrefix.Length)//wss:///
+            else if (hostPos == m_SecureUriPrefix.Length)//wss://
             {
                 throw new ArgumentException("Invalid uri", "uri");
             }
@@ -153,14 +159,14 @@ namespace WebSocket4Net
 
                 if (colonPos < 0)
                 {
-                    uri = uri.Substring(0, hostPos) + ":443" + uri.Substring(hostPos);
+                    uri = uri.Substring(0, hostPos) + ":" + m_SecurePort + uri.Substring(hostPos);
                 }
             }
 
             int port;
-            var targetEndPoint = ResolveUri(uri, 443, out port);
+            var targetEndPoint = ResolveUri(uri, m_SecurePort, out port);
 
-            if (port == 443)
+            if (port == m_SecurePort)
                 HandshakeHost = TargetUri.Host;
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
