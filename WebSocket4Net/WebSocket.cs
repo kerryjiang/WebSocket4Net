@@ -186,7 +186,6 @@ namespace WebSocket4Net
 
             Version = version;
             ProtocolProcessor = GetProtocolProcessor(version);
-            CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
 
             Cookies = cookies;
 
@@ -318,6 +317,11 @@ namespace WebSocket4Net
 
         void OnConnected()
         {
+            CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
+
+            if (Items.Count > 0)
+                Items.Clear();
+
             ProtocolProcessor.SendHandshake(this);
         }
 
@@ -469,7 +473,7 @@ namespace WebSocket4Net
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
         }
 
-        internal void CloseWithouHandshake()
+        internal void CloseWithoutHandshake()
         {
             Client.Close();
         }

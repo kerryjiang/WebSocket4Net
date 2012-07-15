@@ -159,6 +159,35 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
+        [Test, Repeat(3)]
+        public void ReconnectTest()
+        {
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
+            webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+
+
+            for (var i = 0; i < 100; i++)
+            {
+                webSocketClient.Open();
+
+                if (!m_OpenedEvent.WaitOne())
+                    Assert.Fail("Failed to Opened session ontime at round {0}", i);
+
+                Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
+
+                webSocketClient.Close();
+
+                if (!m_CloseEvent.WaitOne())
+                    Assert.Fail("Failed to close session ontime");
+
+                Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
+            }
+        }
+
         void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             Console.WriteLine(e.Exception.GetType() + ":" + e.Exception.Message + Environment.NewLine + e.Exception.StackTrace);

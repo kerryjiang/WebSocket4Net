@@ -23,14 +23,14 @@ namespace WebSocket4Net.Command
                     session.FireError(new Exception("the server doesn't support the websocket protocol version your client was using"));
                 else
                     session.FireError(new Exception(string.Format("the server(version: {0}) doesn't support the websocket protocol version your client was using", websocketVersion)));
-                session.CloseWithouHandshake();
+                session.CloseWithoutHandshake();
                 return;
             }
 
             if (string.IsNullOrEmpty(websocketVersion))
             {
                 session.FireError(new Exception("unknown server protocol version"));
-                session.CloseWithouHandshake();
+                session.CloseWithoutHandshake();
                 return;
             }
 
@@ -45,7 +45,7 @@ namespace WebSocket4Net.Command
                 if (!int.TryParse(versions[i], out value))
                 {
                     session.FireError(new Exception("invalid websocket version"));
-                    session.CloseWithouHandshake();
+                    session.CloseWithoutHandshake();
                     return;
                 }
 
@@ -55,7 +55,7 @@ namespace WebSocket4Net.Command
             if (!session.GetAvailableProcessor(versionValues))
             {
                 session.FireError(new Exception("unknown server protocol version"));
-                session.CloseWithouHandshake();
+                session.CloseWithoutHandshake();
                 return;
             }
 

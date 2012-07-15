@@ -18,7 +18,7 @@ namespace WebSocket4Net.Command
                 {
                     session.FireError(new Exception(string.Format("{0}: {1}", commandInfo.CloseStatusCode, commandInfo.Text)));
                 }
-                session.CloseWithouHandshake();
+                session.CloseWithoutHandshake();
                 return;
             }
 
