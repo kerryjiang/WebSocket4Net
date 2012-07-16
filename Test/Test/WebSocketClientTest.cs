@@ -63,15 +63,55 @@ namespace WebSocket4Net.Test
         {
 
         }
+
+        [Test]
+        public void TestWebSocketOrg()
+        {
+            WebSocket webSocketClient = new WebSocket("ws://echo.websocket.org/");
+            webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
+            webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+            webSocketClient.Open();
+
+            if (!m_OpenedEvent.WaitOne(5000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
+
+            for (var i = 0; i < 10; i++)
+            {
+                var message = Guid.NewGuid().ToString();
+
+                webSocketClient.Send(message);
+
+                if (!m_MessageReceiveEvent.WaitOne(5000))
+                {
+                    Assert.Fail("Failed to get echo messsage on time");
+                    break;
+                }
+
+                Console.WriteLine("Received echo message: {0}", m_CurrentMessage);
+                Assert.AreEqual(m_CurrentMessage, message);
+            }
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(5000))
+                Assert.Fail("Failed to close session ontime");
+
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
+        }
     }
 
     public abstract class WebSocketClientTest
     {
         protected WebSocketServer m_WebSocketServer;
-        private AutoResetEvent m_MessageReceiveEvent = new AutoResetEvent(false);
-        private AutoResetEvent m_OpenedEvent = new AutoResetEvent(false);
-        private AutoResetEvent m_CloseEvent = new AutoResetEvent(false);
-        private string m_CurrentMessage = string.Empty;
+        protected AutoResetEvent m_MessageReceiveEvent = new AutoResetEvent(false);
+        protected AutoResetEvent m_OpenedEvent = new AutoResetEvent(false);
+        protected AutoResetEvent m_CloseEvent = new AutoResetEvent(false);
+        protected string m_CurrentMessage = string.Empty;
 
         private WebSocketVersion m_Version = WebSocketVersion.DraftHybi00;
 
@@ -159,7 +199,7 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
-        [Test, Repeat(3)]
+        [Test]
         public void ReconnectTest()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
@@ -170,25 +210,25 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
 
 
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i <100; i++)
             {
                 webSocketClient.Open();
 
-                if (!m_OpenedEvent.WaitOne())
+                if (!m_OpenedEvent.WaitOne(5000))
                     Assert.Fail("Failed to Opened session ontime at round {0}", i);
 
                 Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
 
                 webSocketClient.Close();
 
-                if (!m_CloseEvent.WaitOne())
+                if (!m_CloseEvent.WaitOne(2000))
                     Assert.Fail("Failed to close session ontime");
 
                 Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
             }
         }
 
-        void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        protected void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             Console.WriteLine(e.Exception.GetType() + ":" + e.Exception.Message + Environment.NewLine + e.Exception.StackTrace);
 
@@ -221,18 +261,18 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
-        void webSocketClient_MessageReceived(object sender, MessageReceivedEventArgs e)
+        protected void webSocketClient_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             m_CurrentMessage = e.Message;
             m_MessageReceiveEvent.Set();
         }
 
-        void webSocketClient_Closed(object sender, EventArgs e)
+        protected void webSocketClient_Closed(object sender, EventArgs e)
         {
             m_CloseEvent.Set();
         }
 
-        void webSocketClient_Opened(object sender, EventArgs e)
+        protected void webSocketClient_Opened(object sender, EventArgs e)
         {
             m_OpenedEvent.Set();
         }
@@ -377,7 +417,7 @@ namespace WebSocket4Net.Test
                 Assert.Fail("Failed to close session ontime");
         }
 
-        void webSocketClient_DataReceived(object sender, DataReceivedEventArgs e)
+        protected void webSocketClient_DataReceived(object sender, DataReceivedEventArgs e)
         {
             m_CurrentMessage = Encoding.UTF8.GetString(e.Data);
             m_MessageReceiveEvent.Set();
