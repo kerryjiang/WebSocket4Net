@@ -218,7 +218,7 @@
 if not exist %25sldir%25 (
     set sldir="%25ProgramFiles%25\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0"
 )
-$(SolutionDir)Tools\ILMerge /keyfile:$(SolutionDir)websocket4net.snk /targetplatform:v4,%25sldir%25 /ndebug /out:$(TargetDir)WebSocket4Net.dll $(TargetDir)WebSocket4Net.dll $(TargetDir)SuperSocket.ClientEngine.Common.dll $(TargetDir)SuperSocket.ClientEngine.Core.dll $(TargetDir)SuperSocket.ClientEngine.Protocol.dll $(TargetDir)SimpleJson.dll
+"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v4,%25sldir%25 /ndebug /out:$(TargetDir)WebSocket4Net.dll $(TargetDir)WebSocket4Net.dll $(TargetDir)SuperSocket.ClientEngine.Common.dll $(TargetDir)SuperSocket.ClientEngine.Core.dll $(TargetDir)SuperSocket.ClientEngine.Protocol.dll $(TargetDir)SimpleJson.dll
 del $(TargetDir)SuperSocket.ClientEngine.Common.*
 del $(TargetDir)SuperSocket.ClientEngine.Core.*
 del $(TargetDir)SuperSocket.ClientEngine.Protocol.*
