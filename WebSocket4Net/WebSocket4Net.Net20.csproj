@@ -39,8 +39,8 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleJson">
-      <HintPath>..\Reference\SimpleJson\Net20\SimpleJson.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Reference\Json.Net\Net20\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
       <HintPath>..\Reference\SuperSocket.ClientEngine\Net20\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
@@ -63,11 +63,13 @@
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
+    <Compile Include="ExtensionAttribute.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="IJsonExecutor.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
+    <Compile Include="JsonWebSocket.JsonNet.cs" />
     <Compile Include="JsonWebSocket.Net.cs" />
     <Compile Include="LINQ.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
@@ -104,11 +106,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /out:$(TargetDir)WebSocket4Net.dll $(TargetDir)WebSocket4Net.dll $(TargetDir)SuperSocket.ClientEngine.Common.dll $(TargetDir)SuperSocket.ClientEngine.Core.dll $(TargetDir)SuperSocket.ClientEngine.Protocol.dll $(TargetDir)SimpleJson.dll
+    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /allowdup /out:$(TargetDir)WebSocket4Net.dll $(TargetDir)WebSocket4Net.dll $(TargetDir)SuperSocket.ClientEngine.Common.dll $(TargetDir)SuperSocket.ClientEngine.Core.dll $(TargetDir)SuperSocket.ClientEngine.Protocol.dll $(TargetDir)Newtonsoft.Json.dll
 del $(TargetDir)SuperSocket.ClientEngine.Common.*
 del $(TargetDir)SuperSocket.ClientEngine.Core.*
 del $(TargetDir)SuperSocket.ClientEngine.Protocol.*
-del $(TargetDir)SimpleJson.dll</PostBuildEvent>
+del $(TargetDir)Newtonsoft.Json.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -38,9 +38,6 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleJson">
-      <HintPath>..\Reference\SimpleJson\Net35\SimpleJson.dll</HintPath>
-    </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
       <HintPath>..\Reference\SuperSocket.ClientEngine\Net35\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
@@ -52,6 +49,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\BadRequest.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="IJsonExecutor.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
+    <Compile Include="JsonWebSocket.DataContractJson.cs" />
     <Compile Include="JsonWebSocket.Net.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
@@ -103,11 +104,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /out:WebSocket4Net.dll WebSocket4Net.dll SuperSocket.ClientEngine.Common.dll SuperSocket.ClientEngine.Core.dll SuperSocket.ClientEngine.Protocol.dll SimpleJson.dll
+    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /out:WebSocket4Net.dll WebSocket4Net.dll SuperSocket.ClientEngine.Common.dll SuperSocket.ClientEngine.Core.dll SuperSocket.ClientEngine.Protocol.dll
 del SuperSocket.ClientEngine.Common.*
 del SuperSocket.ClientEngine.Core.*
-del SuperSocket.ClientEngine.Protocol.*
-del SimpleJson.dll</PostBuildEvent>
+del SuperSocket.ClientEngine.Protocol.*</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
