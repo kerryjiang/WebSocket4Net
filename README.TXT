@@ -1,4 +1,5 @@
 WebSocket4Net
+==================================================================
 
 WebSocket4Net is a .NET implementation of WebSocket client.
 
