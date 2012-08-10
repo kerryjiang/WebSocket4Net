@@ -61,7 +61,18 @@ namespace WebSocket4Net
 
         internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
 
-        public WebSocketState State { get; private set; }
+
+        private int m_StateCode;
+
+        internal int StateCode
+        {
+            get { return m_StateCode; }
+        }
+
+        public WebSocketState State
+        {
+            get { return (WebSocketState)m_StateCode; }
+        }
 
         public bool Handshaked { get; private set; }
 
@@ -217,7 +228,7 @@ namespace WebSocket4Net
             var badRequestCmd = new Command.BadRequest();
             m_CommandDict.Add(badRequestCmd.Name, badRequestCmd);
             
-            State = WebSocketState.None;
+            m_StateCode = WebSocketStateConst.None;
 
             SubProtocol = subProtocol;
 
@@ -292,7 +303,7 @@ namespace WebSocket4Net
 
         public void Open()
         {
-            State = WebSocketState.Connecting;
+            m_StateCode = WebSocketStateConst.Connecting;
 
             if (Proxy != null)
                 Client.Proxy = Proxy;
@@ -327,7 +338,7 @@ namespace WebSocket4Net
 
         protected internal virtual void OnHandshaked()
         {
-            State = WebSocketState.Open;
+            m_StateCode = WebSocketStateConst.Open;
 
             Handshaked = true;
 
@@ -440,10 +451,10 @@ namespace WebSocket4Net
         {
             var fireBaseClose = false;
 
-            if (State == WebSocketState.Closing || State == WebSocketState.Open)
+            if (m_StateCode == WebSocketStateConst.Closing || m_StateCode == WebSocketStateConst.Open)
                 fireBaseClose = true;
 
-            State = WebSocketState.Closed;
+            m_StateCode = WebSocketStateConst.Closed;
 
             if (fireBaseClose)
                 FireClosed();
@@ -452,9 +463,9 @@ namespace WebSocket4Net
         public void Close()
         {
             //The websocket never be opened
-            if (State == WebSocketState.None)
+            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
+                    == WebSocketStateConst.None)
             {
-                State = WebSocketState.Closed;
                 OnClosed();
                 return;
             }
@@ -469,7 +480,7 @@ namespace WebSocket4Net
 
         public void Close(int statusCode, string reason)
         {
-            State = WebSocketState.Closing;
+            m_StateCode = WebSocketStateConst.Closing;
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
         }
 
@@ -550,6 +561,8 @@ namespace WebSocket4Net
 
         private void OnError(ErrorEventArgs e)
         {
+            Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.None, WebSocketStateConst.Connecting);
+
             if (m_Error == null)
                 return;
 
