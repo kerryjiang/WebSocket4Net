@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SuperSocket.Common;
 using SuperSocket.SocketBase;
@@ -453,6 +454,62 @@ namespace WebSocket4Net.Test
             }
 
             Thread.Sleep(5000);
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(1000))
+                Assert.Fail("Failed to close session ontime");
+        }
+
+
+        [Test]
+        public void ConcurrentSendTest()
+        {
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            
+            webSocketClient.Open();
+
+            if (!m_OpenedEvent.WaitOne(2000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            string[] lines = new string[100];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = Guid.NewGuid().ToString();
+            }
+
+            var messDict = lines.ToDictionary(l => l);
+
+            webSocketClient.MessageReceived += (s, m) =>
+            {
+                messDict.Remove(m.Message);
+                Console.WriteLine("R: {0}", m.Message);
+            };
+
+            Parallel.For(0, lines.Length, (i) =>
+                {
+                    webSocketClient.Send("ECHO " + lines[i]);
+                });
+
+            int waitRound = 0;
+
+            while (waitRound < 10)
+            {
+                if (messDict.Count <= 0)
+                    break;
+
+                Thread.Sleep(500);
+                waitRound++;
+            }
+
+            if (messDict.Count > 0)
+            {
+                Assert.Fail("Failed to receive message on time.");
+            }
 
             webSocketClient.Close();
 
