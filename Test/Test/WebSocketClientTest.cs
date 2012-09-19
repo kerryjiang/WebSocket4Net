@@ -8,6 +8,7 @@ using NUnit.Framework;
 using SuperSocket.Common;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
+using SuperSocket.SocketBase.Logging;
 using SuperSocket.SocketEngine;
 using SuperWebSocket;
 using SuperWebSocket.SubProtocol;
@@ -141,26 +142,24 @@ namespace WebSocket4Net.Test
         [TestFixtureSetUp]
         public virtual void Setup()
         {
-            LogUtil.Setup(new ConsoleLogger());
-
             m_WebSocketServer = new WebSocketServer(new BasicSubProtocol("Basic", new List<Assembly> { this.GetType().Assembly }));
             m_WebSocketServer.NewDataReceived += new SessionEventHandler<WebSocketSession, byte[]>(m_WebSocketServer_NewDataReceived);
-            m_WebSocketServer.Setup(new RootConfig(), new ServerConfig
+            m_WebSocketServer.Setup(new ServerConfig
             {
                 Port = 2012,
                 Ip = "Any",
                 MaxConnectionNumber = 100,
-                Mode = SocketMode.Async,
+                Mode = SocketMode.Tcp,
                 Name = "SuperWebSocket Server",
                 Security = m_Security,
-                Certificate = new CertificateConfig { IsEnabled = true, FilePath = m_CertificateFile, Password = m_Password }
-            }, SocketServerFactory.Instance);
+                Certificate = new CertificateConfig { FilePath = m_CertificateFile, Password = m_Password }
+            }, logFactory: new ConsoleLogFactory());
         }
 
         void m_WebSocketServer_NewDataReceived(WebSocketSession session, byte[] e)
         {
             //Echo
-            session.SendResponse(e);
+            session.Send(new ArraySegment<byte>(e, 0, e.Length));
         }
 
         [SetUp]

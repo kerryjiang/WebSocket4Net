@@ -8,6 +8,7 @@ using NUnit.Framework;
 using SuperSocket.Common;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
+using SuperSocket.SocketBase.Logging;
 using SuperSocket.SocketEngine;
 using SuperWebSocket;
 using SuperWebSocket.SubProtocol;
@@ -33,25 +34,21 @@ namespace WebSocket4Net.Test
         [TestFixtureSetUp]
         public virtual void Setup()
         {
-            ThreadPool.SetMinThreads(100, 100);
-
-            LogUtil.Setup(new ConsoleLogger());
-
             m_WebSocketServer = new WebSocketServer(new BasicSubProtocol("Basic", new List<Assembly> { this.GetType().Assembly }));
-            m_WebSocketServer.Setup(new RootConfig(), new ServerConfig
+            m_WebSocketServer.Setup(new ServerConfig
             {
                 Port = 2012,
                 Ip = "Any",
                 MaxConnectionNumber = 100,
-                Mode = SocketMode.Async,
+                Mode = SocketMode.Tcp,
                 Name = "SuperWebSocket Server"
-            }, SocketServerFactory.Instance);
+            }, logFactory: new ConsoleLogFactory());
         }
 
         [SetUp]
         public void StartServer()
         {
-            m_WebSocketServer.Start();
+            Assert.IsTrue(m_WebSocketServer.Start());
         }
 
         [TearDown]

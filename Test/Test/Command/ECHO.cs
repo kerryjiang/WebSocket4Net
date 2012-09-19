@@ -12,9 +12,9 @@ namespace WebSocket4Net.Test
     {
         public override void ExecuteCommand(WebSocketSession session, SubRequestInfo requestInfo)
         {
-            foreach (var p in requestInfo.Data.Split(' '))
+            foreach (var p in requestInfo.Body.Split(' '))
             {
-                session.SendResponse(p);
+                session.Send(p);
             }
         }
     }

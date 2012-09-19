@@ -18,7 +18,7 @@ namespace WebSocket4Net.Test.Command
 
             Thread.Sleep(2000);
 
-            this.SendJsonResponse(session, token, result);
+            this.SendJsonMessage(session, token, result);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace WebSocket4Net.Test.Command
     {
         protected override void ExecuteJsonCommand(WebSocketSession session, AddIn commandInfo)
         {
-            SendJsonResponse(session, new AddOut { Result = commandInfo.A + commandInfo.B });
+            SendJsonMessage(session, new AddOut { Result = commandInfo.A + commandInfo.B });
         }
     }
 }
