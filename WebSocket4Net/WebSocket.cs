@@ -462,14 +462,6 @@ namespace WebSocket4Net
 
         public void Close()
         {
-            //The websocket never be opened
-            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
-                    == WebSocketStateConst.None)
-            {
-                OnClosed();
-                return;
-            }
-
             Close(string.Empty);
         }
 
@@ -480,6 +472,30 @@ namespace WebSocket4Net
 
         public void Close(int statusCode, string reason)
         {
+            //The websocket never be opened
+            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
+                    == WebSocketStateConst.None)
+            {
+                OnClosed();
+                return;
+            }
+
+            //The websocket is connecting or in handshake
+            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.Connecting)
+                    == WebSocketStateConst.Connecting)
+            {
+                var client = Client;
+
+                if (client != null)
+                {
+                    client.Close();
+                    Client = null;
+                }
+
+                OnClosed();
+                return;
+            }
+
             m_StateCode = WebSocketStateConst.Closing;
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
         }
