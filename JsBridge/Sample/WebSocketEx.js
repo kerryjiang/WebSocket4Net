@@ -40,23 +40,23 @@ function WebSocketEx(uri, p1, p2, p3, p4, p5) {
                 });
             }
 
-    function createBirdgeWebSocket() {
-        var slPlugin = document.getElementById('silverlightControl');
+    function createBirdgeWebSocket(host, proxy) {
+        var slPlugin = host;
         if (slPlugin) {
             websocket = slPlugin.content.services.createObject("WebSocket");
             if (websocket) {
                 websocket.onopen = function (s, e) {
-                    if (onopen != null)
-                        onopen();
+                    if (proxy.onopen != undefined)
+                        proxy.onopen();
                 };
                 websocket.onclose = function (s, e) {
-                    if (onclose != null) {
-                        onclose();
+                    if (proxy.onclose != undefined) {
+                        proxy.onclose();
                     }
                 };
                 websocket.onmessage = function (s, e) {
-                    if (onmessage != null) {
-                        onmessage(e);
+                    if (proxy.onmessage != undefined) {
+                        proxy.onmessage(e);
                     }
                 };
 
@@ -91,9 +91,11 @@ function WebSocketEx(uri, p1, p2, p3, p4, p5) {
 
     if (Silverlight && Silverlight.isInstalled()) {
         if (app == null || app == undefined) {
-            var protocol = this.protocol;
+            var proxy = this;
+            var protocol = proxy.protocol;
+            
             window.onSilverlightLoaded = function (sender, args) {
-                websocket = createBirdgeWebSocket();
+                websocket = createBirdgeWebSocket(sender, proxy);
                 websocket.open(uri, protocol);
             }
             app = createBridgeApp();

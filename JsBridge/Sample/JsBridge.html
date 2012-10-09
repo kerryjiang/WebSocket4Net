@@ -19,11 +19,12 @@
             text-align: center;
         }
     </style>
+    <script type="text/javascript" src="Silverlight.js" language="javascript"></script>
     <script type="text/javascript">
         function onSilverlightLoaded(sender, args) {
-            var slPlugin = document.getElementById('silverlightControl');
-            if (slPlugin) {
-                websocket = slPlugin.content.services.createObject("WebSocket");
+            var sl = sender.getHost();
+            if (sl) {
+                websocket = sl.Content.services.createObject("WebSocket");
                 websocket.onopen = function (s, e) {
                     alert("websocket is opened");
                 };
@@ -34,7 +35,7 @@
                     alert(e.data);
                 };
 
-                websocket.open('ws://localhost:8080/websocket');
+                websocket.open('ws://localhost:4502/websocket');
             }
         }
 
