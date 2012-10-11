@@ -110,5 +110,18 @@ namespace WebSocket4Net
 
             return (TValue)value;
         }
+
+        private static Type m_StringType = typeof(string);
+
+        internal static bool ShouldBeSerialized(this Type type)
+        {
+            if (type.IsPrimitive)
+                return false;
+
+            if (type == m_StringType)
+                return false;
+
+            return true;
+        }
     }
 }
