@@ -200,7 +200,7 @@ namespace WebSocket4Net
 
             try
             {
-                if (executor.Type.ShouldBeSerialized())
+                if (!executor.Type.IsSimpleType())
                     value = DeserializeObject(parameter, executor.Type);
                 else if (parameter.GetType() == executor.Type)
                     value = parameter;
@@ -274,7 +274,7 @@ namespace WebSocket4Net
 
             if (content != null)
             {
-                if (content.GetType().ShouldBeSerialized())
+                if (!content.GetType().IsSimpleType())
                     m_WebSocket.Send(string.Format(m_QueryTemplateC, name, SerializeObject(content)));
                 else
                     m_WebSocket.Send(string.Format(m_QueryTemplateC, name, content));
@@ -367,7 +367,7 @@ namespace WebSocket4Net
 
             if (content != null)
             {
-                if (content.GetType().ShouldBeSerialized())
+                if (!content.GetType().IsSimpleType())
                     m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, SerializeObject(content)));
                 else
                     m_WebSocket.Send(string.Format(m_QueryTemplateA, name, token, content));

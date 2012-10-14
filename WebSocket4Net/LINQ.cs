@@ -19,6 +19,17 @@ namespace System.Linq
             return count;
         }
 
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource target)
+        {
+            foreach (var item in source)
+            {
+                if (item.Equals(target))
+                    return true;
+            }
+
+            return false;
+        }
+
         public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Predicate<TSource> predicate)
         {
             foreach (var item in source)

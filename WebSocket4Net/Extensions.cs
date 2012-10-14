@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace WebSocket4Net
 {
@@ -111,17 +112,22 @@ namespace WebSocket4Net
             return (TValue)value;
         }
 
-        private static Type m_StringType = typeof(string);
+        private static Type[] m_SimpleTypes = new Type[] { 
+                typeof(String),
+                typeof(Decimal),
+                typeof(DateTime),
+                typeof(DateTimeOffset),
+                typeof(TimeSpan),
+                typeof(Guid)
+            };
 
-        internal static bool ShouldBeSerialized(this Type type)
+        internal static bool IsSimpleType(this Type type)
         {
-            if (type.IsPrimitive)
-                return false;
-
-            if (type == m_StringType)
-                return false;
-
-            return true;
+            return
+                type.IsValueType ||
+                type.IsPrimitive ||
+                m_SimpleTypes.Contains(type) ||
+                Convert.GetTypeCode(type) != TypeCode.Object;
         }
     }
 }
