@@ -87,7 +87,10 @@ namespace WebSocket4Net
 
         internal bool NotSpecifiedVersion { get; private set; }
 
-        private Timer m_PingTimer;
+        /// <summary>
+        /// It is used for ping/pong and closing handshake checking
+        /// </summary>
+        private Timer m_WebSocketTimer;
 
         internal string LastPongResponse { get; set; }
 
@@ -353,7 +356,7 @@ namespace WebSocket4Net
                 if (AutoSendPingInterval <= 0)
                     AutoSendPingInterval = 60;
 
-                m_PingTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
+                m_WebSocketTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
             }
         }
 
@@ -497,7 +500,21 @@ namespace WebSocket4Net
             }
 
             m_StateCode = WebSocketStateConst.Closing;
+
+            //Disable auto ping
+            ClearTimer();
+            //Set closing hadnshake checking timer
+            m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
+
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+        }
+
+        private void CheckCloseHandshake(object state)
+        {
+            if (m_StateCode != WebSocketStateConst.Closed)
+            {
+                CloseWithoutHandshake();
+            }
         }
 
         internal void CloseWithoutHandshake()
@@ -552,14 +569,19 @@ namespace WebSocket4Net
             remove { m_Closed -= value; }
         }
 
+        private void ClearTimer()
+        {
+            if (m_WebSocketTimer != null)
+            {
+                m_WebSocketTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                m_WebSocketTimer.Dispose();
+                m_WebSocketTimer = null;
+            }
+        }
+
         private void FireClosed()
         {
-            if (m_PingTimer != null)
-            {
-                m_PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                m_PingTimer.Dispose();
-                m_PingTimer = null;
-            }
+            ClearTimer();
 
             var handler = m_Closed;
 
