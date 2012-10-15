@@ -200,6 +200,31 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
+        [Test, Repeat(5)]
+        public void IncorrectDNSTest()
+        {
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", "ws://localhostx", m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
+            webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+            webSocketClient.Open();
+
+            if (!m_OpenedEvent.WaitOne(2000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(1000))
+                Assert.Fail("Failed to close session ontime");
+
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
+
+        }
+
         [Test]
         public void ReconnectTest()
         {

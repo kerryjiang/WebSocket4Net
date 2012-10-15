@@ -25,7 +25,7 @@ The WebSocket API is being standardized by the W3C and the WebSocket protocol is
 Please refer to http://en.wikipedia.org/wiki/WebSockets.
 
 Project homepage:	http://websocket4net.codeplex.com/
-Source code address (Mercurial):	https://hg.codeplex.com/websocket4net
+Source code address (Git):	https://git01.codeplex.com/websocket4net
 Author email address:	kerry-jiang@hotmail.com
 
 
