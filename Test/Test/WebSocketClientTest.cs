@@ -235,27 +235,22 @@ namespace WebSocket4Net.Test
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
 
-            Console.WriteLine(GC.GetTotalMemory(false).ToString("N"));
-
             for (var i = 0; i <2000; i++)
             {
                 webSocketClient.Open();
 
-                if (!m_OpenedEvent.WaitOne())
+                if (!m_OpenedEvent.WaitOne(5000))
                     Assert.Fail("Failed to Opened session ontime at round {0}", i);
 
                 Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
 
                 webSocketClient.Close();
 
-                if (!m_CloseEvent.WaitOne())
+                if (!m_CloseEvent.WaitOne(5000))
                     Assert.Fail("Failed to close session ontime");
 
                 Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
             }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            Console.WriteLine(GC.GetTotalMemory(false).ToString("N"));
         }
 
         [Test]

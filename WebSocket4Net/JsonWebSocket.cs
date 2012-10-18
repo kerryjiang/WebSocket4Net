@@ -116,7 +116,7 @@ namespace WebSocket4Net
 
         public void Open()
         {
-            if (m_WebSocket.StateCode == WebSocketStateConst.None)
+            if (m_WebSocket.StateCode == WebSocketStateConst.None || m_WebSocket.StateCode == WebSocketStateConst.Closed)
                 m_WebSocket.Open();
         }
 
