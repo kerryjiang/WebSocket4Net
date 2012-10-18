@@ -30,10 +30,16 @@ FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 set fdir=%WINDIR%\Microsoft.NET\Framework
 set msbuild=%fdir%\v4.0.30319\msbuild.exe
 
-%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.Silverlight.csproj /p:SolutionDir=%solutionDir%;Configuration=Debug /t:Clean;Rebuild
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL40.csproj /p:SolutionDir=%solutionDir%;Configuration=Debug /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
-%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.Silverlight.csproj /p:SolutionDir=%solutionDir%;Configuration=Release /t:Clean;Rebuild
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL40.csproj /p:SolutionDir=%solutionDir%;Configuration=Release /t:Clean;Rebuild
+FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
+
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj /p:SolutionDir=%solutionDir%;Configuration=Debug /t:Clean;Rebuild
+FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
+
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj /p:SolutionDir=%solutionDir%;Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 %msbuild% WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj /p:SolutionDir=%solutionDir%;Configuration=Debug /t:Clean;Rebuild
