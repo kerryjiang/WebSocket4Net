@@ -181,7 +181,7 @@
     <Compile Include="WebSocket.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WebSocket.Net35.cs" />
+    <Compile Include="WebSocket.Net.cs" />
     <Compile Include="WebSocketCommandInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -197,6 +197,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <PropertyGroup>
+    <!--
     <PostBuildEvent>set mddir="%25ProgramFiles(x86)%25\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0"
 if not exist %25mddir%25 (
     set mddir="%25ProgramFiles%25\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0"
@@ -205,6 +206,7 @@ if not exist %25mddir%25 (
 del $(TargetDir)SuperSocket.ClientEngine.Common.*
 del $(TargetDir)SuperSocket.ClientEngine.Core.*
 del $(TargetDir)SuperSocket.ClientEngine.Protocol.*</PostBuildEvent>
+  -->
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
