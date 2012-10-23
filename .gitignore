@@ -15,6 +15,7 @@ Thumbs.db
 *.ncb
 *.suo
 *.sln.docstates
+*.sln.docstates.suo
 *.tlb
 *.tlh
 *.bak
@@ -30,12 +31,15 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 TempPE/
-*.ncrunchproject
 *.ncrunchsolution
+*.ncrunchsolution.user
+*.ncrunchproject
+*.userprefs
 =======
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 bin
 obj
+.DS_Store
 
 # mstest test results
 TestResults
