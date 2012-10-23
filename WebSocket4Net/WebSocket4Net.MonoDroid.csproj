@@ -56,53 +56,144 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\BadRequest.cs" />
-    <Compile Include="Command\Binary.cs" />
-    <Compile Include="Command\Close.cs" />
-    <Compile Include="Command\Handshake.cs" />
-    <Compile Include="Command\Ping.cs" />
-    <Compile Include="Command\Pong.cs" />
-    <Compile Include="Command\Text.cs" />
-    <Compile Include="Command\WebSocketCommandBase.cs" />
-    <Compile Include="DataReceivedEventArgs.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Command\BadRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Binary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Close.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Handshake.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Ping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Pong.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\Text.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\WebSocketCommandBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataReceivedEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExtensionAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalAssemblyInfo.cs" />
-    <Compile Include="IJsonExecutor.cs" />
-    <Compile Include="JsonExecutor.cs" />
-    <Compile Include="JsonWebSocket.cs" />
-    <Compile Include="JsonWebSocket.DataContractJson.cs" />
-    <Compile Include="JsonWebSocket.Net.cs" />
-    <Compile Include="MessageReceivedEventArgs.cs" />
-    <Compile Include="OpCode.cs" />
+    <Compile Include="IJsonExecutor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="JsonExecutor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="JsonWebSocket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="JsonWebSocket.DataContractJson.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="JsonWebSocket.Net.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageReceivedEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpCode.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.MonoDroid.cs" />
-    <Compile Include="Protocol\CloseStatusCodeHybi10.cs" />
-    <Compile Include="Protocol\CloseStatusCodeRfc6455.cs" />
-    <Compile Include="Protocol\DraftHybi00DataReader.cs" />
-    <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
-    <Compile Include="Protocol\DraftHybi00Processor.cs" />
-    <Compile Include="Protocol\DraftHybi10DataReader.cs" />
-    <Compile Include="Protocol\DraftHybi10HandshakeReader.cs" />
-    <Compile Include="Protocol\DraftHybi10Processor.cs" />
-    <Compile Include="Protocol\FramePartReader\DataFramePartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\ExtendedLenghtReader.cs" />
-    <Compile Include="Protocol\FramePartReader\FixPartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\IDataFramePartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\MaskKeyReader.cs" />
-    <Compile Include="Protocol\FramePartReader\PayloadDataReader.cs" />
-    <Compile Include="Protocol\HandshakeReader.cs" />
-    <Compile Include="Protocol\ICloseStatusCode.cs" />
-    <Compile Include="Protocol\IProtocolProcessor.cs" />
-    <Compile Include="Protocol\ProtocolProcessorBase.cs" />
-    <Compile Include="Protocol\ProtocolProcessorFactory.cs" />
-    <Compile Include="Protocol\ReaderBase.cs" />
-    <Compile Include="Protocol\Rfc6455Processor.cs" />
-    <Compile Include="Protocol\WebSocketDataFrame.cs" />
-    <Compile Include="WebSocket.cs" />
-    <Compile Include="WebSocket.Net.cs" />
-    <Compile Include="WebSocketCommandInfo.cs" />
-    <Compile Include="WebSocketContext.cs" />
-    <Compile Include="WebSocketState.cs" />
-    <Compile Include="WebSocketVersion.cs" />
+    <Compile Include="Protocol\CloseStatusCodeHybi10.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\CloseStatusCodeRfc6455.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi00DataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi00HandshakeReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi00Processor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi10DataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi10HandshakeReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\DraftHybi10Processor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\DataFramePartReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\ExtendedLenghtReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\FixPartReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\IDataFramePartReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\MaskKeyReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\FramePartReader\PayloadDataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\HandshakeReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\ICloseStatusCode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\IProtocolProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\ProtocolProcessorBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\ProtocolProcessorFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\ReaderBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\Rfc6455Processor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Protocol\WebSocketDataFrame.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebSocket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebSocket.Net35.cs" />
+    <Compile Include="WebSocketCommandInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebSocketContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebSocketState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebSocketVersion.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <PropertyGroup>

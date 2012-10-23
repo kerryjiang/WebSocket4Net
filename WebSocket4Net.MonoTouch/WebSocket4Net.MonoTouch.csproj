@@ -41,54 +41,6 @@
     <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\BadRequest.cs" />
-    <Compile Include="Command\Binary.cs" />
-    <Compile Include="Command\Close.cs" />
-    <Compile Include="Command\Handshake.cs" />
-    <Compile Include="Command\Ping.cs" />
-    <Compile Include="Command\Pong.cs" />
-    <Compile Include="Command\Text.cs" />
-    <Compile Include="Command\WebSocketCommandBase.cs" />
-    <Compile Include="DataReceivedEventArgs.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="GlobalAssemblyInfo.cs" />
-    <Compile Include="IJsonExecutor.cs" />
-    <Compile Include="JsonExecutor.cs" />
-    <Compile Include="JsonWebSocket.cs" />
-    <Compile Include="JsonWebSocket.DataContractJson.cs" />
-    <Compile Include="JsonWebSocket.Net.cs" />
-    <Compile Include="MessageReceivedEventArgs.cs" />
-    <Compile Include="OpCode.cs" />
-    <Compile Include="Protocol\CloseStatusCodeHybi10.cs" />
-    <Compile Include="Protocol\CloseStatusCodeRfc6455.cs" />
-    <Compile Include="Protocol\DraftHybi00DataReader.cs" />
-    <Compile Include="Protocol\DraftHybi00HandshakeReader.cs" />
-    <Compile Include="Protocol\DraftHybi00Processor.cs" />
-    <Compile Include="Protocol\DraftHybi10DataReader.cs" />
-    <Compile Include="Protocol\DraftHybi10HandshakeReader.cs" />
-    <Compile Include="Protocol\DraftHybi10Processor.cs" />
-    <Compile Include="Protocol\FramePartReader\DataFramePartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\ExtendedLenghtReader.cs" />
-    <Compile Include="Protocol\FramePartReader\FixPartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\IDataFramePartReader.cs" />
-    <Compile Include="Protocol\FramePartReader\MaskKeyReader.cs" />
-    <Compile Include="Protocol\FramePartReader\PayloadDataReader.cs" />
-    <Compile Include="Protocol\HandshakeReader.cs" />
-    <Compile Include="Protocol\ICloseStatusCode.cs" />
-    <Compile Include="Protocol\IProtocolProcessor.cs" />
-    <Compile Include="Protocol\ProtocolProcessorBase.cs" />
-    <Compile Include="Protocol\ProtocolProcessorFactory.cs" />
-    <Compile Include="Protocol\ReaderBase.cs" />
-    <Compile Include="Protocol\Rfc6455Processor.cs" />
-    <Compile Include="Protocol\WebSocketDataFrame.cs" />
-    <Compile Include="WebSocket.cs" />
-    <Compile Include="WebSocket.Net.cs" />
-    <Compile Include="WebSocketCommandInfo.cs" />
-    <Compile Include="WebSocketContext.cs" />
-    <Compile Include="WebSocketState.cs" />
-    <Compile Include="WebSocketVersion.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\supersockets.clientengine\Core.MonoTouch\Core.MonoTouch.csproj">
       <Project>{9A11BF63-8F81-481C-92C6-16B61250DACB}</Project>
       <Name>Core.MonoTouch</Name>
@@ -102,5 +54,150 @@
       <Name>Common.MonoTouch</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\WebSocket4Net\Command\BadRequest.cs">
+      <Link>Command\BadRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Binary.cs">
+      <Link>Command\Binary.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Close.cs">
+      <Link>Command\Close.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Handshake.cs">
+      <Link>Command\Handshake.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Ping.cs">
+      <Link>Command\Ping.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Pong.cs">
+      <Link>Command\Pong.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\Text.cs">
+      <Link>Command\Text.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Command\WebSocketCommandBase.cs">
+      <Link>Command\WebSocketCommandBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\DataReceivedEventArgs.cs">
+      <Link>DataReceivedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\ExtensionAttribute.cs">
+      <Link>ExtensionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Extensions.cs">
+      <Link>Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\IJsonExecutor.cs">
+      <Link>IJsonExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonExecutor.cs">
+      <Link>JsonExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.cs">
+      <Link>JsonWebSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.DataContractJson.cs">
+      <Link>JsonWebSocket.DataContractJson.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.Net.cs">
+      <Link>JsonWebSocket.Net.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\MessageReceivedEventArgs.cs">
+      <Link>MessageReceivedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\OpCode.cs">
+      <Link>OpCode.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeHybi10.cs">
+      <Link>Protocol\CloseStatusCodeHybi10.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeRfc6455.cs">
+      <Link>Protocol\CloseStatusCodeRfc6455.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00DataReader.cs">
+      <Link>Protocol\DraftHybi00DataReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00HandshakeReader.cs">
+      <Link>Protocol\DraftHybi00HandshakeReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00Processor.cs">
+      <Link>Protocol\DraftHybi00Processor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10DataReader.cs">
+      <Link>Protocol\DraftHybi10DataReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10HandshakeReader.cs">
+      <Link>Protocol\DraftHybi10HandshakeReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10Processor.cs">
+      <Link>Protocol\DraftHybi10Processor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\DataFramePartReader.cs">
+      <Link>Protocol\FramePartReader\DataFramePartReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\ExtendedLenghtReader.cs">
+      <Link>Protocol\FramePartReader\ExtendedLenghtReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\FixPartReader.cs">
+      <Link>Protocol\FramePartReader\FixPartReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\IDataFramePartReader.cs">
+      <Link>Protocol\FramePartReader\IDataFramePartReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\MaskKeyReader.cs">
+      <Link>Protocol\FramePartReader\MaskKeyReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\PayloadDataReader.cs">
+      <Link>Protocol\FramePartReader\PayloadDataReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\HandshakeReader.cs">
+      <Link>Protocol\HandshakeReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ICloseStatusCode.cs">
+      <Link>Protocol\ICloseStatusCode.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\IProtocolProcessor.cs">
+      <Link>Protocol\IProtocolProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorBase.cs">
+      <Link>Protocol\ProtocolProcessorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorFactory.cs">
+      <Link>Protocol\ProtocolProcessorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\ReaderBase.cs">
+      <Link>Protocol\ReaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\Rfc6455Processor.cs">
+      <Link>Protocol\Rfc6455Processor.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Protocol\WebSocketDataFrame.cs">
+      <Link>Protocol\WebSocketDataFrame.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocket.cs">
+      <Link>WebSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocketCommandInfo.cs">
+      <Link>WebSocketCommandInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocketContext.cs">
+      <Link>WebSocketContext.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocketState.cs">
+      <Link>WebSocketState.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocketVersion.cs">
+      <Link>WebSocketVersion.cs</Link>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties ProjectLinkReference="119c56bd-c133-4d7b-9c33-0f8ce1b1b61e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
