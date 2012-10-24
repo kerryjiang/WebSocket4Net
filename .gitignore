@@ -1,7 +1,5 @@
 bin/
-debug/
 Bin/
-Debug/
 Thumbs.db
 *.obj
 *.exe
@@ -22,12 +20,9 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-[Bb]in
-[Dd]ebug*/
 *.lib
 *.sbr
 obj/
-[Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
 TempPE/
@@ -43,3 +38,7 @@ obj
 
 # mstest test results
 TestResults
+
+# not allways
+#[Dd]ebug*/
+#[Rr]elease*/

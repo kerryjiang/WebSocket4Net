@@ -15,21 +15,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net20", "WebS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.MonoTouch", "WebSocket4Net.MonoTouch\WebSocket4Net.MonoTouch.csproj", "{3A42609F-0DC8-4F4E-9069-8D7782592577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.MonoTouch", "..\supersockets.clientengine\Common.MonoTouch\Common.MonoTouch.csproj", "{7B29D7AE-D8C6-46B2-BFF9-CE1B88E10355}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.MonoTouch", "..\SuperSocket.ClientEngine\Common.MonoTouch\Common.MonoTouch.csproj", "{7B29D7AE-D8C6-46B2-BFF9-CE1B88E10355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MonoTouch", "..\supersockets.clientengine\Core.MonoTouch\Core.MonoTouch.csproj", "{9A11BF63-8F81-481C-92C6-16B61250DACB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MonoTouch", "..\SuperSocket.ClientEngine\Core.MonoTouch\Core.MonoTouch.csproj", "{9A11BF63-8F81-481C-92C6-16B61250DACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.MonoTouch", "..\supersockets.clientengine\Protocol.MonoTouch\Protocol.MonoTouch.csproj", "{9314AF2C-7426-40C0-A69D-6155CE190795}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.MonoTouch", "..\SuperSocket.ClientEngine\Protocol.MonoTouch\Protocol.MonoTouch.csproj", "{9314AF2C-7426-40C0-A69D-6155CE190795}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy.MonoTouch", "..\supersockets.clientengine\Proxy.MonoTouch\Proxy.MonoTouch.csproj", "{728B0348-525E-4F15-8765-FDA41CD417D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy.MonoTouch", "..\SuperSocket.ClientEngine\Proxy.MonoTouch\Proxy.MonoTouch.csproj", "{728B0348-525E-4F15-8765-FDA41CD417D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MonoDroid", "..\SuperSockets.ClientEngine\Core\Core.MonoDroid.csproj", "{6447CAEB-757A-4D47-91BA-71E521AA7B42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MonoDroid", "..\SuperSocket.ClientEngine\Core\Core.MonoDroid.csproj", "{6447CAEB-757A-4D47-91BA-71E521AA7B42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.MonoDroid", "..\SuperSockets.ClientEngine\Common\Common.MonoDroid.csproj", "{38367EC0-D72E-4EC5-8FBA-0AE3706A2C49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.MonoDroid", "..\SuperSocket.ClientEngine\Common\Common.MonoDroid.csproj", "{38367EC0-D72E-4EC5-8FBA-0AE3706A2C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.MonoDroid", "..\SuperSockets.ClientEngine\Protocol\Protocol.MonoDroid.csproj", "{AF269343-F9FD-4823-AC0A-3481446C7686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.MonoDroid", "..\SuperSocket.ClientEngine\Protocol\Protocol.MonoDroid.csproj", "{AF269343-F9FD-4823-AC0A-3481446C7686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy.MonoDroid", "..\SuperSockets.ClientEngine\Proxy\Proxy.MonoDroid.csproj", "{AEFB6063-063D-4124-9DA6-F88350CE0039}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy.MonoDroid", "..\SuperSocket.ClientEngine\Proxy\Proxy.MonoDroid.csproj", "{AEFB6063-063D-4124-9DA6-F88350CE0039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

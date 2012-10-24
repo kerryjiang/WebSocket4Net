@@ -31,6 +31,18 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine.Proxy">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Proxy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -39,20 +51,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.ServiceModel.Web" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\supersockets.clientengine\Core.MonoTouch\Core.MonoTouch.csproj">
-      <Project>{9A11BF63-8F81-481C-92C6-16B61250DACB}</Project>
-      <Name>Core.MonoTouch</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\supersockets.clientengine\Protocol.MonoTouch\Protocol.MonoTouch.csproj">
-      <Project>{9314AF2C-7426-40C0-A69D-6155CE190795}</Project>
-      <Name>Protocol.MonoTouch</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\supersockets.clientengine\Common.MonoTouch\Common.MonoTouch.csproj">
-      <Project>{7B29D7AE-D8C6-46B2-BFF9-CE1B88E10355}</Project>
-      <Name>Common.MonoTouch</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\WebSocket4Net\Command\BadRequest.cs">
