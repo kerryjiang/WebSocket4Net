@@ -492,7 +492,6 @@ namespace WebSocket4Net
                 if (client != null)
                 {
                     client.Close();
-                    Client = null;
                 }
 
                 OnClosed();
@@ -601,10 +600,12 @@ namespace WebSocket4Net
         {
             Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.None, WebSocketStateConst.Connecting);
 
-            if (m_Error == null)
+            var handler = m_Error;
+
+            if (handler == null)
                 return;
 
-            m_Error(this, e);
+            handler(this, e);
         }
 
         private void OnError(Exception e)
