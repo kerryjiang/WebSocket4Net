@@ -12,7 +12,7 @@ using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
 {
-    public partial class WebSocket
+    public partial class WebSocket : IDisposable
     {
         internal TcpClientSession Client { get; private set; }
 
@@ -148,8 +148,6 @@ namespace WebSocket4Net
             return new AsyncTcpSession(targetEndPoint);
         }
 
-#if !SILVERLIGHT
-
         TcpClientSession CreateSecureClient(string uri)
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
@@ -187,8 +185,6 @@ namespace WebSocket4Net
 
             return new SslStreamTcpSession(targetEndPoint);
         }
-
-#endif
 
         private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
         {
@@ -245,11 +241,7 @@ namespace WebSocket4Net
             }
             else if (uri.StartsWith(m_SecureUriPrefix, StringComparison.OrdinalIgnoreCase))
             {
-#if SILVERLIGHT
-                throw new ArgumentException("WebSocket4Net (Silverlight/WindowsPhone) cannot support wss yet.", "uri");
-#else
                 client = CreateSecureClient(uri);
-#endif
             }
             else
             {
@@ -611,6 +603,19 @@ namespace WebSocket4Net
         private void OnError(Exception e)
         {
             OnError(new ErrorEventArgs(e));
+        }
+
+        void IDisposable.Dispose()
+        {
+            var client = Client;
+
+            if (client != null)
+            {
+                if (client.IsConnected)
+                    client.Close();
+
+                Client = null;
+            }
         }
     }
 }
