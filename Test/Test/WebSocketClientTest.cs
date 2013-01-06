@@ -297,6 +297,29 @@ namespace WebSocket4Net.Test
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
         }
 
+        [Test]
+        public void RepeatFaildConnectTest()
+        {
+            StopServer();
+
+            int triedTimes = 0;
+
+            try
+            {
+
+                for (triedTimes = 0; triedTimes < 30000; triedTimes++)
+                {
+                    WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, 9999), "basic", m_Version);
+                    webSocketClient.Open();
+                    webSocketClient.Close();
+                }
+            }
+            catch (TargetInvocationException targetException)
+            {
+                Assert.Fail("Exception throw when try " + triedTimes + " times, " + targetException.Message + Environment.NewLine + targetException.StackTrace);
+            }            
+        }
+
         protected void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             Console.WriteLine(e.Exception.GetType() + ":" + e.Exception.Message + Environment.NewLine + e.Exception.StackTrace);
