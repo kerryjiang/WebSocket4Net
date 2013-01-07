@@ -254,7 +254,7 @@ namespace WebSocket4Net.Test
         }
 
         [Test]
-        public void UnreachableReconnectTest()
+        public void UnreachableReconnectTestA()
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
@@ -263,7 +263,6 @@ namespace WebSocket4Net.Test
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
-
 
             webSocketClient.Open();
 
@@ -298,27 +297,59 @@ namespace WebSocket4Net.Test
         }
 
         [Test]
-        public void RepeatFaildConnectTest()
+        public void UnreachableReconnectTestB()
         {
             StopServer();
 
-            int triedTimes = 0;
+            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
+            webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
+            webSocketClient.Error += (s, e) => { m_OpenedEvent.Set(); };
+            webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
+            webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
+            webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
 
-            try
-            {
+            webSocketClient.Open();
+            m_OpenedEvent.WaitOne();
+            Assert.AreEqual(WebSocketState.None, webSocketClient.State);
 
-                for (triedTimes = 0; triedTimes < 30000; triedTimes++)
-                {
-                    WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, 9999), "basic", m_Version);
-                    webSocketClient.Open();
-                    webSocketClient.Close();
-                }
-            }
-            catch (TargetInvocationException targetException)
-            {
-                Assert.Fail("Exception throw when try " + triedTimes + " times, " + targetException.Message + Environment.NewLine + targetException.StackTrace);
-            }            
+            StartServer();
+
+            webSocketClient.Open();
+            if (!m_OpenedEvent.WaitOne(5000))
+                Assert.Fail("Failed to Opened session ontime");
+
+            Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
+
+            webSocketClient.Close();
+
+            if (!m_CloseEvent.WaitOne(2000))
+                Assert.Fail("Failed to close session ontime");
+
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
+
+        //[Test]
+        //public void RepeatFaildConnectTest()
+        //{
+        //    StopServer();
+
+        //    int triedTimes = 0;
+
+        //    try
+        //    {
+        //        for (triedTimes = 0; triedTimes < 30000; triedTimes++)
+        //        {
+        //            WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, 9999), "basic", m_Version);
+        //            webSocketClient.Open();
+        //            webSocketClient.Close();
+        //        }
+        //    }
+        //    catch (TargetInvocationException targetException)
+        //    {
+        //        Assert.Fail("Exception throw when try " + triedTimes + " times, " + targetException.Message + Environment.NewLine + targetException.StackTrace);
+        //    }            
+        //}
 
         protected void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
