@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WPtoolkit</id>
+    <version>4.2012.10.30</version>
+    <title>Windows Phone toolkit</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://phone.codeplex.com/license</licenseUrl>
+    <projectUrl>http://phone.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Windows Phone toolkit provides a collection of controls, extension methods and page animations to help create beautiful and consistent Windows Phone user interfaces and make common progamming tasks easier. Documentation and source are on CodePlex at http://phone.codeplex.com.</description>
+    <releaseNotes>Release notes - http://phone.codeplex.com/releases/view/96743
+
+Includes - 
+
+Refactored project to support Windows Phone 7.1, 8.0 and more with maximum code sharing.
+
+WP8 Map API extensions, including Modern PushPin control
+
+LongListMultiSelector control, including Grid view multiselect.
+Control themes updated to match WP8 UI
+
+Large number of RTL bugs fixed now that RTL is a fully supported feature in WP8
+
+25+ bugs fixed
+Contains all the fixes, improvements and new controls that were part of the September 2012 release
+
+WP8 specific - 
+Removed LongListSelector as it’s now part of the SDK
+Removed Tuple.cs
+
+Removed PerformanceProgressBar (though we are taking the suggestion that we should add it back as a descendent of ProgressBar for backcompat)
+
+Removed GestureListener</releaseNotes>
+    <copyright>http://phone.codeplex.com/license</copyright>
+    <language>en-US</language>
+    <tags>wptoolkit toolkit windowsphone wp7 wp7dev phone tk wp7tk controls mango wp8 apollo</tags>
+    <references>
+      <reference file="Microsoft.Phone.Controls.Toolkit.dll" />
+    </references>
+  </metadata>
+</package>

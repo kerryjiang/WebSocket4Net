@@ -8,7 +8,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Microsoft.Silverlight.Testing;
+
+#if WINDOWS_PHONE
+    using Microsoft.Phone.Testing;
+#else
+    using Microsoft.Silverlight.Testing;
+#endif
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebSocket4Net;
 using System.Threading;
@@ -118,10 +124,6 @@ namespace SilverlightTest
         protected string m_CurrentMessage = string.Empty;
 
         private WebSocketVersion m_Version = WebSocketVersion.DraftHybi00;
-
-        private string m_Security;
-        private string m_CertificateFile;
-        private string m_Password;
 
         protected virtual string Host
         {

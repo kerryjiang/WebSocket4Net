@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WPToolkitTestFx</id>
+    <version>4.2012.11.14</version>
+    <title>Windows Phone Toolkit Test Framework</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://phone.codeplex.com/license</licenseUrl>
+    <projectUrl>http://phone.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Windows Phone Toolkit Test Framework provides an easy way to integrate unit tests for your Windows Phone apps.</description>
+    <releaseNotes>This update includes WP7.1 and WP8.0 versions of the package.
+It has a dependency on WPToolkit package.</releaseNotes>
+    <copyright>http://phone.codeplex.com/license</copyright>
+    <dependencies>
+      <dependency id="WPtoolkit" version="4.2012.10.30" />
+    </dependencies>
+    <references>
+      <reference file="Microsoft.Phone.Toolkit.Testing.dll" />
+      <reference file="Microsoft.VisualStudio.QualityTools.UnitTesting.Phone.dll" />
+    </references>
+  </metadata>
+</package>
