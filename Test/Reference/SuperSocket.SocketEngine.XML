@@ -48,12 +48,12 @@
             Gets the name of the server instance.
             </summary>
         </member>
-        <member name="P:SuperSocket.SocketEngine.AppDomainAppServer.IsRunning">
+        <member name="P:SuperSocket.SocketEngine.AppDomainAppServer.State">
             <summary>
-            Gets a value indicating whether this instance is running.
+            Gets the current state of the work item.
             </summary>
             <value>
-            	<c>true</c> if this instance is running; otherwise, <c>false</c>.
+            The state.
             </value>
         </member>
         <member name="P:SuperSocket.SocketEngine.AppDomainAppServer.SessionCount">
@@ -61,7 +61,7 @@
             Gets the total session count.
             </summary>
         </member>
-        <member name="P:SuperSocket.SocketEngine.AppDomainAppServer.State">
+        <member name="P:SuperSocket.SocketEngine.AppDomainAppServer.Summary">
             <summary>
             Gets the state data of the server.
             </summary>
@@ -329,6 +329,127 @@
             <param name="configFile">The configuration file.</param>
             <returns></returns>
         </member>
+        <member name="T:SuperSocket.SocketEngine.Configuration.CommandAssembly">
+            <summary>
+            Command assembly configuration element
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.CommandAssembly.Assembly">
+            <summary>
+            Gets the assembly name.
+            </summary>
+            <value>
+            The assembly.
+            </value>
+        </member>
+        <member name="T:SuperSocket.SocketEngine.Configuration.CommandAssemblyCollection">
+            <summary>
+            Command assembly configuation collection
+            </summary>
+        </member>
+        <member name="T:SuperSocket.SocketEngine.Configuration.SocketServiceConfig">
+            <summary>
+            SuperSocket's root configuration node
+            </summary>
+        </member>
+        <member name="M:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)">
+            <summary>
+            Gets a value indicating whether an unknown element is encountered during deserialization.
+            To keep compatible with old configuration
+            </summary>
+            <param name="elementName">The name of the unknown subelement.</param>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+            <returns>
+            true when an unknown element is encountered while deserializing; otherwise, false.
+            </returns>
+            <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.- or -One or more of the element's attributes is locked.- or -<paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.- or -The element has a Boolean attribute with an invalid value.- or -An attempt was made to deserialize a property more than once.- or -An attempt was made to deserialize a property that is not a valid member of the element.- or -The element cannot contain a CDATA or text element.</exception>
+        </member>
+        <member name="M:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.GetChildConfig``1(System.String)">
+            <summary>
+            Gets the child config.
+            </summary>
+            <typeparam name="TConfig">The type of the config.</typeparam>
+            <param name="childConfigName">Name of the child config.</param>
+            <returns></returns>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.Servers">
+            <summary>
+            Gets all the server configurations
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.ServerTypes">
+            <summary>
+            Gets the service configurations
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.ConnectionFilters">
+            <summary>
+            Gets all the connection filter configurations.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.LogFactories">
+            <summary>
+            Gets the defined log factory types.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.ReceiveFilterFactories">
+            <summary>
+            Gets the logfactory name of the bootstrap.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.CommandLoaders">
+            <summary>
+            Gets the command loaders definition.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MaxWorkingThreads">
+            <summary>
+            Gets the max working threads.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MinWorkingThreads">
+            <summary>
+            Gets the min working threads.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MaxCompletionPortThreads">
+            <summary>
+            Gets the max completion port threads.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MinCompletionPortThreads">
+            <summary>
+            Gets the min completion port threads.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.PerformanceDataCollectInterval">
+            <summary>
+            Gets the performance data collect interval, in seconds.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.DisablePerformanceDataCollector">
+            <summary>
+            Gets a value indicating whether [disable performance data collector].
+            </summary>
+            <value>
+            	<c>true</c> if [disable performance data collector]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.Isolation">
+            <summary>
+            Gets the isolation mode.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.LogFactory">
+            <summary>
+            Gets the logfactory name of the bootstrap.
+            </summary>
+        </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.OptionElements">
+            <summary>
+            Gets the option elements.
+            </summary>
+        </member>
         <member name="M:SuperSocket.SocketEngine.MarshalAppServer.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:SuperSocket.SocketEngine.AppDomainAppServer"/> class.
@@ -362,12 +483,12 @@
             Gets the name of the server instance.
             </summary>
         </member>
-        <member name="P:SuperSocket.SocketEngine.MarshalAppServer.IsRunning">
+        <member name="P:SuperSocket.SocketEngine.MarshalAppServer.State">
             <summary>
-            Gets a value indicating whether this instance is running.
+            Gets the current state of the work item.
             </summary>
             <value>
-            	<c>true</c> if this instance is running; otherwise, <c>false</c>.
+            The state.
             </value>
         </member>
         <member name="P:SuperSocket.SocketEngine.MarshalAppServer.SessionCount">
@@ -441,6 +562,14 @@
             <param name="config">The server config.</param>
             <returns></returns>
         </member>
+        <member name="P:SuperSocket.SocketEngine.SocketServerBase.SendingQueuePool">
+            <summary>
+            Gets the sending queue manager.
+            </summary>
+            <value>
+            The sending queue manager.
+            </value>
+        </member>
         <member name="T:SuperSocket.SocketEngine.SocketSession">
             <summary>
             Socket Session, all application session should base on this class
@@ -461,10 +590,31 @@
             Called when [close].
             </summary>
         </member>
-        <member name="M:SuperSocket.SocketEngine.SocketSession.StartSend">
+        <member name="M:SuperSocket.SocketEngine.SocketSession.TrySend(System.Collections.Generic.IList{System.ArraySegment{System.Byte}})">
             <summary>
-            Starts the sending.
+            Tries to send array segment.
             </summary>
+            <param name="segments">The segments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SuperSocket.SocketEngine.SocketSession.TrySend(System.ArraySegment{System.Byte})">
+            <summary>
+            Tries to send array segment.
+            </summary>
+            <param name="segment">The segment.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SuperSocket.SocketEngine.SocketSession.SendAsync(SuperSocket.Common.SendingQueue)">
+            <summary>
+            Sends in async mode.
+            </summary>
+            <param name="queue">The queue.</param>
+        </member>
+        <member name="M:SuperSocket.SocketEngine.SocketSession.SendSync(SuperSocket.Common.SendingQueue)">
+            <summary>
+            Sends in sync mode.
+            </summary>
+            <param name="queue">The queue.</param>
         </member>
         <member name="P:SuperSocket.SocketEngine.SocketSession.SessionID">
             <summary>
@@ -612,9 +762,9 @@
             The type of the server.
             </value>
         </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.Server.RequestFilterFactory">
+        <member name="P:SuperSocket.SocketEngine.Configuration.Server.ReceiveFilterFactory">
             <summary>
-            Gets the request filter factory.
+            Gets the Receive filter factory.
             </summary>
         </member>
         <member name="P:SuperSocket.SocketEngine.Configuration.Server.Ip">
@@ -807,112 +957,17 @@
             Gets the listeners' configuration.
             </summary>
         </member>
+        <member name="P:SuperSocket.SocketEngine.Configuration.Server.CommandAssemblies">
+            <summary>
+            Gets the command assemblies configuration.
+            </summary>
+            <value>
+            The command assemblies.
+            </value>
+        </member>
         <member name="T:SuperSocket.SocketEngine.Configuration.ServerCollection">
             <summary>
             Server configuration collection
-            </summary>
-        </member>
-        <member name="T:SuperSocket.SocketEngine.Configuration.SocketServiceConfig">
-            <summary>
-            SuperSocket's root configuration node
-            </summary>
-        </member>
-        <member name="M:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)">
-            <summary>
-            Gets a value indicating whether an unknown element is encountered during deserialization.
-            To keep compatible with old configuration
-            </summary>
-            <param name="elementName">The name of the unknown subelement.</param>
-            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
-            <returns>
-            true when an unknown element is encountered while deserializing; otherwise, false.
-            </returns>
-            <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.- or -One or more of the element's attributes is locked.- or -<paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.- or -The element has a Boolean attribute with an invalid value.- or -An attempt was made to deserialize a property more than once.- or -An attempt was made to deserialize a property that is not a valid member of the element.- or -The element cannot contain a CDATA or text element.</exception>
-        </member>
-        <member name="M:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.GetChildConfig``1(System.String)">
-            <summary>
-            Gets the child config.
-            </summary>
-            <typeparam name="TConfig">The type of the config.</typeparam>
-            <param name="childConfigName">Name of the child config.</param>
-            <returns></returns>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.Servers">
-            <summary>
-            Gets all the server configurations
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.ServerTypes">
-            <summary>
-            Gets the service configurations
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.ConnectionFilters">
-            <summary>
-            Gets all the connection filter configurations.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.LogFactories">
-            <summary>
-            Gets the defined log factory types.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.RequestFilterFactories">
-            <summary>
-            Gets the logfactory name of the bootstrap.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.CommandLoaders">
-            <summary>
-            Gets the command loaders definition.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MaxWorkingThreads">
-            <summary>
-            Gets the max working threads.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MinWorkingThreads">
-            <summary>
-            Gets the min working threads.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MaxCompletionPortThreads">
-            <summary>
-            Gets the max completion port threads.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.MinCompletionPortThreads">
-            <summary>
-            Gets the min completion port threads.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.PerformanceDataCollectInterval">
-            <summary>
-            Gets the performance data collect interval, in seconds.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.DisablePerformanceDataCollector">
-            <summary>
-            Gets a value indicating whether [disable performance data collector].
-            </summary>
-            <value>
-            	<c>true</c> if [disable performance data collector]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.Isolation">
-            <summary>
-            Gets the isolation mode.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.LogFactory">
-            <summary>
-            Gets the logfactory name of the bootstrap.
-            </summary>
-        </member>
-        <member name="P:SuperSocket.SocketEngine.Configuration.SocketServiceConfig.OptionElements">
-            <summary>
-            Gets the option elements.
             </summary>
         </member>
         <member name="T:SuperSocket.SocketEngine.SocketServerFactory">
