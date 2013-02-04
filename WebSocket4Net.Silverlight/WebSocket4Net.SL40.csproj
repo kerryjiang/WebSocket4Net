@@ -52,6 +52,9 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="SuperSocket.ClientEngine.Common">
       <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
@@ -223,7 +226,7 @@ if not exist %25sldir%25 (
 del $(TargetDir)SuperSocket.ClientEngine.Common.*
 del $(TargetDir)SuperSocket.ClientEngine.Core.*
 del $(TargetDir)SuperSocket.ClientEngine.Protocol.*
-del $(TargetDir)BouncyCastle.Crypto.dll</PostBuildEvent>
+del $(TargetDir)BouncyCastle.Crypto.*</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

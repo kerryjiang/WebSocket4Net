@@ -53,15 +53,18 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
