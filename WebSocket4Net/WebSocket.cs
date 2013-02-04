@@ -109,6 +109,8 @@ namespace WebSocket4Net
 
         internal string Origin { get; private set; }
 
+        public bool NoDelay { get; set; }
+
         static WebSocket()
         {
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
@@ -252,6 +254,7 @@ namespace WebSocket4Net
             client.Closed += new EventHandler(client_Closed);
             client.Error += new EventHandler<ErrorEventArgs>(client_Error);
             client.DataReceived += new EventHandler<DataEventArgs>(client_DataReceived);
+            client.NoDeplay = NoDelay;
 
             Client = client;
 

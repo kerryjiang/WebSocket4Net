@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net", "WebSocket4Net\WebSocket4Net.csproj", "{6920447F-76B1-4739-822E-9CE3A2882718}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.SL40", "WebSocket4Net.Silverlight\WebSocket4Net.SL40.csproj", "{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net35", "WebSocket4Net\WebSocket4Net.Net35.csproj", "{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.WindowsPhone", "WebSocket4Net.Silverlight\WebSocket4Net.WindowsPhone.csproj", "{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.MonoDroid", "WebSocket4Net\WebSocket4Net.MonoDroid.csproj", "{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net20", "WebSocket4Net\WebSocket4Net.Net20.csproj", "{AA8AA861-F540-40CD-B0A7-A669535CFD84}"
 EndProject
@@ -29,14 +23,6 @@ Global
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -45,22 +31,6 @@ Global
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
