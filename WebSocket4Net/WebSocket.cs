@@ -254,7 +254,6 @@ namespace WebSocket4Net
             client.Closed += new EventHandler(client_Closed);
             client.Error += new EventHandler<ErrorEventArgs>(client_Error);
             client.DataReceived += new EventHandler<DataEventArgs>(client_DataReceived);
-            client.NoDeplay = NoDelay;
 
             Client = client;
 
@@ -305,6 +304,8 @@ namespace WebSocket4Net
 
             if (Proxy != null)
                 Client.Proxy = Proxy;
+
+            Client.NoDeplay = NoDelay;
 
 #if SILVERLIGHT
     #if !WINDOWS_PHONE
