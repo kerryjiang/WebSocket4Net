@@ -1,15 +1,16 @@
 @echo off
 
+
 set fdir=%WINDIR%\Microsoft.NET\Framework
 set msbuild=%fdir%\v4.0.30319\msbuild.exe
 
-set sldir="%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71"
+set sldir="%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\Silverlight\v5.0"
 if not exist %sldir% (
-    set sldir="%ProgramFiles%\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone71"
+    set sldir="%ProgramFiles%\Reference Assemblies\Microsoft\Framework\Silverlight\v5.0"
 )
 
-set outDir=bin\sl40-windowsphone71\Debug
-%msbuild% WebSocket4Net.WP71\WebSocket4Net.WP71.csproj /p:Configuration=Debug;OutDir=..\%outDir% /t:Clean;Rebuild
+set outDir=bin\sl50\Debug
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj /p:Configuration=Debug;OutDir=..\%outDir% /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 "Tools\ILMerge" /keyfile:"websocket4net.snk" /targetplatform:v4,%sldir% /ndebug /out:%outDir%\WebSocket4Net.dll %outDir%\WebSocket4Net.dll %outDir%\SuperSocket.ClientEngine.Common.dll %outDir%\SuperSocket.ClientEngine.Core.dll %outDir%\SuperSocket.ClientEngine.Protocol.dll %outDir%\BouncyCastle.Crypto.dll
@@ -19,9 +20,9 @@ del %outDir%\SuperSocket.ClientEngine.Protocol.dll
 del %outDir%\BouncyCastle.Crypto.dll
 del %outDir%\*.pdb
 
-set outDir=bin\sl40-windowsphone71\Release
+set outDir=bin\sl50\Release
 
-%msbuild% WebSocket4Net.WP71\WebSocket4Net.WP71.csproj /p:Configuration=Release;OutDir=..\%outDir% /t:Clean;Rebuild
+%msbuild% WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj /p:Configuration=Release;OutDir=..\%outDir% /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
 "Tools\ILMerge" /keyfile:"websocket4net.snk" /targetplatform:v4,%sldir% /ndebug /out:%outDir%\WebSocket4Net.dll %outDir%\WebSocket4Net.dll %outDir%\SuperSocket.ClientEngine.Common.dll %outDir%\SuperSocket.ClientEngine.Core.dll %outDir%\SuperSocket.ClientEngine.Protocol.dll %outDir%\BouncyCastle.Crypto.dll

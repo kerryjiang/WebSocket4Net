@@ -18,7 +18,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\bin\net35\Debug\</OutputPath>
+    <OutputPath>Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\bin\net35\Release\</OutputPath>
+    <OutputPath>Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -104,10 +104,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /out:WebSocket4Net.dll WebSocket4Net.dll SuperSocket.ClientEngine.Common.dll SuperSocket.ClientEngine.Core.dll SuperSocket.ClientEngine.Protocol.dll
-del SuperSocket.ClientEngine.Common.*
-del SuperSocket.ClientEngine.Core.*
-del SuperSocket.ClientEngine.Protocol.*</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

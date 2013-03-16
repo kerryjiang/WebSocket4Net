@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Diagnostics.CodeAnalysis;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WebSocket4Net")]

@@ -3,224 +3,233 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8299F889-FF7D-4748-B556-28100206E086}</ProjectGuid>
-    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{119C56BD-C133-4D7B-9C33-0F8CE1B1B61E}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebSocket4Net</RootNamespace>
     <AssemblyName>WebSocket4Net</AssemblyName>
-    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <SilverlightApplication>false</SilverlightApplication>
-    <ValidateXaml>true</ValidateXaml>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <!-- This property group is only here to support building this project using the 
-       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
-       to set the TargetFrameworkVersion to v3.5 -->
-  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidSupportedAbis>armeabi</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <TargetFrameworkVersion>v2.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>Bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>Bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\SL50\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MD22\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\WebSocket4Net\Command\BadRequest.cs">
+      <SubType>Code</SubType>
       <Link>Command\BadRequest.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Binary.cs">
+      <SubType>Code</SubType>
       <Link>Command\Binary.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Close.cs">
+      <SubType>Code</SubType>
       <Link>Command\Close.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Handshake.cs">
+      <SubType>Code</SubType>
       <Link>Command\Handshake.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Ping.cs">
+      <SubType>Code</SubType>
       <Link>Command\Ping.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Pong.cs">
+      <SubType>Code</SubType>
       <Link>Command\Pong.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\Text.cs">
+      <SubType>Code</SubType>
       <Link>Command\Text.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\WebSocketCommandBase.cs">
+      <SubType>Code</SubType>
       <Link>Command\WebSocketCommandBase.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\DataReceivedEventArgs.cs">
-      <Link>DataReceivedEventArgs.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\ExtensionAttribute.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\Extensions.cs">
-      <Link>Extensions.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\WebSocket4Net\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
-    </Compile>
+    <Compile Include="..\WebSocket4Net\GlobalAssemblyInfo.cs" />
     <Compile Include="..\WebSocket4Net\IJsonExecutor.cs">
-      <Link>IJsonExecutor.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\JsonExecutor.cs">
-      <Link>JsonExecutor.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\JsonWebSocket.cs">
-      <Link>JsonWebSocket.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\JsonWebSocket.DataContractJson.cs">
-      <Link>JsonWebSocket.DataContractJson.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.Net.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\MessageReceivedEventArgs.cs">
-      <Link>MessageReceivedEventArgs.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\OpCode.cs">
-      <Link>OpCode.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeHybi10.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\CloseStatusCodeHybi10.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeRfc6455.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\CloseStatusCodeRfc6455.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00DataReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi00DataReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00HandshakeReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi00HandshakeReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi00Processor.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi00Processor.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10DataReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi10DataReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10HandshakeReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi10HandshakeReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\DraftHybi10Processor.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\DraftHybi10Processor.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\DataFramePartReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\DataFramePartReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\ExtendedLenghtReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\ExtendedLenghtReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\FixPartReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\FixPartReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\IDataFramePartReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\IDataFramePartReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\MaskKeyReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\MaskKeyReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\PayloadDataReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\FramePartReader\PayloadDataReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\HandshakeReader.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\HandshakeReader.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ICloseStatusCode.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\ICloseStatusCode.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\IProtocolProcessor.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\IProtocolProcessor.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorBase.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\ProtocolProcessorBase.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ProtocolProcessorFactory.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\ProtocolProcessorFactory.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\ReaderBase.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\ReaderBase.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\Rfc6455Processor.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\Rfc6455Processor.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\WebSocketDataFrame.cs">
+      <SubType>Code</SubType>
       <Link>Protocol\WebSocketDataFrame.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\WebSocket.cs">
-      <Link>WebSocket.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocket.Net.cs" />
     <Compile Include="..\WebSocket4Net\WebSocketCommandInfo.cs">
-      <Link>WebSocketCommandInfo.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\WebSocketContext.cs">
-      <Link>WebSocketContext.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\WebSocketState.cs">
-      <Link>WebSocketState.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\WebSocket4Net\WebSocketVersion.cs">
-      <Link>WebSocketVersion.cs</Link>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions.Silverlight.cs" />
-    <Compile Include="MD5.cs" />
-    <Compile Include="MD5Managed.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebSocket.Silverlight.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
-        <SilverlightProjectProperties />
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <!--
+    <PostBuildEvent></PostBuildEvent>
+  -->
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

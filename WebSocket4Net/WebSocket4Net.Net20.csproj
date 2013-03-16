@@ -17,7 +17,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\bin\net20\Debug\</OutputPath>
+    <OutputPath>Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\bin\net20\Release\</OutputPath>
+    <OutputPath>Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -104,11 +104,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Tools\ILMerge" /keyfile:"$(SolutionDir)websocket4net.snk" /targetplatform:v2 /ndebug /allowdup /out:$(TargetDir)WebSocket4Net.dll $(TargetDir)WebSocket4Net.dll $(TargetDir)SuperSocket.ClientEngine.Common.dll $(TargetDir)SuperSocket.ClientEngine.Core.dll $(TargetDir)SuperSocket.ClientEngine.Protocol.dll $(TargetDir)Newtonsoft.Json.dll
-del $(TargetDir)SuperSocket.ClientEngine.Common.*
-del $(TargetDir)SuperSocket.ClientEngine.Core.*
-del $(TargetDir)SuperSocket.ClientEngine.Protocol.*
-del $(TargetDir)Newtonsoft.Json.dll</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
