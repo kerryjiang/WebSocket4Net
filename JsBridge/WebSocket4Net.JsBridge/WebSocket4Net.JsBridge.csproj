@@ -60,18 +60,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="SuperSocket.ClientEngine.Common, Version=0.3.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\Debug\SuperSocket.ClientEngine.Common.dll</HintPath>
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.3.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\Debug\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+      <HintPath>..\..\Reference\SuperSocket.ClientEngine\SL40\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -106,9 +109,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WebSocket4Net.Silverlight\WebSocket4Net.Silverlight.csproj">
+    <ProjectReference Include="..\..\WebSocket4Net.Silverlight\WebSocket4Net.SL40.csproj">
       <Project>{57D44E92-7B6F-4F3D-8755-FBB1E1456C36}</Project>
-      <Name>WebSocket4Net.Silverlight</Name>
+      <Name>WebSocket4Net.SL40</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

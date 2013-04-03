@@ -5,9 +5,9 @@ using System.ComponentModel;
 
 namespace WebSocket4Net.JsBridge
 {
-    public enum ClientAccessPolicyProtocol
+    class ClientAccessPolicyProtocol
     {
-        Http = 0,
-        Tcp = 1
+        internal const int Http = 0;
+        internal const int Tcp = 1;
     }
 }

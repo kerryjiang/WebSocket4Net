@@ -29,19 +29,19 @@ namespace WebSocket4Net.JsBridge
         }
 
         [ScriptableMember(ScriptAlias = "open")]
-        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol)
+        public void Open(string uri, string protocol, int policyProtocol)
         {
             Open(uri, protocol, policyProtocol, true, m_DefaultAutoSendPingInterval);
         }
 
         [ScriptableMember(ScriptAlias = "open")]
-        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol, bool enableAutoSendPing)
+        public void Open(string uri, string protocol, int policyProtocol, bool enableAutoSendPing)
         {
             Open(uri, protocol, policyProtocol, enableAutoSendPing, m_DefaultAutoSendPingInterval);
         }
 
         [ScriptableMember(ScriptAlias = "open")]
-        public void Open(string uri, string protocol, ClientAccessPolicyProtocol policyProtocol, bool enableAutoSendPing, int autoSendPingInterval)
+        public void Open(string uri, string protocol, int policyProtocol, bool enableAutoSendPing, int autoSendPingInterval)
         {
             m_AsyncOper = AsyncOperationManager.CreateOperation(null);
 
@@ -59,7 +59,7 @@ namespace WebSocket4Net.JsBridge
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Error += new EventHandler<ErrorEventArgs>(m_WebSocket_Error);
-            m_WebSocket.ClientAccessPolicyProtocol = (policyProtocol == ClientAccessPolicyProtocol.Http) ? SocketClientAccessPolicyProtocol.Http : SocketClientAccessPolicyProtocol.Tcp;
+            m_WebSocket.ClientAccessPolicyProtocol = (policyProtocol != ClientAccessPolicyProtocol.Tcp) ? SocketClientAccessPolicyProtocol.Http : SocketClientAccessPolicyProtocol.Tcp;
             m_WebSocket.EnableAutoSendPing = enableAutoSendPing;
             m_WebSocket.AutoSendPingInterval = autoSendPingInterval;
             m_WebSocket.Open();
