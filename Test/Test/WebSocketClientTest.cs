@@ -144,7 +144,7 @@ namespace WebSocket4Net.Test
         public virtual void Setup()
         {
             m_WebSocketServer = new WebSocketServer(new BasicSubProtocol("Basic", new List<Assembly> { this.GetType().Assembly }));
-            m_WebSocketServer.NewDataReceived += new SessionEventHandler<WebSocketSession, byte[]>(m_WebSocketServer_NewDataReceived);
+            m_WebSocketServer.NewDataReceived += new SessionHandler<WebSocketSession, byte[]>(m_WebSocketServer_NewDataReceived);
             m_WebSocketServer.Setup(new ServerConfig
             {
                 Port = 2012,
