@@ -242,16 +242,16 @@
       <Link>WebSocketVersion.cs</Link>
     </Compile>
 	<Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\WebSocket4Net.WP80\Extensions.Silverlight.cs">
+    <Compile Include="..\WebSocket4Net.Silverlight\Extensions.Silverlight.cs">
       <Link>Extensions.Silverlight.cs</Link>
     </Compile>
-    <Compile Include="..\WebSocket4Net.WP80\MD5.cs">
+    <Compile Include="..\WebSocket4Net.Silverlight\MD5.cs">
       <Link>MD5.cs</Link>
     </Compile>
-    <Compile Include="..\WebSocket4Net.WP80\MD5Managed.cs">
+    <Compile Include="..\WebSocket4Net.Silverlight\MD5Managed.cs">
       <Link>MD5Managed.cs</Link>
     </Compile>    
-    <Compile Include="..\WebSocket4Net.WP80\WebSocket.Silverlight.cs">
+    <Compile Include="..\WebSocket4Net.Silverlight\WebSocket.Silverlight.cs">
       <Link>WebSocket.Silverlight.cs</Link>
     </Compile>
   </ItemGroup>
