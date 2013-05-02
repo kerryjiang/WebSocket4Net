@@ -28,7 +28,7 @@ namespace WP7Test
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            var url = "wss://w-shdc-zjiang:2013/";
+            var url = "wss://localhost:2013/";
 
             m_WebSocket = new WebSocket(url);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
