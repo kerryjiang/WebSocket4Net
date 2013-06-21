@@ -116,7 +116,7 @@ namespace WebSocket4Net
                 typeof(String),
                 typeof(Decimal),
                 typeof(DateTime),
-                
+                typeof(DateTimeOffset),
                 typeof(TimeSpan),
                 typeof(Guid)
             };

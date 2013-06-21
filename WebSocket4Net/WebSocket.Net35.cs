@@ -22,13 +22,13 @@ namespace WebSocket4Net
             set
             {
                 m_AllowUnstrustedCertificate = value;
-				throw new NotImplementedException("SSL not supported");
-				//var client = Client as SslStreamTcpSession;
 
-				//if(client != null)
-				//{
-				//    client.AllowUnstrustedCertificate = m_AllowUnstrustedCertificate;
-				//}
+                var client = Client as SslStreamTcpSession;
+
+                if(client != null)
+                {
+                    client.AllowUnstrustedCertificate = m_AllowUnstrustedCertificate;
+                }
             }
         }
 
