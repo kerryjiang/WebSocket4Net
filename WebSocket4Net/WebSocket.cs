@@ -151,7 +151,8 @@ namespace WebSocket4Net
 				HandshakeHost = TargetUri.Host;
 			else
 				HandshakeHost = TargetUri.Host + ":" + port;
-			return null;
+			
+			return new SyncTcpClientSession(targetEndPoint);
 			//return new AsyncTcpSession(targetEndPoint);
 		}
 
