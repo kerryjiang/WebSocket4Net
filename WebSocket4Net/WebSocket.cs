@@ -358,15 +358,22 @@ namespace WebSocket4Net
 
         private void OnPingTimerCallback(object state)
         {
-            if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
+            try
             {
-                //have not got last response
-                return;
-            }
+                if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
+                {
+                    //have not got last response
+                    return;
+                }
 
-            var protocolProcessor = state as IProtocolProcessor;
-            m_LastPingRequest = DateTime.Now.ToString();
-            protocolProcessor.SendPing(this, m_LastPingRequest);
+                var protocolProcessor = state as IProtocolProcessor;
+                m_LastPingRequest = DateTime.Now.ToString();
+                protocolProcessor.SendPing(this, m_LastPingRequest);
+            }
+            catch (Exception e)
+            {
+                OnError(e);
+            }
         }
 
         private EventHandler m_Opened;
@@ -506,9 +513,16 @@ namespace WebSocket4Net
 
         private void CheckCloseHandshake(object state)
         {
-            if (m_StateCode != WebSocketStateConst.Closed)
+            try
             {
-                CloseWithoutHandshake();
+                if (m_StateCode != WebSocketStateConst.Closed)
+                {
+                    CloseWithoutHandshake();
+                }
+            }
+            catch (Exception e)
+            {
+                OnError(e);
             }
         }
 
