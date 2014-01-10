@@ -211,15 +211,8 @@ namespace WebSocket4Net.Test
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
             webSocketClient.Open();
 
-            if (!m_OpenedEvent.WaitOne(2000))
-                Assert.Fail("Failed to Opened session ontime");
-
-            Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
-
-            webSocketClient.Close();
-
-            if (!m_CloseEvent.WaitOne(1000))
-                Assert.Fail("Failed to close session ontime");
+            if (!m_CloseEvent.WaitOne(1000 * 20))
+                Assert.Fail("Failed to wait session closed ontime");
 
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
 
@@ -284,7 +277,7 @@ namespace WebSocket4Net.Test
 
             m_OpenedEvent.WaitOne();
 
-            Assert.AreEqual(WebSocketState.None, webSocketClient.State);
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
 
             StartServer();
 
@@ -311,7 +304,7 @@ namespace WebSocket4Net.Test
 
             webSocketClient.Open();
             m_OpenedEvent.WaitOne();
-            Assert.AreEqual(WebSocketState.None, webSocketClient.State);
+            Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
 
             StartServer();
 
@@ -321,11 +314,14 @@ namespace WebSocket4Net.Test
 
             Assert.AreEqual(WebSocketState.Open, webSocketClient.State);
 
+            m_CloseEvent.Reset();
+
             webSocketClient.Close();
 
             if (!m_CloseEvent.WaitOne(2000))
                 Assert.Fail("Failed to close session ontime");
 
+            Console.WriteLine("State {0}: {1}", webSocketClient.GetHashCode(), webSocketClient.State);
             Assert.AreEqual(WebSocketState.Closed, webSocketClient.State);
         }
 
