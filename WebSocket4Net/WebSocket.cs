@@ -269,6 +269,13 @@ namespace WebSocket4Net
         void client_Error(object sender, ErrorEventArgs e)
         {
             OnError(e);
+
+            //Also fire close event if the connection fail to connect
+            if (m_StateCode == WebSocketStateConst.Connecting)
+            {
+                m_StateCode = WebSocketStateConst.Closing;
+                OnClosed();
+            }
         }
 
         void client_Closed(object sender, EventArgs e)
@@ -609,8 +616,6 @@ namespace WebSocket4Net
 
         private void OnError(ErrorEventArgs e)
         {
-            Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.None, WebSocketStateConst.Connecting);
-
             var handler = m_Error;
 
             if (handler == null)
