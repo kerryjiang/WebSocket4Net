@@ -38,21 +38,22 @@ namespace WebSocket4Net
         private const string m_Space = " ";
         private const string m_ValueSeparator = ", ";
 
-        public static bool ParseMimeHeader(this string source, IDictionary<string, object> valueContainer)
+        public static bool ParseMimeHeader(this string source, IDictionary<string, object> valueContainer, out string verbLine)
         {
+            verbLine = string.Empty;
+
             var items = valueContainer;
 
             string line;
-            string firstLine = string.Empty;
             string prevKey = string.Empty;
 
             var reader = new StringReader(source);
 
             while (!string.IsNullOrEmpty(line = reader.ReadLine()))
             {
-                if (string.IsNullOrEmpty(firstLine))
+                if (string.IsNullOrEmpty(verbLine))
                 {
-                    firstLine = line;
+                    verbLine = line;
                     continue;
                 }
 

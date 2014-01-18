@@ -9,6 +9,13 @@ namespace WebSocket4Net.Protocol
     {
         protected const string HeaderItemFormat = "{0}: {1}";
 
+        protected static string[] ExptectedResponseVerbLines = new string[]
+        {
+            "HTTP/1.1 101 WebSocket Protocol Handshake",
+            "HTTP/1.1 101 Web Socket Protocol Handshake",
+            "HTTP/1.1 101 Switching Protocols"
+        };
+
         public ProtocolProcessorBase(WebSocketVersion version, ICloseStatusCode closeStatusCode)
         {
             CloseStatusCode = closeStatusCode;

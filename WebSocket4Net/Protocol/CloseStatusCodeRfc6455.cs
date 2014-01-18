@@ -20,16 +20,16 @@ namespace WebSocket4Net.Protocol
             NoStatusCode = 1005;
         }
 
-        public int NormalClosure { get; private set; }
-        public int GoingAway { get; private set; }
-        public int ProtocolError { get; private set; }
-        public int NotAcceptableData { get; private set; }
-        public int TooLargeFrame { get; private set; }
-        public int InvalidUTF8 { get; private set; }
-        public int ViolatePolicy { get; private set; }
-        public int ExtensionNotMatch { get; private set; }
-        public int UnexpectedCondition { get; private set; }
-        public int TLSHandshakeFailure { get; private set; }
-        public int NoStatusCode { get; private set; }
+        public short NormalClosure { get; private set; }
+        public short GoingAway { get; private set; }
+        public short ProtocolError { get; private set; }
+        public short NotAcceptableData { get; private set; }
+        public short TooLargeFrame { get; private set; }
+        public short InvalidUTF8 { get; private set; }
+        public short ViolatePolicy { get; private set; }
+        public short ExtensionNotMatch { get; private set; }
+        public short UnexpectedCondition { get; private set; }
+        public short TLSHandshakeFailure { get; private set; }
+        public short NoStatusCode { get; private set; }
     }
 }

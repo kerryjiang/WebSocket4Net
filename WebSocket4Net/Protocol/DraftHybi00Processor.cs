@@ -52,6 +52,7 @@ namespace WebSocket4Net.Protocol
         private const string m_Error_ChallengeNotMatch = "challenge doesn't match";
         private const string m_Error_InvalidHandshake = "invalid handshake";
 
+
         public override bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description)
         {
             var challenge = handshakeInfo.Data;
@@ -71,9 +72,17 @@ namespace WebSocket4Net.Protocol
                 }
             }
 
-            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items))
+            var verbLine = string.Empty;
+
+            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items, out verbLine))
             {
                 description = m_Error_InvalidHandshake;
+                return false;
+            }
+
+            if (!ExptectedResponseVerbLines.Contains(verbLine))
+            {
+                description = verbLine;
                 return false;
             }
 

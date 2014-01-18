@@ -47,7 +47,7 @@ namespace WebSocket4Net
                     offset = firstFrame.InnerData.Count - length;
 
                     var closeStatusCode = firstFrame.InnerData.ToArrayData(offset, 2);
-                    CloseStatusCode = closeStatusCode[0] * 256 + closeStatusCode[1];
+                    CloseStatusCode = (short)(closeStatusCode[0] * 256 + closeStatusCode[1]);
 
                     if (length > 2)
                     {
@@ -150,7 +150,7 @@ namespace WebSocket4Net
                 if (length >= 2)
                 {
                     var closeStatusCode = frame.InnerData.ToArrayData(offset, 2);
-                    CloseStatusCode = closeStatusCode[0] * 256 + closeStatusCode[1];
+                    CloseStatusCode = (short)(closeStatusCode[0] * 256 + closeStatusCode[1]);
 
                     if (length > 2)
                     {
@@ -187,6 +187,6 @@ namespace WebSocket4Net
 
         public string Text { get; set; }
 
-        public int CloseStatusCode { get; private set; }
+        public short CloseStatusCode { get; private set; }
     }
 }

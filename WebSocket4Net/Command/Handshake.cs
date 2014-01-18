@@ -12,6 +12,7 @@ namespace WebSocket4Net.Command
 
             if (!session.ProtocolProcessor.VerifyHandshake(session, commandInfo, out description))
             {
+                session.FireError(new Exception(description));
                 session.Close(session.ProtocolProcessor.CloseStatusCode.ProtocolError, description);
                 return;
             }

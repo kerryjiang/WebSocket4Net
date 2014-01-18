@@ -495,14 +495,15 @@ namespace WebSocket4Net
             }
 
             //The websocket is connecting or in handshake
-            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.Connecting)
+            if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closing, WebSocketStateConst.Connecting)
                     == WebSocketStateConst.Connecting)
             {
                 var client = Client;
 
-                if (client != null)
+                if (client != null && client.IsConnected)
                 {
                     client.Close();
+                    return;
                 }
 
                 OnClosed();

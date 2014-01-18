@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 #endif
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using SuperSocket.ClientEngine;
+
 
 namespace WebSocket4Net.Protocol
 {
@@ -239,9 +241,17 @@ namespace WebSocket4Net.Protocol
                 return false;
             }
 
-            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items))
+            var verbLine = string.Empty;
+
+            if (!handshakeInfo.Text.ParseMimeHeader(websocket.Items, out verbLine))
             {
                 description = m_Error_InvalidHandshake;
+                return false;
+            }
+
+            if (!ExptectedResponseVerbLines.Contains(verbLine))
+            {
+                description = verbLine;
                 return false;
             }
 
