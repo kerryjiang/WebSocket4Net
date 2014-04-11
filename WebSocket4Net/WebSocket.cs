@@ -109,7 +109,9 @@ namespace WebSocket4Net
 
         internal string Origin { get; private set; }
 
+#if !__IOS__
         public bool NoDelay { get; set; }
+#endif
 
         static WebSocket()
         {
@@ -312,12 +314,14 @@ namespace WebSocket4Net
             if (Proxy != null)
                 Client.Proxy = Proxy;
 
+#if !__IOS__
             Client.NoDeplay = NoDelay;
+#endif
 
 #if SILVERLIGHT
-    #if !WINDOWS_PHONE
+#if !WINDOWS_PHONE
             Client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
-    #endif
+#endif
 #endif
             Client.Connect();
         }

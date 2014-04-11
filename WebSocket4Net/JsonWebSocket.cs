@@ -93,11 +93,28 @@ namespace WebSocket4Net
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
         {
             m_WebSocket = new WebSocket(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version);
+            m_WebSocket.EnableAutoSendPing = true;
+            SubscribeEvents();
+        }
+
+        public JsonWebSocket(WebSocket websocket)
+        {
+            if (websocket == null)
+                throw new ArgumentNullException("websocket");
+
+            if (websocket.State == WebSocketState.None)
+                throw new ArgumentException("Thed websocket must be in the initial state.", "websocket");
+
+            m_WebSocket = websocket;
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
             m_WebSocket.Closed += new EventHandler(m_WebSocket_Closed);
             m_WebSocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(m_WebSocket_MessageReceived);
             m_WebSocket.Opened += new EventHandler(m_WebSocket_Opened);
             m_WebSocket.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(m_WebSocket_Error);
-            m_WebSocket.EnableAutoSendPing = true;
         }
 
 #if SILVERLIGHT && !WINDOWS_PHONE

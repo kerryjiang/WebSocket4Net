@@ -31,17 +31,17 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Common.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Core.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Proxy">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MT\Debug\SuperSocket.ClientEngine.Proxy.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine.Proxy, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
