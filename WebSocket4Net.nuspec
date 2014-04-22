@@ -10,10 +10,5 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>WebSocket4Net is a .NET websocket client implemtation. It originates from SuperWebSocket WebSocket Client. For better developing of the websocket client, it was separated from SuperWebSocket and was renamed to WebSocket4Net.</description>
     <tags>WebSocket, WebSocket4Net, SuperWebSocket</tags>
-    <dependencies>
-        <group targetFramework="net20">
-            <dependency id="Json.Net" version="4.5.0.0" />
-        </group>
-    </dependencies>
   </metadata>
 </package>
