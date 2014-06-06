@@ -10,7 +10,7 @@ namespace WebSocket4Net.Protocol
     class Rfc6455Processor : DraftHybi10Processor
     {
         public Rfc6455Processor()
-            : base(WebSocketVersion.Rfc6455, new CloseStatusCodeRfc6455())
+            : base(WebSocketVersion.Rfc6455, new CloseStatusCodeRfc6455(), "Origin")
         {
 
         }
