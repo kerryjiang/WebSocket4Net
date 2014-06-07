@@ -273,26 +273,11 @@ namespace WebSocket4Net
             OnError(e);
 
             //Also fire close event if the connection fail to connect
-            if (m_StateCode == WebSocketStateConst.Connecting)
-            {
-                m_StateCode = WebSocketStateConst.Closing;
-                OnClosed();
-            }
+            OnClosed();
         }
 
         void client_Closed(object sender, EventArgs e)
         {
-            //If the socket connection is closed by the server while connecting (meaning
-            //the connection establishment effectively failed but without an error), the
-            //user will not be notified if the status is "Connecting" because OnClosed 
-            //will not fire the event which gives the user no chance to react to this event.
-            //Therefore the status must be changed to "Closing" (similar to client_Error) 
-            //to trigger the event.
-            if (m_StateCode == WebSocketStateConst.Connecting)
-            {
-                m_StateCode = WebSocketStateConst.Closing;
-            }
-
             OnClosed();
         }
 
@@ -480,7 +465,7 @@ namespace WebSocket4Net
         {
             var fireBaseClose = false;
 
-            if (m_StateCode == WebSocketStateConst.Closing || m_StateCode == WebSocketStateConst.Open)
+            if (m_StateCode == WebSocketStateConst.Closing || m_StateCode == WebSocketStateConst.Open || m_StateCode == WebSocketStateConst.Connecting)
                 fireBaseClose = true;
 
             m_StateCode = WebSocketStateConst.Closed;
