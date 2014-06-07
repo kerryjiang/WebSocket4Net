@@ -21,6 +21,8 @@ namespace WebSocket4Net.Protocol
 
         private string m_ExpectedAcceptKey = "ExpectedAccept";
 
+        private readonly string m_OriginHeaderName = "Sec-WebSocket-Origin";
+
         private static Random m_Random = new Random();
 
         public DraftHybi10Processor()
@@ -28,10 +30,10 @@ namespace WebSocket4Net.Protocol
         {
         }
 
-        protected DraftHybi10Processor(WebSocketVersion version, ICloseStatusCode closeStatusCode)
+        protected DraftHybi10Processor(WebSocketVersion version, ICloseStatusCode closeStatusCode, string originHeaderName)
             : base(version, closeStatusCode)
         {
-
+            this.m_OriginHeaderName = originHeaderName;
         }
 
         public override void SendHandshake(WebSocket websocket)
@@ -62,7 +64,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append("Host: ");
             handshakeBuilder.AppendWithCrCf(websocket.HandshakeHost);
-            handshakeBuilder.Append("Sec-WebSocket-Origin: ");
+            handshakeBuilder.Append(string.Format("{0}: ", m_OriginHeaderName));
             handshakeBuilder.AppendWithCrCf(string.IsNullOrEmpty(websocket.Origin) ? websocket.TargetUri.Host : websocket.Origin);
 
             if (!string.IsNullOrEmpty(websocket.SubProtocol))
