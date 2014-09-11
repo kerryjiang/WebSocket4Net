@@ -570,10 +570,8 @@ namespace WebSocket4Net
                 if (CommandReader.NextCommandReader != null)
                     CommandReader = CommandReader.NextCommandReader;
 
-                if (commandInfo == null)
-                    break;
-
-                ExecuteCommand(commandInfo);
+                if (commandInfo != null)                
+                    ExecuteCommand(commandInfo);
 
                 if (left <= 0)
                     break;
