@@ -78,6 +78,13 @@ namespace WebSocket4Net
 
         public IProxyConnector Proxy { get; set; }
 
+        private EndPoint m_HttpConnectProxy;
+
+        internal EndPoint HttpConnectProxy
+        {
+            get { return m_HttpConnectProxy; }
+        }
+
         protected IClientCommandReader<WebSocketCommandInfo> CommandReader { get; private set; }
 
         private Dictionary<string, ICommand<WebSocket, WebSocketCommandInfo>> m_CommandDict
@@ -149,7 +156,7 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new AsyncTcpSession(targetEndPoint);
+            return new AsyncTcpSession(m_HttpConnectProxy ?? targetEndPoint);
         }
 
         TcpClientSession CreateSecureClient(string uri)
@@ -187,10 +194,10 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new SslStreamTcpSession(targetEndPoint);
+            return new SslStreamTcpSession(m_HttpConnectProxy ?? targetEndPoint);
         }
 
-        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
+        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy)
         {
             if (version == WebSocketVersion.None)
             {
@@ -236,6 +243,8 @@ namespace WebSocket4Net
             SubProtocol = subProtocol;
 
             Items = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+            m_HttpConnectProxy = httpConnectProxy;
 
             TcpClientSession client;
 

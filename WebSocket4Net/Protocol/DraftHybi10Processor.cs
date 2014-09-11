@@ -50,11 +50,18 @@ namespace WebSocket4Net.Protocol
 
             var handshakeBuilder = new StringBuilder();
 
+            if (websocket.HttpConnectProxy != null)
+            {
 #if SILVERLIGHT
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
+                handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
 #else
-            handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.PathAndQuery);
+                handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.PathAndQuery);
 #endif
+            }
+            else
+            {
+                handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.ToString());
+            }
 
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
             handshakeBuilder.AppendWithCrCf("Connection: Upgrade");
