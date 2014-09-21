@@ -138,7 +138,7 @@ namespace WebSocket4Net.Protocol
 
             var handshakeBuilder = new StringBuilder();
 
-            if (websocket.HttpConnectProxy != null)
+            if (websocket.HttpConnectProxy == null)
             {
 
 #if SILVERLIGHT

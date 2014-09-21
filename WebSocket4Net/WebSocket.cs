@@ -129,6 +129,9 @@ namespace WebSocket4Net
         {
             TargetUri = new Uri(uri);
 
+            if (string.IsNullOrEmpty(Origin))
+                Origin = TargetUri.GetLeftPart(UriPartial.Authority);
+
             IPAddress ipAddress;
 
             EndPoint remoteEndPoint;

@@ -50,7 +50,7 @@ namespace WebSocket4Net.Protocol
 
             var handshakeBuilder = new StringBuilder();
 
-            if (websocket.HttpConnectProxy != null)
+            if (websocket.HttpConnectProxy == null)
             {
 #if SILVERLIGHT
                 handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
@@ -72,7 +72,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Host: ");
             handshakeBuilder.AppendWithCrCf(websocket.HandshakeHost);
             handshakeBuilder.Append(string.Format("{0}: ", m_OriginHeaderName));
-            handshakeBuilder.AppendWithCrCf(string.IsNullOrEmpty(websocket.Origin) ? websocket.TargetUri.Host : websocket.Origin);
+            handshakeBuilder.AppendWithCrCf(websocket.Origin);
 
             if (!string.IsNullOrEmpty(websocket.SubProtocol))
             {
