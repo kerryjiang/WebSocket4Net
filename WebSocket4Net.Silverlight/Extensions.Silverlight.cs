@@ -21,6 +21,17 @@ namespace WebSocket4Net
 
             return uri.OriginalString.Substring(pos);
         }
+
+        public static string GetLeftPart(this Uri uri, int left)
+        {
+            
+            int pos = uri.OriginalString.IndexOf('/', uri.Scheme.Length + 3 + uri.Host.Length);
+
+            if (pos < 0)
+                return uri.OriginalString;
+
+            return uri.OriginalString.Substring(0, pos);
+        }
     }
 
     public static class MD5
@@ -38,5 +49,10 @@ namespace WebSocket4Net
         {
             return new SHA1Managed();
         }
+    }
+
+    static class UriPartial
+    {
+        public const byte Authority = 0;
     }
 }
