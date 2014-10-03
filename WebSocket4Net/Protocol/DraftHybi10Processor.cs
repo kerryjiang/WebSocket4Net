@@ -258,8 +258,7 @@ namespace WebSocket4Net.Protocol
                 return false;
             }
 
-            int statusCode;
-            if (!verbLine.TryParseStatusCode(out statusCode) || statusCode != 101)
+            if (!ValidateVerbLine(verbLine))
             {
                 description = verbLine;
                 return false;
