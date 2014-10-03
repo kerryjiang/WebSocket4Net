@@ -130,5 +130,19 @@ namespace WebSocket4Net
                 m_SimpleTypes.Contains(type) ||
                 Convert.GetTypeCode(type) != TypeCode.Object;
         }
+
+        public static bool TryParseStatusCode(this string statusLine, out int statusCode)
+        {
+            statusCode = 0;
+            var parts = statusLine.Split(new[] { ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 3)
+                return false;
+            if (!parts[0].StartsWith("HTTP/"))
+                return false;
+            if (!int.TryParse(parts[1], out statusCode))
+                return false;
+
+            return true;
+        }
     }
 }
