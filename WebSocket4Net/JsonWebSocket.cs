@@ -9,9 +9,10 @@ namespace WebSocket4Net
     /// <summary>
     /// WebSocket client wrapping which serializes/deserializes objects by JSON
     /// </summary>
-    public partial class JsonWebSocket
+    public partial class JsonWebSocket : IDisposable
     {
         private WebSocket m_WebSocket;
+        private bool m_disposed = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether [enable auto send ping].
@@ -433,6 +434,33 @@ namespace WebSocket4Net
 
                 return executor;
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (m_disposed)
+                return;
+
+            if (disposing)
+            {
+                if (m_WebSocket != null)
+                {
+                    m_WebSocket.Dispose();
+                }
+            }
+
+            m_disposed = true;
+        }
+
+        ~JsonWebSocket()
+        {
+            Dispose(false);
         }
     }
 }
