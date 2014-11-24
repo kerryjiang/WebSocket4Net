@@ -451,6 +451,11 @@ namespace WebSocket4Net
             {
                 if (m_WebSocket != null)
                 {
+                    m_WebSocket.Closed -= m_WebSocket_Closed;
+                    m_WebSocket.MessageReceived -= m_WebSocket_MessageReceived;
+                    m_WebSocket.Opened -= m_WebSocket_Opened;
+                    m_WebSocket.Error -= m_WebSocket_Error;
+
                     m_WebSocket.Dispose();
                 }
             }
