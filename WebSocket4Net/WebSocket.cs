@@ -622,7 +622,6 @@ namespace WebSocket4Net
         {
             if (m_WebSocketTimer != null)
             {
-                //m_WebSocketTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 m_WebSocketTimer.Dispose();
                 m_WebSocketTimer = null;
             }
