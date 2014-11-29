@@ -120,6 +120,8 @@ namespace WebSocket4Net
         public bool NoDelay { get; set; }
 #endif
 
+        private bool m_disposed = false;
+
         static WebSocket()
         {
             m_ProtocolProcessorFactory = new ProtocolProcessorFactory(new Rfc6455Processor(), new DraftHybi10Processor(), new DraftHybi00Processor());
@@ -640,17 +642,41 @@ namespace WebSocket4Net
             OnError(new ErrorEventArgs(e));
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
-            var client = Client;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            if (client != null)
+        protected virtual void Dispose(bool disposing)
+        {
+            if (m_disposed)
+                return;
+
+            if (disposing)
             {
-                if (client.IsConnected)
-                    client.Close();
+                var client = Client;
 
-                Client = null;
+                if (client != null)
+                {
+                    if (client.IsConnected)
+                        client.Close();
+
+                    Client = null;
+                }
+
+                if (m_WebSocketTimer != null)
+                {
+                    m_WebSocketTimer.Dispose();
+                }
             }
+
+            m_disposed = true;
+        }
+
+        ~WebSocket()
+        {
+            Dispose(false);
         }
     }
 }
