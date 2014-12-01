@@ -319,13 +319,15 @@ namespace WebSocket4Net
 
         public void Open()
         {
-            m_StateCode = WebSocketStateConst.Connecting;
+            if(Client != null)
+            {
+                m_StateCode = WebSocketStateConst.Connecting;
 
-            if (Proxy != null)
-                Client.Proxy = Proxy;
+                if(Proxy != null)
+                    Client.Proxy = Proxy;
 
 #if !__IOS__
-            Client.NoDeplay = NoDelay;
+                Client.NoDeplay = NoDelay;
 #endif
 
 #if SILVERLIGHT
@@ -333,7 +335,8 @@ namespace WebSocket4Net
             Client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
 #endif
 #endif
-            Client.Connect();
+                Client.Connect();
+            }
         }
 
         private static IProtocolProcessor GetProtocolProcessor(WebSocketVersion version)
@@ -348,53 +351,66 @@ namespace WebSocket4Net
 
         void OnConnected()
         {
-            CommandReader = ProtocolProcessor.CreateHandshakeReader(this);
+            var socket = this;
+            if(socket.Client != null)
+            {
+                CommandReader = ProtocolProcessor.CreateHandshakeReader(socket);
 
-            if (Items.Count > 0)
-                Items.Clear();
+                if(Items.Count > 0)
+                    Items.Clear();
 
-            ProtocolProcessor.SendHandshake(this);
+
+                ProtocolProcessor.SendHandshake(socket);
+            }
         }
 
         protected internal virtual void OnHandshaked()
         {
-            m_StateCode = WebSocketStateConst.Open;
-
-            Handshaked = true;
-
-            if (m_Opened == null)
-                return;
-
-            m_Opened(this, EventArgs.Empty);
-
-            if (EnableAutoSendPing && ProtocolProcessor.SupportPingPong)
+            var socket = this;
+            if (socket.Client != null)
             {
-                //Ping auto sending interval's default value is 60 seconds
-                if (AutoSendPingInterval <= 0)
-                    AutoSendPingInterval = 60;
+                m_StateCode = WebSocketStateConst.Open;
 
-                m_WebSocketTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
+                Handshaked = true;
+
+                if(m_Opened == null)
+                    return;
+
+                m_Opened(this, EventArgs.Empty);
+
+                if(EnableAutoSendPing && ProtocolProcessor.SupportPingPong)
+                {
+                    //Ping auto sending interval's default value is 60 seconds
+                    if(AutoSendPingInterval <= 0)
+                        AutoSendPingInterval = 60;
+
+                    m_WebSocketTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
+                }
             }
         }
 
         private void OnPingTimerCallback(object state)
         {
-            if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
+            var socket = this;
+            if (socket.Client != null)
             {
-                //have not got last response
-                return;
-            }
+                if(!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
+                {
+                    //have not got last response
+                    return;
+                }
 
-            var protocolProcessor = state as IProtocolProcessor;
-            m_LastPingRequest = DateTime.Now.ToString();
+                var protocolProcessor = state as IProtocolProcessor;
+                m_LastPingRequest = DateTime.Now.ToString();
 
-            try
-            {
-                protocolProcessor.SendPing(this, m_LastPingRequest);
-            }
-            catch (Exception e)
-            {
-                OnError(e);
+                try
+                {
+                    protocolProcessor.SendPing(socket, m_LastPingRequest);
+                }
+                catch(Exception e)
+                {
+                    OnError(e);
+                }
             }
         }
 
@@ -531,7 +547,10 @@ namespace WebSocket4Net
             //Set closing hadnshake checking timer
             m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
 
-            ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+            if(Client != null)
+            {
+                ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+            }
         }
 
         private void CheckCloseHandshake(object state)
@@ -603,7 +622,6 @@ namespace WebSocket4Net
         {
             if (m_WebSocketTimer != null)
             {
-                m_WebSocketTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 m_WebSocketTimer.Dispose();
                 m_WebSocketTimer = null;
             }
@@ -659,6 +677,11 @@ namespace WebSocket4Net
 
                 if (client != null)
                 {
+                    client.Connected -= client_Connected;
+                    client.Closed -= client_Closed;
+                    client.Error -= client_Error;
+                    client.DataReceived -= client_DataReceived;
+
                     if (client.IsConnected)
                         client.Close();
 
