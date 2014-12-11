@@ -362,11 +362,6 @@ namespace WebSocket4Net
 
             Handshaked = true;
 
-            if (m_Opened == null)
-                return;
-
-            m_Opened(this, EventArgs.Empty);
-
             if (EnableAutoSendPing && ProtocolProcessor.SupportPingPong)
             {
                 //Ping auto sending interval's default value is 60 seconds
@@ -375,7 +370,11 @@ namespace WebSocket4Net
 
                 m_WebSocketTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
             }
+
+            if (m_Opened != null)
+                m_Opened(this, EventArgs.Empty);
         }
+
 
         private void OnPingTimerCallback(object state)
         {
