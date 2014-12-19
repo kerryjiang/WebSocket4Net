@@ -2,6 +2,7 @@
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Linq;
 
 namespace WebSocket4Net
 {
@@ -31,6 +32,19 @@ namespace WebSocket4Net
                 return uri.OriginalString;
 
             return uri.OriginalString.Substring(0, pos);
+        }
+
+        public static string[] Split(this string source, char[] spliter, int count, StringSplitOptions options)
+        {
+            var parts = source.Split(spliter, options);
+
+            if (parts.Length <= count)
+                return parts.ToArray();
+
+            var partList = parts.Take(count - 1).ToList();
+            partList.Add(string.Join(spliter[0].ToString(), parts, count - 1, parts.Length - count + 1));
+            parts = partList.ToArray();
+            return parts;
         }
     }
 
