@@ -658,6 +658,11 @@ namespace WebSocket4Net
 
                 if (client != null)
                 {
+                    client.Connected -= new EventHandler(client_Connected);
+                    client.Closed -= new EventHandler(client_Closed);
+                    client.Error -= new EventHandler<ErrorEventArgs>(client_Error);
+                    client.DataReceived -= new EventHandler<DataEventArgs>(client_DataReceived);
+
                     if (client.IsConnected)
                         client.Close();
 
