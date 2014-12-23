@@ -10,7 +10,7 @@ if not exist %mtdir% (
     set mtdir="%ProgramFiles%\Reference Assemblies\Microsoft\Framework\MonoTouch\v1.0"
 )
 
-set outDir=bin\monotouch\Debug
+set outDir=bin\monotouch10\Debug
 %msbuild% WebSocket4Net.MonoTouch\WebSocket4Net.MonoTouch.csproj /p:OutDir=..\%outDir%;Configuration=Debug /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
@@ -20,7 +20,7 @@ del %outDir%\SuperSocket.ClientEngine.Core.dll
 del %outDir%\SuperSocket.ClientEngine.Protocol.dll
 del %outDir%\*.mdb
 
-set outDir=bin\monotouch\Release
+set outDir=bin\monotouch10\Release
 %msbuild% WebSocket4Net.MonoTouch\WebSocket4Net.MonoTouch.csproj /p:OutDir=..\%outDir%;Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
