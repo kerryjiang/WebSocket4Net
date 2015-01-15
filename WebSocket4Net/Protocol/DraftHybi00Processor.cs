@@ -113,6 +113,10 @@ namespace WebSocket4Net.Protocol
 
         public override void SendCloseHandshake(WebSocket websocket, int statusCode, string closeReason)
         {
+            // don't send close handshake now because the connection was closed already
+            if (websocket.State == WebSocketState.Closed)
+                return;
+
             websocket.Client.Send(CloseHandshake, 0, CloseHandshake.Length);
         }
 

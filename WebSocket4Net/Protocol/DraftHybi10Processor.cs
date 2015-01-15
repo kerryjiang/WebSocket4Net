@@ -215,6 +215,10 @@ namespace WebSocket4Net.Protocol
             playloadData[0] = (byte)highByte;
             playloadData[1] = (byte)lowByte;
 
+            // don't send close handshake now because the connection was closed already
+            if (websocket.State == WebSocketState.Closed)
+                return;
+
             if (!string.IsNullOrEmpty(closeReason))
             {
                 int bytesCount = Encoding.UTF8.GetBytes(closeReason, 0, closeReason.Length, playloadData, 2);
