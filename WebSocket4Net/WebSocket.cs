@@ -550,7 +550,10 @@ namespace WebSocket4Net
 
         internal void CloseWithoutHandshake()
         {
-            Client.Close();
+            var client = Client;
+
+            if (client != null)
+                client.Close();
         }
 
         protected void ExecuteCommand(WebSocketCommandInfo commandInfo)
