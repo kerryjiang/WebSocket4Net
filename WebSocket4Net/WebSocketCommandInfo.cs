@@ -121,6 +121,8 @@ namespace WebSocket4Net
                     }
 
                     frame.InnerData.CopyTo(resultBuffer, offset, copied, length);
+
+                    copied += length;
                 }
 
                 Data = resultBuffer;
