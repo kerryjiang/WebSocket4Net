@@ -160,6 +160,9 @@
     <Compile Include="..\WebSocket4Net\OpCode.cs">
       <Link>OpCode.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\PongTimeoutEventArgs.cs">
+      <Link>PongTimeoutEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Protocol\CloseStatusCodeHybi10.cs">
       <Link>Protocol\CloseStatusCodeHybi10.cs</Link>
     </Compile>
