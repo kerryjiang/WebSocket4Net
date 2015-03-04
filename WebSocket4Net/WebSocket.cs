@@ -381,6 +381,8 @@ namespace WebSocket4Net
             if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
             {
                 //have not got last response
+                m_LastPingRequest = null;
+                LastPongResponse = null;
                 FirePongTimeout(String.Format("Pong not received within {0}s of ping", AutoSendPingInterval));
                 return;
             }
