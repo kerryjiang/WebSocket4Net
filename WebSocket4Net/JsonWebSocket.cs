@@ -103,7 +103,7 @@ namespace WebSocket4Net
             if (websocket == null)
                 throw new ArgumentNullException("websocket");
 
-            if (websocket.State == WebSocketState.None)
+            if (websocket.State != WebSocketState.None)
                 throw new ArgumentException("Thed websocket must be in the initial state.", "websocket");
 
             m_WebSocket = websocket;
