@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.iOS", "WebSocket4Net.iOS\WebSocket4Net.iOS.csproj", "{366BECDA-F170-438A-B5CE-DFB124D96ADE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{366BECDA-F170-438A-B5CE-DFB124D96ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366BECDA-F170-438A-B5CE-DFB124D96ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366BECDA-F170-438A-B5CE-DFB124D96ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366BECDA-F170-438A-B5CE-DFB124D96ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = WebSocket4Net.iOS\WebSocket4Net.iOS.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
