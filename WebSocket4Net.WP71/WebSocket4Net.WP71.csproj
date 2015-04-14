@@ -66,6 +66,9 @@
     <Reference Include="System.Servicemodel.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\WebSocket4Net\ClosedEventArgs.cs">
+      <Link>ClosedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\Command\BadRequest.cs">
       <Link>Command\BadRequest.cs</Link>
     </Compile>
@@ -214,7 +217,6 @@
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    
   <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

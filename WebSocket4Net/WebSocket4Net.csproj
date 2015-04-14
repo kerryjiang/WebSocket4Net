@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClosedEventArgs.cs" />
     <Compile Include="Command\BadRequest.cs" />
     <Compile Include="Command\Binary.cs" />
     <Compile Include="Command\Close.cs" />

@@ -12,12 +12,6 @@ namespace WebSocket4Net.Command
             //Close handshake was sent from client side, now got a handshake response
             if (session.StateCode == WebSocketStateConst.Closing)
             {
-                //Not NormalClosure
-                if (commandInfo.CloseStatusCode != session.ProtocolProcessor.CloseStatusCode.NormalClosure &&
-                    (commandInfo.CloseStatusCode > 0 || !string.IsNullOrEmpty(commandInfo.Text)))
-                {
-                    session.FireError(new Exception(string.Format("{0}: {1}", commandInfo.CloseStatusCode, commandInfo.Text)));
-                }
                 session.CloseWithoutHandshake();
                 return;
             }

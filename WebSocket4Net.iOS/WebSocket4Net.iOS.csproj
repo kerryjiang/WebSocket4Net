@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\WebSocket4Net\ClosedEventArgs.cs">
+      <Link>ClosedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\DataReceivedEventArgs.cs">
       <Link>DataReceivedEventArgs.cs</Link>
     </Compile>

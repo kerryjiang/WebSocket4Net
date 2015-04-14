@@ -474,6 +474,8 @@ namespace WebSocket4Net
             ProtocolProcessor.SendData(this, segments);
         }
 
+        private ClosedEventArgs m_ClosedArgs;
+
         private void OnClosed()
         {
             var fireBaseClose = false;
@@ -499,6 +501,8 @@ namespace WebSocket4Net
 
         public void Close(int statusCode, string reason)
         {
+            m_ClosedArgs = new ClosedEventArgs((short)statusCode, reason);
+
             //The websocket never be opened
             if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
                     == WebSocketStateConst.None)
@@ -618,7 +622,7 @@ namespace WebSocket4Net
             var handler = m_Closed;
 
             if (handler != null)
-                handler(this, EventArgs.Empty);
+                handler(this, m_ClosedArgs ?? EventArgs.Empty);
         }
 
         private EventHandler<ErrorEventArgs> m_Error;
