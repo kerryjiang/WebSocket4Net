@@ -10,7 +10,7 @@ if not exist %mddir% (
     set mddir="%ProgramFiles%\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0"
 )
 
-set outDir=bin\monoandroid22\Debug
+set outDir=bin\monoandroid23\Debug
 %msbuild% WebSocket4Net.MonoDroid\WebSocket4Net.MonoDroid.csproj /p:OutDir=..\%outDir%;Configuration=Debug /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
@@ -20,7 +20,7 @@ del %outDir%\SuperSocket.ClientEngine.Core.dll
 del %outDir%\SuperSocket.ClientEngine.Protocol.dll
 del %outDir%\*.pdb
 
-set outDir=bin\monoandroid22\Release
+set outDir=bin\monoandroid23\Release
 %msbuild% WebSocket4Net.MonoDroid\WebSocket4Net.MonoDroid.csproj /p:OutDir=..\%outDir%;Configuration=Release /t:Clean;Rebuild
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 
