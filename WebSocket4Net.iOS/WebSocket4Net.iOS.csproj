@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
@@ -191,8 +192,8 @@
     <Compile Include="..\WebSocket4Net\Protocol\FramePartReader\PayloadDataReader.cs">
       <Link>Protocol\FramePartReader\PayloadDataReader.cs</Link>
     </Compile>
-    <Compile Include="..\WebSocket4Net\JsonWebSocket.JsonNet.cs">
-      <Link>JsonWebSocket.JsonNet.cs</Link>
+    <Compile Include="..\WebSocket4Net\JsonWebSocket.DataContractJson.cs">
+      <Link>JsonWebSocket.DataContractJson.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
