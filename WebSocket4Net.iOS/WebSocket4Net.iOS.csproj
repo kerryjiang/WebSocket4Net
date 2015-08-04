@@ -45,9 +45,6 @@
     <Reference Include="SuperSocket.ClientEngine.Protocol">
       <HintPath>..\Reference\SuperSocket.ClientEngine\iOS\Release\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Reference\Json.Net\Portable40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

@@ -37,9 +37,6 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Reference\Json.Net\Net20\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="SuperSocket.ClientEngine.Common">
       <HintPath>..\Reference\SuperSocket.ClientEngine\Net20\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
@@ -61,6 +58,7 @@
     <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />
+    <Compile Include="JsonWebSocket.JsonNotSet.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="ExtensionAttribute.cs" />
     <Compile Include="Extensions.cs" />
@@ -68,7 +66,6 @@
     <Compile Include="IJsonExecutor.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
-    <Compile Include="JsonWebSocket.JsonNet.cs" />
     <Compile Include="JsonWebSocket.Net.cs" />
     <Compile Include="LINQ.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
