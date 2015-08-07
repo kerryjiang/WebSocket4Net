@@ -381,6 +381,9 @@ namespace WebSocket4Net
             if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
             {
                 //have not got last response
+                m_LastPingRequest = null;
+                LastPongResponse = null;
+                FirePongTimeout(String.Format("Pong not received within {0}s of ping", AutoSendPingInterval));
                 return;
             }
 
@@ -535,6 +538,22 @@ namespace WebSocket4Net
             m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
 
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+        }
+
+        private EventHandler<PongTimeoutEventArgs> m_PongTimeout;
+
+        public event EventHandler<PongTimeoutEventArgs> PongTimeout
+        {
+            add { m_PongTimeout += value; }
+            remove { m_PongTimeout -= value; }
+        }
+
+        internal void FirePongTimeout(string message)
+        {
+            if (m_PongTimeout == null)
+                return;
+
+            m_PongTimeout(this, new PongTimeoutEventArgs(message));
         }
 
         private void CheckCloseHandshake(object state)
