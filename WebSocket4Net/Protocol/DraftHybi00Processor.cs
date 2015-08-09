@@ -11,7 +11,7 @@ namespace WebSocket4Net.Protocol
     /// <summary>
     /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-00
     /// </summary>
-    class DraftHybi00Processor : ProtocolProcessorBase
+    public class DraftHybi00Processor : ProtocolProcessorBase
     {
         public DraftHybi00Processor()
             : base(WebSocketVersion.DraftHybi00, new CloseStatusCodeHybi10())

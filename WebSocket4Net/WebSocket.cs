@@ -44,22 +44,22 @@ namespace WebSocket4Net
 
         protected const string UserAgentKey = "UserAgent";
 
-        internal IProtocolProcessor ProtocolProcessor { get; private set; }
+        protected internal IProtocolProcessor ProtocolProcessor { get; private set; }
 
         public bool SupportBinary
         {
             get { return ProtocolProcessor.SupportBinary; }
         }
 
-        internal Uri TargetUri { get; private set; }
+        protected internal Uri TargetUri { get; private set; }
 
-        internal string SubProtocol { get; private set; }
+        protected internal string SubProtocol { get; private set; }
 
-        internal IDictionary<string, object> Items { get; private set; }
+        protected internal IDictionary<string, object> Items { get; private set; }
 
-        internal List<KeyValuePair<string, string>> Cookies { get; private set; }
+        protected internal List<KeyValuePair<string, string>> Cookies { get; private set; }
 
-        internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
+        protected internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
 
 
         private int m_StateCode;

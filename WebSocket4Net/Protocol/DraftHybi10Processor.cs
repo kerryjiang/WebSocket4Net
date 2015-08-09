@@ -15,7 +15,7 @@ namespace WebSocket4Net.Protocol
     /// <summary>
     /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10
     /// </summary>
-    class DraftHybi10Processor : ProtocolProcessorBase
+    public class DraftHybi10Processor : ProtocolProcessorBase
     {
         private const string m_Magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
