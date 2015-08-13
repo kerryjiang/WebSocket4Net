@@ -14,4 +14,5 @@ WebSocket4Net provides websocket client implementation for many different kinds 
 - Silverlight 4/5
 - WindowsPhone 7.5/8.0
 - Xamarin.Android
-- Xamarin.iOS
+- Xamarin.iOS (Classic and Unified API)
+- Universal Windows Platform
