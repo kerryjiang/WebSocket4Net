@@ -11,6 +11,8 @@ namespace WebSocket4Net
     {
         private static List<KeyValuePair<string, string>> EmptyCookies = null;
 
+#if !NETFX_CORE
+
         private bool m_AllowUnstrustedCertificate;
 
         /// <summary>
@@ -34,6 +36,8 @@ namespace WebSocket4Net
                 }
             }
         }
+
+#endif
 
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
             : this(uri, subProtocol, EmptyCookies, null, string.Empty, string.Empty, version)

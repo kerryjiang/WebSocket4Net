@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 #endif
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using SuperSocket.ClientEngine;
 
@@ -40,11 +39,10 @@ namespace WebSocket4Net.Protocol
         {
 #if !SILVERLIGHT
             var secKey = Convert.ToBase64String(Encoding.ASCII.GetBytes(Guid.NewGuid().ToString().Substring(0, 16)));
-            string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(secKey + m_Magic)));
 #else
             var secKey = Convert.ToBase64String(ASCIIEncoding.Instance.GetBytes(Guid.NewGuid().ToString().Substring(0, 16)));
-            string expectedAccept = Convert.ToBase64String(SHA1.Create().ComputeHash(ASCIIEncoding.Instance.GetBytes(secKey + m_Magic)));
 #endif
+            string expectedAccept = (secKey + m_Magic).CalculateChallenge();
 
             websocket.Items[m_ExpectedAcceptKey] = expectedAccept;
 

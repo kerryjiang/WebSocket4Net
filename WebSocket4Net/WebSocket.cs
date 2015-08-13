@@ -132,7 +132,7 @@ namespace WebSocket4Net
             TargetUri = new Uri(uri);
 
             if (string.IsNullOrEmpty(Origin))
-                Origin = TargetUri.GetLeftPart(UriPartial.Authority);
+                Origin = TargetUri.GetOrigin();
 
             IPAddress ipAddress;
 
@@ -163,6 +163,9 @@ namespace WebSocket4Net
 
             return new AsyncTcpSession(m_HttpConnectProxy ?? targetEndPoint);
         }
+
+
+#if !NETFX_CORE
 
         TcpClientSession CreateSecureClient(string uri)
         {
@@ -201,6 +204,7 @@ namespace WebSocket4Net
 
             return new SslStreamTcpSession(m_HttpConnectProxy ?? targetEndPoint);
         }
+#endif
 
         private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy)
         {
@@ -259,7 +263,11 @@ namespace WebSocket4Net
             }
             else if (uri.StartsWith(m_SecureUriPrefix, StringComparison.OrdinalIgnoreCase))
             {
+#if !NETFX_CORE
                 client = CreateSecureClient(uri);
+#else
+                throw new NotSupportedException("WebSocket4Net still has not supported secure websocket for UWP yet.");
+#endif
             }
             else
             {

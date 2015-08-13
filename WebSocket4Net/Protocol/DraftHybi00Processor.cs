@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using SuperSocket.ClientEngine;
@@ -235,7 +234,7 @@ namespace WebSocket4Net.Protocol
             Array.Copy(b3, 0, bChallenge, b1.Length + b2.Length, b3.Length);
 
             //Hash and return
-            byte[] hash = MD5.Create().ComputeHash(bChallenge);
+            byte[] hash = bChallenge.ComputeMD5Hash();
             return hash;
         }
 
