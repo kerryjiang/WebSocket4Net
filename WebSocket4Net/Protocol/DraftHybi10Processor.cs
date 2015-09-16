@@ -200,7 +200,7 @@ namespace WebSocket4Net.Protocol
             for (var i = 0; i < segments.Count; i++)
             {
                 var playloadData = segments[i];
-                fragments.Add(new ArraySegment<byte>(EncodeDataFrame(OpCode.Binary, i == lastPieceIndex, playloadData.Array, playloadData.Offset, playloadData.Count)));
+                fragments.Add(new ArraySegment<byte>(EncodeDataFrame(i == 0 ? OpCode.Binary : 0, i == lastPieceIndex, playloadData.Array, playloadData.Offset, playloadData.Count)));
             }
 
             websocket.Client.Send(fragments);
