@@ -124,6 +124,11 @@ namespace WebSocket4Net.Protocol
 
         private byte[] EncodeDataFrame(int opCode, byte[] playloadData, int offset, int length)
         {
+            return EncodeDataFrame(opCode, true, playloadData, offset, length);
+        }
+
+        private byte[] EncodeDataFrame(int opCode, bool isFinal, byte[] playloadData, int offset, int length)
+        {
             byte[] fragment;
 
             int maskLength = 4;
@@ -158,8 +163,11 @@ namespace WebSocket4Net.Protocol
                 }
             }
 
-            //Set FIN
-            fragment[0] = (byte)(opCode | 0x80);
+            
+            if(isFinal)//Set FIN
+                fragment[0] = (byte)(opCode | 0x80);
+            else
+                fragment[0] = (byte)opCode;
 
             //Set mask bit
             fragment[1] = (byte)(fragment[1] | 0x80);
@@ -187,10 +195,12 @@ namespace WebSocket4Net.Protocol
         {
             var fragments = new List<ArraySegment<byte>>(segments.Count);
 
+            var lastPieceIndex = segments.Count - 1;
+
             for (var i = 0; i < segments.Count; i++)
             {
                 var playloadData = segments[i];
-                fragments.Add(new ArraySegment<byte>(EncodeDataFrame(OpCode.Binary, playloadData.Array, playloadData.Offset, playloadData.Count)));
+                fragments.Add(new ArraySegment<byte>(EncodeDataFrame(OpCode.Binary, i == lastPieceIndex, playloadData.Array, playloadData.Offset, playloadData.Count)));
             }
 
             websocket.Client.Send(fragments);
