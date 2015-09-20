@@ -9,7 +9,7 @@ if not exist %sldir% (
     set sldir="%ProgramFiles%\Reference Assemblies\Microsoft\Framework\WindowsPhone\v8.0"
 )
 
-set outDir=bin\windowsphone8\Debug
+set outDir=bin\sl50-wp\Debug
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 %msbuild% WebSocket4Net.WP80\WebSocket4Net.WP80.csproj /p:Configuration=Debug;OutDir=..\%outDir% /t:Clean;Rebuild
 
@@ -21,7 +21,7 @@ del %outDir%\BouncyCastle.Crypto.dll
 del %outDir%\*.pdb
 
 
-set outDir=bin\windowsphone8\Release
+set outDir=bin\sl50-wp\Release
 
 FOR /F "tokens=*" %%G IN ('DIR /B /AD /S obj') DO RMDIR /S /Q "%%G"
 %msbuild% WebSocket4Net.WP80\WebSocket4Net.WP80.csproj /p:Configuration=Release;OutDir=..\%outDir% /t:Clean;Rebuild
