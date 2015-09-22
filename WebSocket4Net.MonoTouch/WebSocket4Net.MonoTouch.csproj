@@ -31,16 +31,16 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Proxy, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.ClientEngine.Proxy, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
