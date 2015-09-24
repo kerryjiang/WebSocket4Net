@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Reflection;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using SuperSocket.ClientEngine;
@@ -41,7 +42,7 @@ namespace WebSocket4Net
         /// The auto send ping internal.
         /// </value>
         public int AutoSendPingInterval { get; set; }
-
+        
         protected const string UserAgentKey = "UserAgent";
 
         internal IProtocolProcessor ProtocolProcessor { get; private set; }
@@ -61,6 +62,7 @@ namespace WebSocket4Net
 
         internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
 
+        internal SslProtocols EnabledSslProtocols { get; private set; }
 
         private int m_StateCode;
 
@@ -202,11 +204,11 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new SslStreamTcpSession(m_HttpConnectProxy ?? targetEndPoint);
+            return new SslStreamTcpSession(m_HttpConnectProxy ?? targetEndPoint, EnabledSslProtocols);
         }
 #endif
 
-        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy)
+        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy, SslProtocols sslProtocols)
         {
             if (version == WebSocketVersion.None)
             {
@@ -215,6 +217,7 @@ namespace WebSocket4Net
             }
 
             Version = version;
+            EnabledSslProtocols = sslProtocols;
             ProtocolProcessor = GetProtocolProcessor(version);
 
             Cookies = cookies;

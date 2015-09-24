@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Security.Authentication;
 using System.Text;
 using SuperSocket.ClientEngine;
 
@@ -93,11 +94,11 @@ namespace WebSocket4Net
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
         {
-            m_WebSocket = new WebSocket(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version);
+            m_WebSocket = new WebSocket(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, null);
             m_WebSocket.EnableAutoSendPing = true;
             SubscribeEvents();
         }
-
+        
         public JsonWebSocket(WebSocket websocket)
         {
             if (websocket == null)

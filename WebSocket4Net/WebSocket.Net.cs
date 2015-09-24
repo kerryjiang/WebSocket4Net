@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication;
 using System.Text;
 using SuperSocket.ClientEngine;
 
@@ -39,21 +40,21 @@ namespace WebSocket4Net
 
 #endif
 
-        public WebSocket(string uri, string subProtocol, WebSocketVersion version)
-            : this(uri, subProtocol, EmptyCookies, null, string.Empty, string.Empty, version)
+        public WebSocket(string uri, string subProtocol, WebSocketVersion version, SslProtocols sslProtocols = SslProtocols.Default)
+            : this(uri, subProtocol, EmptyCookies, null, string.Empty, string.Empty, version, sslProtocols)
         {
 
         }
 
-        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None)
-            : this(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, null)
+        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None, SslProtocols sslProtocols = SslProtocols.Default)
+            : this(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, null, sslProtocols)
         {
 
         }
 
-        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None, EndPoint httpConnectProxy = null)
+        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None, EndPoint httpConnectProxy = null, SslProtocols sslProtocols = SslProtocols.Default)
         {
-            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, httpConnectProxy);
+            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, httpConnectProxy, sslProtocols);
         }
     }
 }
