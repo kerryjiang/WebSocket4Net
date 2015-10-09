@@ -9,5 +9,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyCopyright("Copyright © websocket4net.codeplex.com 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("0.14.0.0")]
-[assembly: AssemblyFileVersion("0.14.0.0")]
+[assembly: AssemblyVersion("0.14.1.0")]
+[assembly: AssemblyFileVersion("0.14.1.0")]
