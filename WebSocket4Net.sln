@@ -1,11 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net", "WebSocket4Net\WebSocket4Net.csproj", "{6920447F-76B1-4739-822E-9CE3A2882718}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net45", "WebSocket4Net\WebSocket4Net.Net45.csproj", "{6920447F-76B1-4739-822E-9CE3A2882718}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net20", "WebSocket4Net\WebSocket4Net.Net20.csproj", "{AA8AA861-F540-40CD-B0A7-A669535CFD84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net35", "WebSocket4Net\WebSocket4Net.Net35.csproj", "{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net20", "WebSocket4Net\WebSocket4Net.Net20.csproj", "{AA8AA861-F540-40CD-B0A7-A669535CFD84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.Net40", "WebSocket4Net\WebSocket4Net.Net40.csproj", "{875B0B70-9919-49A5-A00E-752929FF4B5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +27,6 @@ Global
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6920447F-76B1-4739-822E-9CE3A2882718}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -39,11 +35,27 @@ Global
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AA8AA861-F540-40CD-B0A7-A669535CFD84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{875B0B70-9919-49A5-A00E-752929FF4B5A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WebSocket4Net\WebSocket4Net.csproj
+		StartupItem = SuperWebSocket\SuperWebSocket.csproj
 	EndGlobalSection
 EndGlobal

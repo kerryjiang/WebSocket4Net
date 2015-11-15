@@ -37,14 +37,9 @@
     <AssemblyOriginatorKeyFile>..\websocket4net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine.Common">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net20\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Core">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net20\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Protocol">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\Net20\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.2\lib\net20\SuperSocket.ClientEngine.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -95,6 +90,7 @@
     <Compile Include="Protocol\WebSocketDataFrame.cs" />
     <Compile Include="WebSocket.cs" />
     <Compile Include="WebSocket.Net35.cs" />
+    <Compile Include="WebSocket.NoSilverlight.cs" />
     <Compile Include="WebSocketCommandInfo.cs" />
     <Compile Include="WebSocketContext.cs" />
     <Compile Include="WebSocketState.cs" />

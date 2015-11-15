@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication;
 using System.Text;
 using SuperSocket.ClientEngine;
 
@@ -45,8 +46,9 @@ namespace WebSocket4Net
 
         }
 
-        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None, EndPoint httpConnectProxy = null)
+        public WebSocket(string uri, string subProtocol = "", List<KeyValuePair<string, string>> cookies = null, List<KeyValuePair<string, string>> customHeaderItems = null, string userAgent = "", string origin = "", WebSocketVersion version = WebSocketVersion.None, EndPoint httpConnectProxy = null, SslProtocols sslProtocols = SslProtocols.Default)
         {
+            m_SecureProtocols = sslProtocols;
             Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, httpConnectProxy);
         }
     }

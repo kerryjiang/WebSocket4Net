@@ -5,20 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C4B030A-E53E-4D3F-A48B-A663FBF48C54}</ProjectGuid>
+    <ProjectGuid>{875B0B70-9919-49A5-A00E-752929FF4B5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebSocket4Net</RootNamespace>
     <AssemblyName>WebSocket4Net</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>Bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>Bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,13 +38,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.2\lib\net35\SuperSocket.ClientEngine.dll</HintPath>
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.2\lib\net40\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -64,11 +62,11 @@
     <Compile Include="IJsonExecutor.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
-    <Compile Include="JsonWebSocket.DataContractJson.cs" />
     <Compile Include="JsonWebSocket.Net.cs" />
+    <Compile Include="JsonWebSocket.DataContractJson.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
-    <Compile Include="Properties\AssemblyInfo.Net35.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\CloseStatusCodeHybi10.cs" />
     <Compile Include="Protocol\CloseStatusCodeRfc6455.cs" />
     <Compile Include="Protocol\DraftHybi00DataReader.cs" />
@@ -92,7 +90,7 @@
     <Compile Include="Protocol\Rfc6455Processor.cs" />
     <Compile Include="Protocol\WebSocketDataFrame.cs" />
     <Compile Include="WebSocket.cs" />
-    <Compile Include="WebSocket.Net35.cs" />
+    <Compile Include="WebSocket.Net.cs" />
     <Compile Include="WebSocket.NoSilverlight.cs" />
     <Compile Include="WebSocketCommandInfo.cs" />
     <Compile Include="WebSocketContext.cs" />
@@ -100,7 +98,7 @@
     <Compile Include="WebSocketVersion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.WebSocket4Net.Net35.config" />
+    <None Include="packages.WebSocket4Net.Net40.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

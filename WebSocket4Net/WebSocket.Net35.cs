@@ -93,5 +93,11 @@ namespace WebSocket4Net
         {
             Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, httpConnectProxy);
         }
+
+        public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy, System.Security.Authentication.SslProtocols sslProtocols)
+        {
+            m_SecureProtocols = sslProtocols;
+            Initialize(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, httpConnectProxy);
+        }
     }
 }

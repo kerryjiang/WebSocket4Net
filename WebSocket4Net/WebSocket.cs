@@ -202,7 +202,7 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new SslStreamTcpSession(m_HttpConnectProxy ?? targetEndPoint);
+            return CreateSecureTcpSession(m_HttpConnectProxy ?? targetEndPoint);
         }
 #endif
 

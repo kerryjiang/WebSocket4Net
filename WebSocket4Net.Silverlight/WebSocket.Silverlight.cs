@@ -2,6 +2,7 @@
 using System.Net;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net
 {
@@ -43,6 +44,11 @@ namespace WebSocket4Net
             }
 
             Initialize(uri, subProtocol, cookieList, customHeaderItems, userAgent, origin, version, httpConnectProxy);
+        }
+
+        private TcpClientSession CreateSecureTcpSession(EndPoint endPoint)
+        {
+            return new SslStreamTcpSession(endPoint);
         }
 
         /// <summary>

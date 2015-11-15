@@ -31,17 +31,9 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine.Common, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Core, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Protocol, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Protocol.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ClientEngine.Proxy, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\MonoTouch\$(Configuration)\SuperSocket.ClientEngine.Proxy.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.2\lib\monotouch10\SuperSocket.ClientEngine.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
@@ -185,6 +177,9 @@
     <Compile Include="..\WebSocket4Net\WebSocket.Net.cs">
       <Link>WebSocket.Net.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\WebSocket.NoSilverlight.cs">
+      <Link>WebSocket.NoSilverlight.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\WebSocketCommandInfo.cs">
       <Link>WebSocketCommandInfo.cs</Link>
     </Compile>
@@ -199,10 +194,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkReference="119c56bd-c133-4d7b-9c33-0f8ce1b1b61e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="119c56bd-c133-4d7b-9c33-0f8ce1b1b61e" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
