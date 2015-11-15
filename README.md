@@ -1,4 +1,4 @@
-# WebSocket4Net
+# WebSocket4Net [![NuGet Version](https://img.shields.io/nuget/v/WebSocket4Net.svg?style=flat)](https://www.nuget.org/packages/WebSocket4Net/) [![NuGet Downloads](https://img.shields.io/nuget/dt/WebSocket4Net.svg?style=flat)](https://www.nuget.org/packages/WebSocket4Net/)
 
 a .NET websocket client implementation.
 
