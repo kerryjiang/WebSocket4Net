@@ -248,8 +248,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.3\lib\wp80\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.4\lib\wp80\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

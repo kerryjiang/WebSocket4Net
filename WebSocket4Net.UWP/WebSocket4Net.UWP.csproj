@@ -115,11 +115,6 @@
   <ItemGroup>
     <Content Include="Properties\WebSocket4Net.UWP.rd.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\Reference\SuperSocket.ClientEngine\UWP\$(Configuration)\SuperSocket.ClientEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Compile Include="..\WebSocket4Net\ClosedEventArgs.cs">
