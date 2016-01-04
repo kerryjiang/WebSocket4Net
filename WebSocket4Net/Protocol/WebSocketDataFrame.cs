@@ -20,6 +20,24 @@ namespace WebSocket4Net.Protocol
             m_InnerData.ClearSegements();
         }
 
+        public bool IsControlFrame
+        {
+            get
+            {
+                sbyte opCode = OpCode;
+
+                switch (opCode)
+                {
+                    case WebSocket4Net.OpCode.Ping:
+                    case WebSocket4Net.OpCode.Pong:
+                    case WebSocket4Net.OpCode.Close:
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
         public bool FIN
         {
             get { return ((m_InnerData[0] & 0x80) == 0x80); }

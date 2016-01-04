@@ -59,7 +59,15 @@ namespace WebSocket4Net.Protocol
                 {
                     WebSocketCommandInfo commandInfo;
 
-                    if (m_Frame.FIN)
+                    // Control frames MAY be injected in the middle of
+                    // a fragmented message.Control frames themselves MUST NOT be
+                    // fragmented.
+                    if (m_Frame.IsControlFrame)
+                    {
+                        commandInfo = new WebSocketCommandInfo(m_Frame);
+                        m_Frame.Clear();
+                    }
+                    else if (m_Frame.FIN)
                     {
                         if (m_PreviousFrames != null && m_PreviousFrames.Count > 0)
                         {
