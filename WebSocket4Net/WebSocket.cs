@@ -617,11 +617,15 @@ namespace WebSocket4Net
 
         private void ClearTimer()
         {
-            if (m_WebSocketTimer != null)
+            var timer = m_WebSocketTimer;
+
+            if (timer == null)
+                return;
+
+            if (Interlocked.CompareExchange(ref m_WebSocketTimer, null, timer) == timer)
             {
-                m_WebSocketTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                m_WebSocketTimer.Dispose();
-                m_WebSocketTimer = null;
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+                timer.Dispose();
             }
         }
 
@@ -686,10 +690,7 @@ namespace WebSocket4Net
                     Client = null;
                 }
 
-                if (m_WebSocketTimer != null)
-                {
-                    m_WebSocketTimer.Dispose();
-                }
+                ClearTimer();
             }
 
             m_disposed = true;
