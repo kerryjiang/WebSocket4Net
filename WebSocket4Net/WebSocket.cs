@@ -61,6 +61,8 @@ namespace WebSocket4Net
 
         internal List<KeyValuePair<string, string>> CustomHeaderItems { get; private set; }
 
+        public const int DefaultReceiveBufferSize = 4096;
+
 
         private int m_StateCode;
 
@@ -151,7 +153,7 @@ namespace WebSocket4Net
             return remoteEndPoint;
         }
 
-        TcpClientSession CreateClient(string uri)
+        TcpClientSession CreateClient(string uri, int receiveBufferSize)
         {
             int port;
             var targetEndPoint = ResolveUri(uri, 80, out port);
@@ -161,13 +163,13 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new AsyncTcpSession(m_HttpConnectProxy ?? targetEndPoint);
+            return new AsyncTcpSession(m_HttpConnectProxy ?? targetEndPoint, receiveBufferSize > 0 ? receiveBufferSize : DefaultReceiveBufferSize);
         }
 
 
 #if !NETFX_CORE
 
-        TcpClientSession CreateSecureClient(string uri)
+        TcpClientSession CreateSecureClient(string uri, int receiveBufferSize)
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
 
@@ -202,11 +204,11 @@ namespace WebSocket4Net
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return CreateSecureTcpSession(m_HttpConnectProxy ?? targetEndPoint);
+            return CreateSecureTcpSession(m_HttpConnectProxy ?? targetEndPoint, receiveBufferSize > 0 ? receiveBufferSize : DefaultReceiveBufferSize);
         }
 #endif
 
-        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy)
+        private void Initialize(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy, int receiveBufferSize)
         {
             if (version == WebSocketVersion.None)
             {
@@ -259,12 +261,12 @@ namespace WebSocket4Net
 
             if (uri.StartsWith(m_UriPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                client = CreateClient(uri);
+                client = CreateClient(uri, receiveBufferSize);
             }
             else if (uri.StartsWith(m_SecureUriPrefix, StringComparison.OrdinalIgnoreCase))
             {
 #if !NETFX_CORE
-                client = CreateSecureClient(uri);
+                client = CreateSecureClient(uri, receiveBufferSize);
 #else
                 throw new NotSupportedException("WebSocket4Net still has not supported secure websocket for UWP yet.");
 #endif
