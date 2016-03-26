@@ -394,12 +394,21 @@ namespace WebSocket4Net
                 return;
             }
 
-            var protocolProcessor = state as IProtocolProcessor;
+            SendPing();
+        }
+
+        public void SendPing()
+        {
+            if (!ProtocolProcessor.SupportPingPong)
+            {
+                throw new Exception(string.Format("Protocol ({0}) doesn't support Ping/Pong", ProtocolProcessor.Version));
+            }
+
             m_LastPingRequest = DateTime.Now.ToString();
 
             try
             {
-                protocolProcessor.SendPing(this, m_LastPingRequest);
+                ProtocolProcessor.SendPing(this, m_LastPingRequest);
             }
             catch (Exception e)
             {
@@ -432,7 +441,6 @@ namespace WebSocket4Net
         }
 
         private EventHandler<DataReceivedEventArgs> m_DataReceived;
-
         public event EventHandler<DataReceivedEventArgs> DataReceived
         {
             add { m_DataReceived += value; }
@@ -446,6 +454,21 @@ namespace WebSocket4Net
 
             m_DataReceived(this, new DataReceivedEventArgs(data));
         }
+
+        private EventHandler<PongReceivedEventArgs> m_PongReceived;
+        public event EventHandler<PongReceivedEventArgs> PongReceived
+        {
+            add { m_PongReceived += value; }
+            remove { m_PongReceived -= value; }
+        }
+
+        internal void FirePongReceived(byte[] data)
+        {
+            if (m_PongReceived == null)
+                return;
+
+            m_PongReceived(this, new PongReceivedEventArgs(data));
+       }
 
         private const string m_NotOpenSendingMessage = "You must send data by websocket after websocket is opened!";
 

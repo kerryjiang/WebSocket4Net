@@ -4,9 +4,9 @@ using System.Text;
 
 namespace WebSocket4Net
 {
-    public class DataReceivedEventArgs : EventArgs
+    public class PongReceivedEventArgs : EventArgs
     {
-        public DataReceivedEventArgs(byte[] data)
+        public PongReceivedEventArgs(byte[] data)
         {
             Data = data;
         }

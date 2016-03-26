@@ -60,6 +60,7 @@
     <Compile Include="JsonWebSocket.DataContractJson.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="OpCode.cs" />
+    <Compile Include="PongReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\CloseStatusCodeHybi10.cs" />
     <Compile Include="Protocol\CloseStatusCodeRfc6455.cs" />

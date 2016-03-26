@@ -117,6 +117,9 @@
     <Compile Include="..\WebSocket4Net\MessageReceivedEventArgs.cs">
       <Link>MessageReceivedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\WebSocket4Net\PongReceivedEventArgs.cs">
+      <Link>PongReceivedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\WebSocket4Net\OpCode.cs">
       <Link>OpCode.cs</Link>
     </Compile>

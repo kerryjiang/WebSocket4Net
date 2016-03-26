@@ -11,6 +11,8 @@ namespace WebSocket4Net.Command
         {
             session.LastActiveTime = DateTime.Now;
             session.LastPongResponse = commandInfo.Text;
+
+            session.FirePongReceived(commandInfo.Data);
         }
 
         public override string Name

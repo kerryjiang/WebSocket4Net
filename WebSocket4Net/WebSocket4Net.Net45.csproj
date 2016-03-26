@@ -54,6 +54,7 @@
     <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />
+    <Compile Include="PongReceivedEventArgs.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
