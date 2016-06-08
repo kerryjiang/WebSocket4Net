@@ -388,21 +388,24 @@ namespace WebSocket4Net
 
         private void OnPingTimerCallback(object state)
         {
-            if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse))
-            {
+            var protocolProcessor = state as IProtocolProcessor;
+            if (!string.IsNullOrEmpty(m_LastPingRequest) && !m_LastPingRequest.Equals(LastPongResponse)) {
                 //have not got last response
-                return;
+                // Verify that the remote endpoint is still responsive 
+                // by sending an un-solicited PONG frame:
+                try {
+                    protocolProcessor.SendPong(this, "");
+                } catch (Exception e) {
+                    OnError(e);
+                    return;
+                }
             }
 
-            var protocolProcessor = state as IProtocolProcessor;
             m_LastPingRequest = DateTime.Now.ToString();
 
-            try
-            {
+            try {
                 protocolProcessor.SendPing(this, m_LastPingRequest);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 OnError(e);
             }
         }
