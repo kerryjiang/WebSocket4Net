@@ -46,9 +46,9 @@ namespace WebSocket4Net
             Initialize(uri, subProtocol, cookieList, customHeaderItems, userAgent, origin, version, httpConnectProxy, receiveBufferSize);
         }
 
-        private TcpClientSession CreateSecureTcpSession(EndPoint endPoint, int receiveBufferSize)
+        private TcpClientSession CreateSecureTcpSession()
         {
-            return new SslStreamTcpSession(endPoint, receiveBufferSize);
+            return new SslStreamTcpSession();
         }
 
         /// <summary>

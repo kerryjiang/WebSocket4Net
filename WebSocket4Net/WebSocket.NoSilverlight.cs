@@ -11,9 +11,9 @@ namespace WebSocket4Net
     {
         private SslProtocols m_SecureProtocols = SslProtocols.Default;
 
-        private TcpClientSession CreateSecureTcpSession(EndPoint endPoint, int receiveBufferSize)
+        private TcpClientSession CreateSecureTcpSession()
         {
-            return new SslStreamTcpSession(endPoint, receiveBufferSize, m_SecureProtocols);
+            return new SslStreamTcpSession();
         }
     }
 }

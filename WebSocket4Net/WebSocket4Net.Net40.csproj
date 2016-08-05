@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.4\lib\net40-client\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.8.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.8.0.2\lib\net40-client\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -50,6 +50,15 @@
     <Compile Include="Command\WebSocketCommandBase.cs" />
     <Compile Include="Command\Pong.cs" />
     <Compile Include="Command\Text.cs" />
+    <Compile Include="Common\ArraySegmentEx.cs" />
+    <Compile Include="Common\ArraySegmentList.cs" />
+    <Compile Include="Common\BinaryCommandInfo.cs" />
+    <Compile Include="Common\CommandInfo.cs" />
+    <Compile Include="Common\DelegateCommand.cs" />
+    <Compile Include="Common\IClientCommandReader.cs" />
+    <Compile Include="Common\ICommand.cs" />
+    <Compile Include="Common\ICommandInfo.cs" />
+    <Compile Include="Common\StringCommandInfo.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />

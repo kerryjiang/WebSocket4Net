@@ -1,1 +1,0 @@
-﻿Windows Phone Toolkit Test Framework(WPToolkitTestFx) package has a dependency on the Windows Phone Toolkit(WPtoolkit) package.

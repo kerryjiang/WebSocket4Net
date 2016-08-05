@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SuperSocket.ClientEngine.Protocol;
+using WebSocket4Net.Common;
 using WebSocket4Net.Protocol.FramePartReader;
 
 namespace WebSocket4Net.Protocol

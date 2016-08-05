@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SuperSocket.ClientEngine.Protocol;
+using WebSocket4Net.Common;
 
 namespace WebSocket4Net.Protocol
 {

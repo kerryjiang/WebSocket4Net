@@ -52,8 +52,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="SuperSocket.ClientEngine, Version=0.6.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.6.0.4\lib\sl50\SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.8.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.8.0.2\lib\sl50\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
@@ -88,6 +88,33 @@
     </Compile>
     <Compile Include="..\WebSocket4Net\Command\WebSocketCommandBase.cs">
       <Link>Command\WebSocketCommandBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\ArraySegmentEx.cs">
+      <Link>Common\ArraySegmentEx.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\ArraySegmentList.cs">
+      <Link>Common\ArraySegmentList.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\BinaryCommandInfo.cs">
+      <Link>Common\BinaryCommandInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\CommandInfo.cs">
+      <Link>Common\CommandInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\DelegateCommand.cs">
+      <Link>Common\DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\IClientCommandReader.cs">
+      <Link>Common\IClientCommandReader.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\ICommand.cs">
+      <Link>Common\ICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\ICommandInfo.cs">
+      <Link>Common\ICommandInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\WebSocket4Net\Common\StringCommandInfo.cs">
+      <Link>Common\StringCommandInfo.cs</Link>
     </Compile>
     <Compile Include="..\WebSocket4Net\DataReceivedEventArgs.cs">
       <Link>DataReceivedEventArgs.cs</Link>

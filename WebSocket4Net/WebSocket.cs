@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using SuperSocket.ClientEngine;
-using SuperSocket.ClientEngine.Protocol;
+using WebSocket4Net.Common;
 using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
@@ -15,6 +15,9 @@ namespace WebSocket4Net
     public partial class WebSocket : IDisposable
     {
         internal TcpClientSession Client { get; private set; }
+
+
+        private EndPoint m_RemoteEndPoint;
 
         /// <summary>
         /// Gets the version of the websocket protocol.
@@ -122,7 +125,49 @@ namespace WebSocket4Net
         public bool NoDelay { get; set; }
 #endif
 
-        private bool m_disposed = false;
+#if !SILVERLIGHT
+        /// <summary>
+        /// set/get the local bind endpoint
+        /// </summary>
+        public EndPoint LocalEndPoint
+        {
+            get
+            {
+                if (Client == null)
+                    return null;
+
+                return Client.LocalEndPoint;
+            }
+
+            set
+            {
+                if (Client == null)
+                    throw new Exception("Websocket client is not initilized.");
+
+                Client.LocalEndPoint = value;
+            }
+        }
+#endif
+
+#if !SILVERLIGHT
+        /// <summary>
+        /// get the websocket's security options
+        /// </summary>
+        public SecurityOption Security
+        {
+            get
+            {
+                var secureClient = Client as SslStreamTcpSession;
+
+                if (secureClient == null)
+                    return null;
+
+                return secureClient.Security;
+            }
+        }
+#endif
+
+        private bool m_Disposed = false;
 
         static WebSocket()
         {
@@ -153,23 +198,23 @@ namespace WebSocket4Net
             return remoteEndPoint;
         }
 
-        TcpClientSession CreateClient(string uri, int receiveBufferSize)
+        TcpClientSession CreateClient(string uri)
         {
             int port;
-            var targetEndPoint = ResolveUri(uri, 80, out port);
+            var targetEndPoint = m_RemoteEndPoint = ResolveUri(uri, 80, out port);
 
             if (port == 80)
                 HandshakeHost = TargetUri.Host;
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return new AsyncTcpSession(m_HttpConnectProxy ?? targetEndPoint, receiveBufferSize > 0 ? receiveBufferSize : DefaultReceiveBufferSize);
+            return new AsyncTcpSession();
         }
 
 
 #if !NETFX_CORE
 
-        TcpClientSession CreateSecureClient(string uri, int receiveBufferSize)
+        TcpClientSession CreateSecureClient(string uri)
         {
             int hostPos = uri.IndexOf('/', m_SecureUriPrefix.Length);
 
@@ -197,14 +242,19 @@ namespace WebSocket4Net
             }
 
             int port;
-            var targetEndPoint = ResolveUri(uri, m_SecurePort, out port);
+            var targetEndPoint = m_RemoteEndPoint = ResolveUri(uri, m_SecurePort, out port);
+
+            if (m_HttpConnectProxy != null)
+            {
+                m_RemoteEndPoint = m_HttpConnectProxy;
+            }
 
             if (port == m_SecurePort)
                 HandshakeHost = TargetUri.Host;
             else
                 HandshakeHost = TargetUri.Host + ":" + port;
 
-            return CreateSecureTcpSession(m_HttpConnectProxy ?? targetEndPoint, receiveBufferSize > 0 ? receiveBufferSize : DefaultReceiveBufferSize);
+            return CreateSecureTcpSession();
         }
 #endif
 
@@ -257,16 +307,18 @@ namespace WebSocket4Net
 
             m_HttpConnectProxy = httpConnectProxy;
 
+
+
             TcpClientSession client;
 
             if (uri.StartsWith(m_UriPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                client = CreateClient(uri, receiveBufferSize);
+                client = CreateClient(uri);
             }
             else if (uri.StartsWith(m_SecureUriPrefix, StringComparison.OrdinalIgnoreCase))
             {
 #if !NETFX_CORE
-                client = CreateSecureClient(uri, receiveBufferSize);
+                client = CreateSecureClient(uri);
 #else
                 throw new NotSupportedException("WebSocket4Net still has not supported secure websocket for UWP yet.");
 #endif
@@ -276,6 +328,7 @@ namespace WebSocket4Net
                 throw new ArgumentException("Invalid uri", "uri");
             }
 
+            client.ReceiveBufferSize = receiveBufferSize > 0 ? receiveBufferSize : DefaultReceiveBufferSize;
             client.Connected += new EventHandler(client_Connected);
             client.Closed += new EventHandler(client_Closed);
             client.Error += new EventHandler<ErrorEventArgs>(client_Error);
@@ -335,7 +388,7 @@ namespace WebSocket4Net
                 Client.Proxy = Proxy;
 
 #if !__IOS__
-            Client.NoDeplay = NoDelay;
+            Client.NoDelay = NoDelay;
 #endif
 
 #if SILVERLIGHT
@@ -343,7 +396,7 @@ namespace WebSocket4Net
             Client.ClientAccessPolicyProtocol = ClientAccessPolicyProtocol;
 #endif
 #endif
-            Client.Connect();
+            Client.Connect(m_RemoteEndPoint);
         }
 
         private static IProtocolProcessor GetProtocolProcessor(WebSocketVersion version)
@@ -681,7 +734,7 @@ namespace WebSocket4Net
 
         protected virtual void Dispose(bool disposing)
         {
-            if (m_disposed)
+            if (m_Disposed)
                 return;
 
             if (disposing)
@@ -704,7 +757,7 @@ namespace WebSocket4Net
                 ClearTimer();
             }
 
-            m_disposed = true;
+            m_Disposed = true;
         }
 
         ~WebSocket()

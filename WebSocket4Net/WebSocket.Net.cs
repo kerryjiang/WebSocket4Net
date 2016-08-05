@@ -33,7 +33,7 @@ namespace WebSocket4Net
 
                 if (client != null)
                 {
-                    client.AllowUnstrustedCertificate = m_AllowUnstrustedCertificate;
+                    client.Security.AllowUnstrustedCertificate = m_AllowUnstrustedCertificate;
                 }
             }
         }
