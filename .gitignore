@@ -21,6 +21,7 @@ Thumbs.db
 *.log
 *.lib
 *.sbr
+*.lock.json
 obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
