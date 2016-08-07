@@ -9,11 +9,17 @@ namespace WebSocket4Net
 {
     public partial class WebSocket
     {
-        private SslProtocols m_SecureProtocols = SslProtocols.Default;
+#if NETCORE
+       private SslProtocols m_SecureProtocols = SslProtocols.Tls11 | SslProtocols.Tls12;
+#else
+       private SslProtocols m_SecureProtocols = SslProtocols.Default;
+#endif
 
         private TcpClientSession CreateSecureTcpSession()
         {
-            return new SslStreamTcpSession();
+            var client = new SslStreamTcpSession();
+            client.Security.EnabledSslProtocols = m_SecureProtocols;
+            return client;
         }
     }
 }

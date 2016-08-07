@@ -138,7 +138,7 @@ namespace WebSocket4Net
 
         internal static bool IsSimpleType(this Type type)
         {
-#if NETFX_CORE
+#if NETFX_CORE || NETCORE
             var typeInfo = type.GetTypeInfo();
 
             return
@@ -158,7 +158,7 @@ namespace WebSocket4Net
 
         public static string GetOrigin(this Uri uri)
         {
-#if NETFX_CORE
+#if NETFX_CORE || NETCORE
             return uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
 #else
             return uri.GetLeftPart(UriPartial.Authority);

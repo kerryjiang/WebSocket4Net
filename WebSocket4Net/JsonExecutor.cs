@@ -28,7 +28,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
+            #if NETCORE
+                m_ExecutorAction.DynamicInvoke(new object[] { param });
+            #else                
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
+            #endif
         }
     }
 
@@ -43,7 +47,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { token, param });
+            #if NETCORE
+                m_ExecutorAction.DynamicInvoke(new object[] { token, param });
+            #else                
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { token, param });
+            #endif
         }
     }
 
@@ -58,7 +66,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param });
+            #if NETCORE
+                m_ExecutorAction.DynamicInvoke(new object[] { websocket, param });
+            #else                
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param });
+            #endif
         }
     }
 
@@ -73,7 +85,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, token, param });
+            #if NETCORE
+                m_ExecutorAction.DynamicInvoke(new object[] { websocket, token, param });
+            #else                
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, token, param });
+            #endif
         }
     }
 
@@ -91,7 +107,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param, m_State });
+            #if NETCORE
+                m_ExecutorAction.DynamicInvoke(new object[] { websocket, param, m_State });
+            #else                
+                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param, m_State });
+            #endif
         }
     }
 }

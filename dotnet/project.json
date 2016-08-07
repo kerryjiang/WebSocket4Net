@@ -1,5 +1,5 @@
 {
-  “name”: "WebSocket4Net",
+  "name": "WebSocket4Net",
   "version": "0.14.1.0",
   "buildOptions": {
     "debugType": "portable",
@@ -16,11 +16,11 @@
         ],
       "excludeFiles": [
           "../WebSocket4Net/GlobalAssemblyInfo.cs",
-		  "../WebSocket4Net/JsonWebSocket.DataContractJson.cs",
-		  "../WebSocket4Net/JsonWebSocket.JsonNet.cs",
-		  "../WebSocket4Net/Func.cs",
-		  "../WebSocket4Net/Action.cs",
-		  "../WebSocket4Net/LINQ.cs"
+          "../WebSocket4Net/JsonWebSocket.DataContractJson.cs",
+          "../WebSocket4Net/JsonWebSocket.JsonNet.cs",
+          "../WebSocket4Net/Func.cs",
+          "../WebSocket4Net/Action.cs",
+          "../WebSocket4Net/LINQ.cs"
         ]
     }
   },
