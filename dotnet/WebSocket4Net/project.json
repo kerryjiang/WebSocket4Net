@@ -1,0 +1,46 @@
+{
+  "name": "WebSocket4Net",
+  "version": "0.14.1.0",
+  "buildOptions": {
+    "debugType": "portable",
+    "emitEntryPoint": false,
+    "compile": {
+      "include": ["../../WebSocket4Net/**/*.cs"],
+        "exclude": [
+            "../test/**/*.cs",
+            "../../WebSocket4Net/Properties/*.cs",
+            "../../WebSocket4Net/**/*.Net20.cs",
+            "../../WebSocket4Net/**/*.Silverlight.cs",
+            "../../WebSocket4Net/**/*.Net40.cs",
+            "../../WebSocket4Net/**/*.Net35.cs",
+            "../../WebSocket4Net/**/*.WindowsPhone.cs"
+          ],
+        "excludeFiles": [
+            "../../WebSocket4Net/GlobalAssemblyInfo.cs",
+            "../../WebSocket4Net/JsonWebSocket.DataContractJson.cs",
+            "../../WebSocket4Net/JsonWebSocket.JsonNet.cs",
+            "../../WebSocket4Net/Func.cs",
+            "../../WebSocket4Net/Action.cs",
+            "../../WebSocket4Net/LINQ.cs"
+          ]
+      }
+  },
+  "dependencies": {
+      "SuperSocket.ClientEngine": "[0.8.0.2]"
+  },
+  "frameworks": {
+    "netstandard1.3": {
+	  "buildOptions": {
+        "define": [ "NETCORE" ]
+      },
+      "dependencies": {
+        "System.Linq": "4.1.0",
+        "System.Net.Sockets": "4.1.0",
+        "System.Net.NameResolution": "4.0.0",
+        "System.Threading.Timer": "4.0.1",
+        "System.Text.RegularExpressions": "4.1.0",
+        "System.Threading": "4.0.11"
+      }
+    }
+  }
+}
