@@ -11,7 +11,7 @@
     <description>WebSocket4Net is a .NET websocket client implemtation. It originates from SuperWebSocket WebSocket Client. For better developing of the websocket client, it was separated from SuperWebSocket and was renamed to WebSocket4Net.</description>
     <tags>WebSocket, WebSocket4Net, SuperWebSocket</tags>
 	<dependencies>
-      <dependency id="SuperSocket.ClientEngine.Core" version="0.6.0.4" />
+      <dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.3" />
     </dependencies>
 	<references>	  
 	  <reference file="WebSocket4Net.dll" />
