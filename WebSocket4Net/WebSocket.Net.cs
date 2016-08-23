@@ -38,6 +38,35 @@ namespace WebSocket4Net
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow name mismatch certificate] when connect a secure websocket uri.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [allow name mismatch certificate]; otherwise, <c>false</c>.
+        /// </value>
+        public bool AllowNameMismatchCertificate
+        {
+            get
+            {
+                var client = Client as SslStreamTcpSession;
+
+                if (client == null)
+                    return false;
+
+                return client.Security.AllowNameMismatchCertificate;
+            }
+
+            set
+            {
+                var client = Client as SslStreamTcpSession;
+
+                if (client == null)
+                    return;
+
+                client.Security.AllowNameMismatchCertificate = value;
+            }
+        }
+
 #endif
 
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
