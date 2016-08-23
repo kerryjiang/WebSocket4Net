@@ -2,7 +2,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>WebSocket4Net</id>
-    <version>$version$</version>
+    <version>0.15-beta1</version>
+	<!--<version>$version</version>-->
     <authors>Kerry Jiang</authors>
     <owners>Kerry Jiang</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -11,7 +12,17 @@
     <description>WebSocket4Net is a .NET websocket client implemtation. It originates from SuperWebSocket WebSocket Client. For better developing of the websocket client, it was separated from SuperWebSocket and was renamed to WebSocket4Net.</description>
     <tags>WebSocket, WebSocket4Net, SuperWebSocket</tags>
 	<dependencies>
-      <dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.3" />
+	  <group>
+		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.4" />
+	  </group>
+	  <group targetFramework=".NETStandard1.3">
+        <dependency id="System.Linq" version="[4.1.0, )" />
+        <dependency id="System.Net.Sockets" version="[4.1.0, )" />
+        <dependency id="System.Net.NameResolution" version="[4.0.0, )" />
+        <dependency id="System.Threading.Timer" version="[4.0.1, )" />
+        <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
+        <dependency id="System.Threading" version="[4.0.11, )" />
+      </group>
     </dependencies>
 	<references>	  
 	  <reference file="WebSocket4Net.dll" />
@@ -24,9 +35,10 @@
 	<file src="bin\net45\release\WebSocket4Net.dll" target="lib/net45" />
 	<file src="bin\sl50\release\WebSocket4Net.dll" target="lib/sl50" />
 	<file src="bin\wp80\release\WebSocket4Net.dll" target="lib/wp80" />
-	<file src="bin\win\release\WebSocket4Net.dll" target="lib/win" />
+	<!--<file src="bin\win\release\WebSocket4Net.dll" target="lib/win" />-->
 	<file src="bin\monoandroid10\release\WebSocket4Net.dll" target="lib/monoandroid10" />
 	<file src="bin\monotouch10\release\WebSocket4Net.dll" target="lib/monotouch10" />
 	<file src="bin\xamarinios10\release\WebSocket4Net.dll" target="lib/xamarinios10" />
+	<file src="bin\netstandard1.3\release\WebSocket4Net.dll" target="lib/netstandard1.3" />
   </files>
 </package>

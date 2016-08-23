@@ -8,13 +8,13 @@
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net35.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net35\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net40.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net40\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net45.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net45\$(Configuration);$(SignParameter)"/>
-		<MSBuild Projects="WebSocket4Net.Silverlight\WebSocket4Net.SL40.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\sl40\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\sl50\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.WP80\WebSocket4Net.WP80.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\wp80\$(Configuration);$(SignParameter)"/>
-		<MSBuild Projects="WebSocket4Net.UWP\WebSocket4Net.UWP.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\win\$(Configuration);$(SignParameter)"/>
+		<!--<MSBuild Projects="WebSocket4Net.UWP\WebSocket4Net.UWP.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\win\$(Configuration);$(SignParameter)"/>-->
 		<MSBuild Projects="WebSocket4Net.MonoDroid\WebSocket4Net.MonoDroid.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\monoandroid10\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.MonoTouch\WebSocket4Net.MonoTouch.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\monotouch10\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.iOS\WebSocket4Net.iOS.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\xamarinios10\$(Configuration);$(SignParameter)"/>
+		<Exec Command="dotnet build -c $(Configuration) -f netstandard1.3 -o ..\..\bin\netstandard1.3\$(Configuration)" WorkingDirectory="dotnet\WebSocket4Net" />
 	</Target>
 	<Target Name="Pack">
 		<GetAssemblyIdentity AssemblyFiles="bin\net20\$(Configuration)\WebSocket4Net.dll">
