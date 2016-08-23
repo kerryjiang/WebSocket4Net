@@ -18,7 +18,8 @@ namespace WebSocket4Net
         private TcpClientSession CreateSecureTcpSession()
         {
             var client = new SslStreamTcpSession();
-            client.Security.EnabledSslProtocols = m_SecureProtocols;
+            var security = client.Security = new SecurityOption();
+            security.EnabledSslProtocols = m_SecureProtocols;
             return client;
         }
     }
