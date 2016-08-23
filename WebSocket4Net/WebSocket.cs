@@ -150,6 +150,9 @@ namespace WebSocket4Net
 #endif
 
 #if !SILVERLIGHT
+
+        private SecurityOption m_Security;
+
         /// <summary>
         /// get the websocket's security options
         /// </summary>
@@ -157,12 +160,15 @@ namespace WebSocket4Net
         {
             get
             {
+                if (m_Security != null)
+                    return m_Security;
+
                 var secureClient = Client as SslStreamTcpSession;
 
                 if (secureClient == null)
-                    return null;
+                    return m_Security = new SecurityOption();
 
-                return secureClient.Security;
+                return m_Security = secureClient.Security;
             }
         }
 #endif

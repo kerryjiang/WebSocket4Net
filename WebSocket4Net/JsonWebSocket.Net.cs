@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net
 {
     public partial class JsonWebSocket
     {
         /// <summary>
-        /// Gets or sets a value indicating whether [allow unstrusted certificate] when connect a secure websocket uri.
+        /// Get websocket connection security options
         /// </summary>
-        /// <value>
-        /// 	<c>true</c> if [allow unstrusted certificate]; otherwise, <c>false</c>.
-        /// </value>
-        public bool AllowUnstrustedCertificate
+        public SecurityOption Security
         {
-            get { return m_WebSocket.AllowUnstrustedCertificate; }
-            set
-            {
-                m_WebSocket.AllowUnstrustedCertificate = value;
-            }
+            get { return m_WebSocket.Security; }
         }
     }
 }
