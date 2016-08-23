@@ -182,6 +182,7 @@ namespace WebSocket4Net.Test
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -206,6 +207,7 @@ namespace WebSocket4Net.Test
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", "ws://localhostx", m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -224,6 +226,7 @@ namespace WebSocket4Net.Test
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -253,6 +256,7 @@ namespace WebSocket4Net.Test
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
             webSocketClient.Error += (s, e) => { m_OpenedEvent.Set(); };
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -298,6 +302,7 @@ namespace WebSocket4Net.Test
             webSocketClient.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
             webSocketClient.Error += (s, e) => { m_OpenedEvent.Set(); };
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -362,6 +367,7 @@ namespace WebSocket4Net.Test
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -401,6 +407,7 @@ namespace WebSocket4Net.Test
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -451,6 +458,7 @@ namespace WebSocket4Net.Test
                 return;
 
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.DataReceived += new EventHandler<DataReceivedEventArgs>(webSocketClient_DataReceived);
@@ -498,6 +506,7 @@ namespace WebSocket4Net.Test
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             webSocketClient.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
@@ -542,6 +551,7 @@ namespace WebSocket4Net.Test
         {
             WebSocket webSocketClient = new WebSocket(string.Format("{0}:{1}/websocket", Host, m_WebSocketServer.Config.Port), "basic", m_Version);
             webSocketClient.AllowUnstrustedCertificate = true;
+            webSocketClient.AllowNameMismatchCertificate = true;
             webSocketClient.Opened += new EventHandler(webSocketClient_Opened);
             webSocketClient.Closed += new EventHandler(webSocketClient_Closed);
             
