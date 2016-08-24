@@ -26,7 +26,7 @@
       }
   },
   "dependencies": {
-      "SuperSocket.ClientEngine.Core": "[0.8.0.4]"
+      "SuperSocket.ClientEngine.Core": "[0.8.0.6]"
   },
   "frameworks": {
     "netstandard1.3": {
