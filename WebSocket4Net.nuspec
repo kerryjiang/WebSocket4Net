@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>WebSocket4Net</id>
-    <version>0.15-beta4</version>
+    <version>0.15-beta5</version>
 	<!--<version>$version</version>-->
     <authors>Kerry Jiang</authors>
     <owners>Kerry Jiang</owners>
@@ -16,13 +16,14 @@
 		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.6" />
 	  </group>
 	  <group targetFramework=".NETStandard1.3">
-        <dependency id="System.Linq" version="[4.1.0, )" />
-        <dependency id="System.Net.Sockets" version="[4.1.0, )" />
-        <dependency id="System.Net.NameResolution" version="[4.0.0, )" />
-        <dependency id="System.Threading.Timer" version="[4.0.1, )" />
-        <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
-        <dependency id="System.Threading" version="[4.0.11, )" />
-      </group>
+		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.6" />
+        	<dependency id="System.Linq" version="[4.1.0, )" />
+	        <dependency id="System.Net.Sockets" version="[4.1.0, )" />
+	        <dependency id="System.Net.NameResolution" version="[4.0.0, )" />
+	        <dependency id="System.Threading.Timer" version="[4.0.1, )" />
+	        <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
+	        <dependency id="System.Threading" version="[4.0.11, )" />
+	  </group>
     </dependencies>
 	<references>	  
 	  <reference file="WebSocket4Net.dll" />
