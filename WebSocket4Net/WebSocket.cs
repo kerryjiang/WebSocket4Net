@@ -692,10 +692,15 @@ namespace WebSocket4Net
             if (timer == null)
                 return;
 
-            if (Interlocked.CompareExchange(ref m_WebSocketTimer, null, timer) == timer)
+            lock (this)
             {
+                if (m_WebSocketTimer == null)
+                    return;
+
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
                 timer.Dispose();
+
+                m_WebSocketTimer = null;
             }
         }
 
