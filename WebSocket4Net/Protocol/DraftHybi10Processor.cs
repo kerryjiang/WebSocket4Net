@@ -224,7 +224,7 @@ namespace WebSocket4Net.Protocol
             playloadData[1] = (byte)lowByte;
 
             // don't send close handshake now because the connection was closed already
-            if (websocket.State == WebSocketState.Closed)
+            if (websocket == null ||websocket.State == WebSocketState.Closed)
                 return;
 
             if (!string.IsNullOrEmpty(closeReason))
