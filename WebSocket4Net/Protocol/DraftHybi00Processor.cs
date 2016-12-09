@@ -155,14 +155,14 @@ namespace WebSocket4Net.Protocol
                 handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.ToString());
             }
 
+            handshakeBuilder.Append("Host: ");
+            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
             handshakeBuilder.AppendWithCrCf("Upgrade: WebSocket");
             handshakeBuilder.AppendWithCrCf("Connection: Upgrade");
             handshakeBuilder.Append("Sec-WebSocket-Key1: ");
             handshakeBuilder.AppendWithCrCf(secKey1);
             handshakeBuilder.Append("Sec-WebSocket-Key2: ");
-            handshakeBuilder.AppendWithCrCf(secKey2);
-            handshakeBuilder.Append("Host: ");
-            handshakeBuilder.AppendWithCrCf(websocket.TargetUri.Host);
+            handshakeBuilder.AppendWithCrCf(secKey2);            
             handshakeBuilder.Append("Origin: ");
             handshakeBuilder.AppendWithCrCf(string.IsNullOrEmpty(websocket.Origin) ? websocket.TargetUri.Host : websocket.Origin);
 
