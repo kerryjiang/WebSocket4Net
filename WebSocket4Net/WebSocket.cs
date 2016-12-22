@@ -583,6 +583,10 @@ namespace WebSocket4Net
         {
             m_ClosedArgs = new ClosedEventArgs((short)statusCode, reason);
 
+            //Nothing to do if closing is in progress
+
+            if (m_StateCode == WebSocketStateConst.Closed) return;
+
             //The websocket never be opened
             if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
                     == WebSocketStateConst.None)
@@ -611,16 +615,10 @@ namespace WebSocket4Net
 
             //Disable auto ping
             ClearTimer();
-
-            //We should return only when all IO is compleeted and it's safe to call Dispose() or Open()
-            
-            ////Set closing hadnshake checking timer
-            ////m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
+            //Set closing hadnshake checking timer
+            m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
 
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
-            Thread.Sleep(5*1000);
-            CheckCloseHandshake(null);
-
         }
 
         private void CheckCloseHandshake(object state)
