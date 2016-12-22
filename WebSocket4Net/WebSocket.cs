@@ -611,10 +611,16 @@ namespace WebSocket4Net
 
             //Disable auto ping
             ClearTimer();
-            //Set closing hadnshake checking timer
-            m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
+
+            //We should return only when all IO is compleeted and it's safe to call Dispose() or Open()
+            
+            ////Set closing hadnshake checking timer
+            ////m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
 
             ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+            Thread.Sleep(5*1000);
+            CheckCloseHandshake(null);
+
         }
 
         private void CheckCloseHandshake(object state)
@@ -637,7 +643,11 @@ namespace WebSocket4Net
             var client = Client;
 
             if (client != null)
+            {
                 client.Close();
+                //We should set sokect to the Colsed state and fire an event if necessary
+                OnClosed();
+            }
         }
 
         protected void ExecuteCommand(WebSocketCommandInfo commandInfo)
