@@ -51,6 +51,7 @@ namespace WebSocket4Net.Protocol
                 {
                     this.AddArraySegment(readBuffer, offset, findLen);
                     handshake = this.BufferSegments.Decode(Encoding.UTF8);
+                    prevMatched = 0; // Any start-of-marker bytes that matched at end of previous segment was an incomplete match. So we must set prevMatch to zero or our read pointer will not advance enough, causing desynchronization in WS protocol decoding, failure to recognize further messages, server closing connection for lack of reply to ping. -- fidergo-stephane-gourichon
                 }
                 else
                 {
@@ -60,11 +61,13 @@ namespace WebSocket4Net.Protocol
             else
             {
                 handshake = Encoding.UTF8.GetString(readBuffer, offset, findLen);
+                prevMatched = 0; // Should be an assert. -- fidergo-stephane-gourichon
             }
 
             left = length - findLen - (HeaderTerminator.Length - prevMatched);
 
             BufferSegments.ClearSegements();
+            m_HeadSeachState.Matched = 0; // In case the object is reused. -- fidergo-stephane-gourichon
 
             if (!handshake.StartsWith(m_BadRequestPrefix, StringComparison.OrdinalIgnoreCase))
             {
