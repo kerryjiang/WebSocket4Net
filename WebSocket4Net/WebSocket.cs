@@ -45,7 +45,7 @@ namespace WebSocket4Net
         /// </value>
         public int AutoSendPingInterval { get; set; }
 
-        protected const string UserAgentKey = "UserAgent";
+        protected const string UserAgentKey = "User-Agent";
 
         internal IProtocolProcessor ProtocolProcessor { get; private set; }
 
