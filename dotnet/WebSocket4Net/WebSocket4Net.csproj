@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>0.15.0.0</VersionPrefix>
+    <VersionPrefix>0.15.0.7</VersionPrefix>
     <TargetFramework>netstandard1.3</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>WebSocket4Net</AssemblyName>
@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="..\test\**\*.cs;..\..\WebSocket4Net\Properties\*.cs;..\..\WebSocket4Net\**\*.Net20.cs;..\..\WebSocket4Net\**\*.Silverlight.cs;..\..\WebSocket4Net\**\*.Net40.cs;..\..\WebSocket4Net\**\*.Net35.cs;..\..\WebSocket4Net\**\*.WindowsPhone.cs;..\..\WebSocket4Net\GlobalAssemblyInfo.cs;..\..\WebSocket4Net\JsonWebSocket.DataContractJson.cs;..\..\WebSocket4Net\JsonWebSocket.JsonNet.cs;..\..\WebSocket4Net\Func.cs;..\..\WebSocket4Net\Action.cs;..\..\WebSocket4Net\LINQ.cs" />
-    <Compile Include="..\..\WebSocket4Net\**\*.cs" Exclude="..\test\**\*.cs;..\..\WebSocket4Net\Properties\*.cs;..\..\WebSocket4Net\**\*.Net20.cs;..\..\WebSocket4Net\**\*.Silverlight.cs;..\..\WebSocket4Net\**\*.Net40.cs;..\..\WebSocket4Net\**\*.Net35.cs;..\..\WebSocket4Net\**\*.WindowsPhone.cs;bin\**;obj\**;**\*.xproj;packages\**;..\..\WebSocket4Net\GlobalAssemblyInfo.cs;..\..\WebSocket4Net\JsonWebSocket.DataContractJson.cs;..\..\WebSocket4Net\JsonWebSocket.JsonNet.cs;..\..\WebSocket4Net\Func.cs;..\..\WebSocket4Net\Action.cs;..\..\WebSocket4Net\LINQ.cs" />
+    <Compile Remove="..\test\**\*.cs;..\..\WebSocket4Net\Properties\*.cs;..\..\WebSocket4Net\**\*.Net20.cs;..\..\WebSocket4Net\**\*.Silverlight.cs;..\..\WebSocket4Net\**\*.Net40.cs;..\..\WebSocket4Net\**\*.Net35.cs;..\..\WebSocket4Net\**\*.WindowsPhone.cs;..\..\WebSocket4Net\GlobalAssemblyInfo.cs;..\..\WebSocket4Net\JsonWebSocket.DataContractJson.cs;..\..\WebSocket4Net\JsonWebSocket.JsonNet.cs;..\..\WebSocket4Net\Func.cs;..\..\WebSocket4Net\Action.cs;..\..\WebSocket4Net\LINQ.cs;..\..\WebSocket4Net\ExtensionAttribute.cs" />
+    <Compile Include="..\..\WebSocket4Net\**\*.cs" Exclude="..\test\**\*.cs;..\..\WebSocket4Net\Properties\*.cs;..\..\WebSocket4Net\**\*.Net20.cs;..\..\WebSocket4Net\**\*.Silverlight.cs;..\..\WebSocket4Net\**\*.Net40.cs;..\..\WebSocket4Net\**\*.Net35.cs;..\..\WebSocket4Net\**\*.WindowsPhone.cs;bin\**;obj\**;**\*.xproj;packages\**;..\..\WebSocket4Net\GlobalAssemblyInfo.cs;..\..\WebSocket4Net\JsonWebSocket.DataContractJson.cs;..\..\WebSocket4Net\JsonWebSocket.JsonNet.cs;..\..\WebSocket4Net\Func.cs;..\..\WebSocket4Net\Action.cs;..\..\WebSocket4Net\LINQ.cs;..\..\WebSocket4Net\ExtensionAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
