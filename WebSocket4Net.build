@@ -4,6 +4,7 @@
 		<SignParameter></SignParameter>
     </PropertyGroup>
 	<Target Name="Build">
+		<Exec Command="nuget restore WebSocket4Net.sln" />
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net20.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net20\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net35.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net35\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net40.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net40\$(Configuration);$(SignParameter)"/>
@@ -14,6 +15,7 @@
 		<MSBuild Projects="WebSocket4Net.MonoDroid\WebSocket4Net.MonoDroid.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\monoandroid10\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.MonoTouch\WebSocket4Net.MonoTouch.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\monotouch10\$(Configuration);$(SignParameter)"/>
 		<MSBuild Projects="WebSocket4Net.iOS\WebSocket4Net.iOS.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\xamarinios10\$(Configuration);$(SignParameter)"/>
+		<Exec Command="dotnet restore" WorkingDirectory="dotnet\WebSocket4Net" />
 		<Exec Command="dotnet build -c $(Configuration) -f netstandard1.3 -o ..\..\bin\netstandard1.3\$(Configuration)" WorkingDirectory="dotnet\WebSocket4Net" />
 	</Target>
 	<Target Name="Pack">
