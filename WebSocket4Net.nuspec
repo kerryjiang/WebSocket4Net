@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>WebSocket4Net</id>
-    <version>0.15-beta6</version>
+    <version>0.15-beta7</version>
 	<!--<version>$version</version>-->
     <authors>Kerry Jiang</authors>
     <owners>Kerry Jiang</owners>
@@ -13,16 +13,16 @@
     <tags>WebSocket, WebSocket4Net, SuperWebSocket</tags>
 	<dependencies>
 	  <group>
-		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.6" />
+		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.10" />
 	  </group>
 	  <group targetFramework=".NETStandard1.3">
-		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.6" />
-        	<dependency id="System.Linq" version="[4.1.0, )" />
-	        <dependency id="System.Net.Sockets" version="[4.1.0, )" />
-	        <dependency id="System.Net.NameResolution" version="[4.0.0, )" />
-	        <dependency id="System.Threading.Timer" version="[4.0.1, )" />
-	        <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
-	        <dependency id="System.Threading" version="[4.0.11, )" />
+		<dependency id="SuperSocket.ClientEngine.Core" version="0.8.0.10" />
+		<dependency id="System.Linq" version="[4.3.0, )" />
+		<dependency id="System.Net.Sockets" version="[4.3.0, )" />
+		<dependency id="System.Net.NameResolution" version="[4.3.0, )" />
+		<dependency id="System.Threading.Timer" version="[4.3.0, )" />
+		<dependency id="System.Text.RegularExpressions" version="[4.3.0, )" />
+		<dependency id="System.Threading" version="[4.3.0, )" />
 	  </group>
     </dependencies>
 	<references>	  
