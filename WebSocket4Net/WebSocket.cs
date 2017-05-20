@@ -614,7 +614,17 @@ namespace WebSocket4Net
             //Set closing hadnshake checking timer
             m_WebSocketTimer = new Timer(CheckCloseHandshake, null, 5 * 1000, Timeout.Infinite);
 
-            ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+            try
+            {
+                ProtocolProcessor.SendCloseHandshake(this, statusCode, reason);
+            }
+            catch (Exception e)
+            {
+                if (Client != null)
+                {
+                    OnError(e);
+                }
+            }
         }
 
         private void CheckCloseHandshake(object state)
