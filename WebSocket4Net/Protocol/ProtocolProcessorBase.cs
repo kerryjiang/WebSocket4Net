@@ -50,7 +50,7 @@ namespace WebSocket4Net.Protocol
         {
             var parts = verbLine.Split(s_SpaceSpliter, 3, StringSplitOptions.RemoveEmptyEntries);
 
-            if (parts.Length < 3)
+            if (parts.Length < 2)
                 return false;
 
             if (!parts[0].StartsWith("HTTP/"))
