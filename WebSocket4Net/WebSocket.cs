@@ -583,6 +583,10 @@ namespace WebSocket4Net
         {
             m_ClosedArgs = new ClosedEventArgs((short)statusCode, reason);
 
+            //Nothing to do if closing is in progress
+
+            if (m_StateCode == WebSocketStateConst.Closing) return;
+
             //The websocket never be opened
             if (Interlocked.CompareExchange(ref m_StateCode, WebSocketStateConst.Closed, WebSocketStateConst.None)
                     == WebSocketStateConst.None)
@@ -647,7 +651,11 @@ namespace WebSocket4Net
             var client = Client;
 
             if (client != null)
+            {
                 client.Close();
+                //We should set sokect to the Colsed state and fire an event if necessary
+                OnClosed();
+            }
         }
 
         protected void ExecuteCommand(WebSocketCommandInfo commandInfo)
