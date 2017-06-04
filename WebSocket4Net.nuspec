@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>WebSocket4Net</id>
-    <version>0.15-beta7</version>
+    <version>0.15-beta8</version>
 	<!--<version>$version</version>-->
     <authors>Kerry Jiang</authors>
     <owners>Kerry Jiang</owners>
