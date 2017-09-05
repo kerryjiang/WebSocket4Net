@@ -35,11 +35,6 @@
 	<file src="bin\net40\release\WebSocket4Net.dll" target="lib/net40" />
 	<file src="bin\net45\release\WebSocket4Net.dll" target="lib/net45" />
 	<file src="bin\sl50\release\WebSocket4Net.dll" target="lib/sl50" />
-	<file src="bin\wp80\release\WebSocket4Net.dll" target="lib/wp80" />
-	<!--<file src="bin\win\release\WebSocket4Net.dll" target="lib/win" />-->
-	<file src="bin\monoandroid10\release\WebSocket4Net.dll" target="lib/monoandroid10" />
-	<file src="bin\monotouch10\release\WebSocket4Net.dll" target="lib/monotouch10" />
-	<file src="bin\xamarinios10\release\WebSocket4Net.dll" target="lib/xamarinios10" />
 	<file src="bin\netstandard1.3\release\WebSocket4Net.dll" target="lib/netstandard1.3" />
   </files>
 </package>
