@@ -30,11 +30,11 @@
 	</references>
   </metadata>
   <files>
-    <file src="bin\net20\release\WebSocket4Net.dll" target="lib/net20" />
-	<file src="bin\net35\release\WebSocket4Net.dll" target="lib/net35" />
-	<file src="bin\net40\release\WebSocket4Net.dll" target="lib/net40" />
-	<file src="bin\net45\release\WebSocket4Net.dll" target="lib/net45" />
-	<file src="bin\sl50\release\WebSocket4Net.dll" target="lib/sl50" />
-	<file src="bin\netstandard1.3\release\WebSocket4Net.dll" target="lib/netstandard1.3" />
+    <file src="bin\net20\release\WebSocket4Net.dll" target="libs\net20" />
+		<file src="bin\net35\release\WebSocket4Net.dll" target="lib\net35" />
+		<file src="bin\net40\release\WebSocket4Net.dll" target="lib\net40" />
+		<file src="bin\net45\release\WebSocket4Net.dll" target="lib\net45" />
+		<file src="bin\sl50\release\WebSocket4Net.dll" target="lib\sl50" />
+		<file src="bin\netstandard1.3\release\WebSocket4Net.dll" target="lib\netstandard1.3" />
   </files>
 </package>
