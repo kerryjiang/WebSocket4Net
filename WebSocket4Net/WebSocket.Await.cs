@@ -26,6 +26,7 @@ namespace WebSocket4Net
         {
             this.Opened -= OnOpenCompleted;
             m_OpenTaskSrc?.SetResult(this.StateCode == WebSocketStateConst.Open);
+            m_OpenTaskSrc = null;
         }
     }
 }
