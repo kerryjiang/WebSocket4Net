@@ -78,6 +78,8 @@ namespace Tests
                 {        
                     await client.OpenAsync();
                     Assert.Equal(WebSocket4Net.WebSocketState.Open, client.State);
+                    await client.CloseAsync();
+                    Assert.Equal(WebSocket4Net.WebSocketState.Closed, client.State);
                 }
             }
         }

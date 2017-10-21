@@ -9,24 +9,59 @@ namespace WebSocket4Net
     public partial class WebSocket
     {
         private TaskCompletionSource<bool> m_OpenTaskSrc;
+        private TaskCompletionSource<bool> m_CloseTaskSrc;
          
         public async Task<bool> OpenAsync()
         {
-            if (m_OpenTaskSrc != null)
-                return await m_OpenTaskSrc.Task;
+            var openTaskSrc = m_OpenTaskSrc;
 
-            m_OpenTaskSrc = new TaskCompletionSource<bool>();
-            this.Opened += OnOpenCompleted;
-            
+            if (openTaskSrc != null)
+                return await openTaskSrc.Task;
+
+            openTaskSrc = m_OpenTaskSrc = new TaskCompletionSource<bool>();
             Open();
-            return await m_OpenTaskSrc.Task;
+            return await openTaskSrc.Task;
         }
 
-        private void OnOpenCompleted(object sender, EventArgs e)
+        public async Task<bool> CloseAsync()
         {
-            this.Opened -= OnOpenCompleted;
+            var closeTaskSrc = m_CloseTaskSrc;
+
+            if (closeTaskSrc != null)
+                return await closeTaskSrc.Task;
+
+            closeTaskSrc = m_CloseTaskSrc = new TaskCompletionSource<bool>();
+            Close();
+            return await closeTaskSrc.Task;
+        }
+
+        private void FinishOpenTask()
+        {
             m_OpenTaskSrc?.SetResult(this.StateCode == WebSocketStateConst.Open);
             m_OpenTaskSrc = null;
+        }
+
+        private void FinishCloseTask()
+        {
+            m_CloseTaskSrc?.SetResult(this.StateCode == WebSocketStateConst.Closed);
+            m_CloseTaskSrc = null;
+        }
+
+        partial void OnInternalOpened()
+        {
+            FinishOpenTask();
+        }
+
+        partial void OnInternalClosed()
+        {
+            FinishOpenTask();
+            FinishCloseTask();
+        }
+
+        partial void OnInternalError()
+        {
+            FinishOpenTask();
+            FinishCloseTask();
         }
     }
 }

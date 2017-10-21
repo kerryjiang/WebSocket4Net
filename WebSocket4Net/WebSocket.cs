@@ -351,13 +351,17 @@ namespace WebSocket4Net
             OnDataReceived(e.Data, e.Offset, e.Length);
         }
 
+        partial void OnInternalError();
+
         void client_Error(object sender, ErrorEventArgs e)
         {
             OnError(e);
-
             //Also fire close event if the connection fail to connect
             OnClosed();
         }
+
+        partial void OnInternalClosed();
+
 
         void client_Closed(object sender, EventArgs e)
         {
@@ -440,9 +444,15 @@ namespace WebSocket4Net
                 m_WebSocketTimer = new Timer(OnPingTimerCallback, ProtocolProcessor, AutoSendPingInterval * 1000, AutoSendPingInterval * 1000);
             }
 
-            if (m_Opened != null)
-                m_Opened(this, EventArgs.Empty);
+            OnInternalOpened();
+            
+            var opened = m_Opened;
+
+            if (opened != null)
+                opened(this, EventArgs.Empty);
         }
+
+        partial void OnInternalOpened();
 
 
         private void OnPingTimerCallback(object state)
@@ -558,6 +568,8 @@ namespace WebSocket4Net
 
         private void OnClosed()
         {
+            OnInternalClosed();
+
             var fireBaseClose = false;
 
             if (m_StateCode == WebSocketStateConst.Closing || m_StateCode == WebSocketStateConst.Open || m_StateCode == WebSocketStateConst.Connecting)
@@ -734,6 +746,8 @@ namespace WebSocket4Net
 
         private void OnError(ErrorEventArgs e)
         {
+            OnInternalError();
+
             var handler = m_Error;
 
             if (handler == null)
