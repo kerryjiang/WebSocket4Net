@@ -207,7 +207,10 @@ namespace WebSocket4Net.Protocol
                 fragments.Add(new ArraySegment<byte>(EncodeDataFrame(i == 0 ? OpCode.Binary : 0, i == lastPieceIndex, playloadData.Array, playloadData.Offset, playloadData.Count)));
             }
 
-            websocket.Client.Send(fragments);
+            var client = websocket.Client;
+
+            if (client != null)
+                client.Send(fragments);
         }
 
         public override void SendMessage(WebSocket websocket, string message)
