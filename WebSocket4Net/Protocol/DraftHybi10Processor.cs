@@ -183,7 +183,11 @@ namespace WebSocket4Net.Protocol
         private void SendDataFragment(WebSocket websocket, int opCode, byte[] playloadData, int offset, int length)
         {
             byte[] fragment = EncodeDataFrame(opCode, playloadData, offset, length);
-            websocket.Client.Send(fragment, 0, fragment.Length);
+
+            var client = websocket.Client;
+
+            if (client != null)
+                client.Send(fragment, 0, fragment.Length);
         }
 
         public override void SendData(WebSocket websocket, byte[] data, int offset, int length)
