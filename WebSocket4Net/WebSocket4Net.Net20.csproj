@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine, Version=0.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.ClientEngine, Version=0.9.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
       <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.9.0\lib\net20\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -100,9 +100,7 @@
     <Compile Include="WebSocketVersion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.WebSocket4Net.Net20.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.WebSocket4Net.Net20.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
