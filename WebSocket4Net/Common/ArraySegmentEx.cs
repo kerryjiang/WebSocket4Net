@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net.Common
+﻿namespace WebSocket4Net.Common
 {
-    class ArraySegmentEx<T>
+    internal class ArraySegmentEx<T>
     {
         public ArraySegmentEx(T[] array, int offset, int count)
         {
@@ -12,6 +8,7 @@ namespace WebSocket4Net.Common
             Offset = offset;
             Count = count;
         }
+
         /// <summary>
         /// Gets the array.
         /// </summary>

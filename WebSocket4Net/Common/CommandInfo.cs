@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net.Common
+﻿namespace WebSocket4Net.Common
 {
     public abstract class CommandInfo<TCommandData> : ICommandInfo<TCommandData>
     {
@@ -16,12 +12,12 @@ namespace WebSocket4Net.Common
 
         public TCommandData Data { get; private set; }
 
-        #endregion
+        #endregion ICommandInfo<TCommandData> Members
 
         #region ICommandInfo Members
 
         public string Key { get; private set; }
 
-        #endregion
+        #endregion ICommandInfo Members
     }
 }

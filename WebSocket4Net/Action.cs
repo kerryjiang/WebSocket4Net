@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace System
+﻿namespace System
 {
     public delegate void Action<T1, T2>(T1 t1, T2 t2);
 

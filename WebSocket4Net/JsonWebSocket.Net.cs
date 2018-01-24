@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SuperSocket.ClientEngine;
-
-namespace WebSocket4Net
+﻿namespace WebSocket4Net
 {
     public partial class JsonWebSocket
     {

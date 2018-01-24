@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 
 namespace WebSocket4Net
 {

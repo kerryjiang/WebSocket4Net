@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Protocol
 {
     /// <summary>
     /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-00
     /// </summary>
-    class DraftHybi00Processor : ProtocolProcessorBase
+    internal class DraftHybi00Processor : ProtocolProcessorBase
     {
         public DraftHybi00Processor()
             : base(WebSocketVersion.DraftHybi00, new CloseStatusCodeHybi10())
         {
-
         }
 
         private static List<char> m_CharLib = new List<char>();
@@ -50,7 +48,6 @@ namespace WebSocket4Net.Protocol
         private const string m_Error_ChallengeLengthNotMatch = "challenge length doesn't match";
         private const string m_Error_ChallengeNotMatch = "challenge doesn't match";
         private const string m_Error_InvalidHandshake = "invalid handshake";
-
 
         public override bool VerifyHandshake(WebSocket websocket, WebSocketCommandInfo handshakeInfo, out string description)
         {
@@ -143,7 +140,6 @@ namespace WebSocket4Net.Protocol
 
             if (websocket.HttpConnectProxy == null)
             {
-
 #if SILVERLIGHT
                 handshakeBuilder.AppendFormatWithCrCf("GET {0} HTTP/1.1", websocket.TargetUri.GetPathAndQuery());
 #else
@@ -162,7 +158,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Sec-WebSocket-Key1: ");
             handshakeBuilder.AppendWithCrCf(secKey1);
             handshakeBuilder.Append("Sec-WebSocket-Key2: ");
-            handshakeBuilder.AppendWithCrCf(secKey2);            
+            handshakeBuilder.AppendWithCrCf(secKey2);
             handshakeBuilder.Append("Origin: ");
             handshakeBuilder.AppendWithCrCf(string.IsNullOrEmpty(websocket.Origin) ? websocket.TargetUri.Host : websocket.Origin);
 
@@ -255,7 +251,7 @@ namespace WebSocket4Net.Protocol
             var pos = 0;
 
             for (int i = 0; i < spaceLen; i++)
-                source[pos++]  = (byte)' ';
+                source[pos++] = (byte)' ';
 
             for (int i = 0; i < charLen; i++)
             {

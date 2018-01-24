@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace WebSocket4Net.Protocol
 {
     public interface IProtocolProcessor

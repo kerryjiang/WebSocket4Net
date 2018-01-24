@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Common
 {
@@ -263,7 +262,7 @@ namespace WebSocket4Net.Common
             }
         }
 
-        #endregion
+        #endregion IList<T> Members
 
         #region ICollection<T> Members
 
@@ -302,7 +301,7 @@ namespace WebSocket4Net.Common
             throw new NotSupportedException();
         }
 
-        #endregion
+        #endregion ICollection<T> Members
 
         #region IEnumerable<T> Members
 
@@ -311,7 +310,7 @@ namespace WebSocket4Net.Common
             throw new NotSupportedException();
         }
 
-        #endregion
+        #endregion IEnumerable<T> Members
 
         #region IEnumerable Members
 
@@ -320,7 +319,7 @@ namespace WebSocket4Net.Common
             throw new NotSupportedException();
         }
 
-        #endregion
+        #endregion IEnumerable Members
 
         public void RemoveSegmentAt(int index)
         {
@@ -331,7 +330,7 @@ namespace WebSocket4Net.Common
 
             m_PrevSegment = null;
 
-            //the removed item is not the the last item 
+            //the removed item is not the the last item
             if (index != m_Segments.Count)
             {
                 for (int i = index; i < m_Segments.Count; i++)

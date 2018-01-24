@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net.Protocol
 {
-    class DraftHybi00HandshakeReader : HandshakeReader
+    internal class DraftHybi00HandshakeReader : HandshakeReader
     {
         //-1 indicate response header has not been received
         private int m_ReceivedChallengeLength = -1;
+
         private int m_ExpectedChallengeLength = 16;
 
         private WebSocketCommandInfo m_HandshakeCommand = null;
         private byte[] m_Challenges = new byte[16];
 
-        
-
         public DraftHybi00HandshakeReader(WebSocket websocket)
             : base(websocket)
         {
-
         }
 
-        void SetDataReader()
+        private void SetDataReader()
         {
             NextCommandReader = new DraftHybi00DataReader(this);
         }
@@ -77,7 +72,7 @@ namespace WebSocket4Net.Protocol
             else
             {
                 int receivedTotal = m_ReceivedChallengeLength + length;
-                
+
                 if (receivedTotal < m_ExpectedChallengeLength)
                 {
                     Buffer.BlockCopy(readBuffer, offset, m_Challenges, m_ReceivedChallengeLength, length);
