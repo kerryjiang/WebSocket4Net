@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net
+﻿namespace WebSocket4Net
 {
     public enum WebSocketVersion
     {

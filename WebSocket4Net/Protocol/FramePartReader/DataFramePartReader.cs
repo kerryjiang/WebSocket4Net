@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net.Protocol.FramePartReader
+﻿namespace WebSocket4Net.Protocol.FramePartReader
 {
-    abstract class DataFramePartReader : IDataFramePartReader
+    internal abstract class DataFramePartReader : IDataFramePartReader
     {
         static DataFramePartReader()
         {

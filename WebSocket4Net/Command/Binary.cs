@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SuperSocket.ClientEngine;
-
-namespace WebSocket4Net.Command
+﻿namespace WebSocket4Net.Command
 {
     public class Binary : WebSocketCommandBase
     {

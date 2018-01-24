@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net
+﻿namespace WebSocket4Net
 {
     public enum WebSocketState : int
     {
@@ -13,7 +9,7 @@ namespace WebSocket4Net
         Closed = WebSocketStateConst.Closed
     }
 
-    static class WebSocketStateConst
+    internal static class WebSocketStateConst
     {
         public const int None = -1;
 

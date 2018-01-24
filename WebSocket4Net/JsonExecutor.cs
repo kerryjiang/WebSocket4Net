@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebSocket4Net
 {
-    abstract class JsonExecutorBase<T> : IJsonExecutor
+    internal abstract class JsonExecutorBase<T> : IJsonExecutor
     {
         public Type Type
         {
@@ -17,7 +15,7 @@ namespace WebSocket4Net
         public abstract void Execute(JsonWebSocket websocket, string token, object param);
     }
 
-    class JsonExecutor<T> : JsonExecutorBase<T>
+    internal class JsonExecutor<T> : JsonExecutorBase<T>
     {
         private Action<T> m_ExecutorAction;
 
@@ -28,15 +26,15 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            #if NETCORE
+#if NETCORE
                 m_ExecutorAction.DynamicInvoke(new object[] { param });
-            #else                
-                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
-            #endif
+#else
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { param });
+#endif
         }
     }
 
-    class JsonExecutorWithToken<T> : JsonExecutorBase<T>
+    internal class JsonExecutorWithToken<T> : JsonExecutorBase<T>
     {
         private Action<string, T> m_ExecutorAction;
 
@@ -47,15 +45,15 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            #if NETCORE
+#if NETCORE
                 m_ExecutorAction.DynamicInvoke(new object[] { token, param });
-            #else                
-                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { token, param });
-            #endif
+#else
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { token, param });
+#endif
         }
     }
 
-    class JsonExecutorWithSender<T> : JsonExecutorBase<T>
+    internal class JsonExecutorWithSender<T> : JsonExecutorBase<T>
     {
         private Action<JsonWebSocket, T> m_ExecutorAction;
 
@@ -66,15 +64,15 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            #if NETCORE
+#if NETCORE
                 m_ExecutorAction.DynamicInvoke(new object[] { websocket, param });
-            #else                
-                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param });
-            #endif
+#else
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param });
+#endif
         }
     }
 
-    class JsonExecutorFull<T> : JsonExecutorBase<T>
+    internal class JsonExecutorFull<T> : JsonExecutorBase<T>
     {
         private Action<JsonWebSocket, string, T> m_ExecutorAction;
 
@@ -85,15 +83,15 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            #if NETCORE
+#if NETCORE
                 m_ExecutorAction.DynamicInvoke(new object[] { websocket, token, param });
-            #else                
-                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, token, param });
-            #endif
+#else
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, token, param });
+#endif
         }
     }
 
-    class JsonExecutorWithSenderAndState<T> : JsonExecutorBase<T>
+    internal class JsonExecutorWithSenderAndState<T> : JsonExecutorBase<T>
     {
         private Action<JsonWebSocket, T, object> m_ExecutorAction;
 
@@ -107,11 +105,11 @@ namespace WebSocket4Net
 
         public override void Execute(JsonWebSocket websocket, string token, object param)
         {
-            #if NETCORE
+#if NETCORE
                 m_ExecutorAction.DynamicInvoke(new object[] { websocket, param, m_State });
-            #else                
-                m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param, m_State });
-            #endif
+#else
+            m_ExecutorAction.Method.Invoke(m_ExecutorAction.Target, new object[] { websocket, param, m_State });
+#endif
         }
     }
 }

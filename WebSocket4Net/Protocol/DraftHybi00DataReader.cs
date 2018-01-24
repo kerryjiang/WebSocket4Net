@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace WebSocket4Net.Protocol
 {
-    class DraftHybi00DataReader : ReaderBase
+    internal class DraftHybi00DataReader : ReaderBase
     {
         private byte? m_Type;
         private int m_TempLength;
@@ -15,7 +13,6 @@ namespace WebSocket4Net.Protocol
         public DraftHybi00DataReader(ReaderBase previousCommandReader)
             : base(previousCommandReader)
         {
-
         }
 
         public override WebSocketCommandInfo GetCommandInfo(byte[] readBuffer, int offset, int length, out int left)
@@ -123,7 +120,7 @@ namespace WebSocket4Net.Protocol
             }
         }
 
-        void Reset(bool clearBuffer)
+        private void Reset(bool clearBuffer)
         {
             m_Type = null;
             m_Length = null;

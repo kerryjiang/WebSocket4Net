@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-#if !SILVERLIGHT
-using System.Collections.Specialized;
-#endif
-using System.IO;
-using System.Linq;
-using System.Text;
-using SuperSocket.ClientEngine;
 
+#if !SILVERLIGHT
+#endif
+
+using System.Text;
 
 namespace WebSocket4Net.Protocol
 {
     /// <summary>
     /// http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10
     /// </summary>
-    class DraftHybi10Processor : ProtocolProcessorBase
+    internal class DraftHybi10Processor : ProtocolProcessorBase
     {
         private const string m_Magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
@@ -68,7 +65,7 @@ namespace WebSocket4Net.Protocol
             handshakeBuilder.Append("Sec-WebSocket-Version: ");
             handshakeBuilder.AppendWithCrCf(VersionTag);
             handshakeBuilder.Append("Sec-WebSocket-Key: ");
-            handshakeBuilder.AppendWithCrCf(secKey);            
+            handshakeBuilder.AppendWithCrCf(secKey);
             handshakeBuilder.Append(string.Format("{0}: ", m_OriginHeaderName));
             handshakeBuilder.AppendWithCrCf(websocket.Origin);
 
@@ -163,8 +160,7 @@ namespace WebSocket4Net.Protocol
                 }
             }
 
-            
-            if(isFinal)//Set FIN
+            if (isFinal)//Set FIN
                 fragment[0] = (byte)(opCode | 0x80);
             else
                 fragment[0] = (byte)opCode;
@@ -231,7 +227,7 @@ namespace WebSocket4Net.Protocol
             playloadData[1] = (byte)lowByte;
 
             // don't send close handshake now because the connection was closed already
-            if (websocket == null ||websocket.State == WebSocketState.Closed)
+            if (websocket == null || websocket.State == WebSocketState.Closed)
                 return;
 
             if (!string.IsNullOrEmpty(closeReason))

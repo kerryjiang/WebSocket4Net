@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Linq;
 
 namespace WebSocket4Net.Protocol
 {
-    class ProtocolProcessorFactory
+    internal class ProtocolProcessorFactory
     {
         private IProtocolProcessor[] m_OrderedProcessors;
 
@@ -21,7 +18,7 @@ namespace WebSocket4Net.Protocol
 
         public IProtocolProcessor GetPreferedProcessorFromAvialable(int[] versions)
         {
-            foreach(var v in versions.OrderByDescending(i => i))
+            foreach (var v in versions.OrderByDescending(i => i))
             {
                 foreach (var n in m_OrderedProcessors)
                 {

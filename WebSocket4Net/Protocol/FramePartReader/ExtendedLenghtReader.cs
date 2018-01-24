@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net.Protocol.FramePartReader
+﻿namespace WebSocket4Net.Protocol.FramePartReader
 {
-    class ExtendedLenghtReader : DataFramePartReader
+    internal class ExtendedLenghtReader : DataFramePartReader
     {
         public override int Process(int lastLength, WebSocketDataFrame frame, out IDataFramePartReader nextPartReader)
         {

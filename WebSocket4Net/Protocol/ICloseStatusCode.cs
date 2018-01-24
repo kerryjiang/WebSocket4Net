@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebSocket4Net.Protocol
+﻿namespace WebSocket4Net.Protocol
 {
     public interface ICloseStatusCode
     {

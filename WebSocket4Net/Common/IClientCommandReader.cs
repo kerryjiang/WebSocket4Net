@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebSocket4Net.Common
+﻿namespace WebSocket4Net.Common
 {
     public interface IClientCommandReader<TCommandInfo>
         where TCommandInfo : ICommandInfo

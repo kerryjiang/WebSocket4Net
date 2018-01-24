@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SuperSocket.ClientEngine;
 using WebSocket4Net.Common;
 using WebSocket4Net.Protocol;
 
@@ -12,7 +10,6 @@ namespace WebSocket4Net
     {
         public WebSocketCommandInfo()
         {
-
         }
 
         public WebSocketCommandInfo(string key)
@@ -140,7 +137,6 @@ namespace WebSocket4Net
 
             int length = (int)frame.ActualPayloadLength;
             int offset = frame.InnerData.Count - (int)frame.ActualPayloadLength;
-
 
             if (frame.HasMask && length > 0)
             {

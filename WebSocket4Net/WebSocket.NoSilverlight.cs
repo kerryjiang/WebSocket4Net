@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Authentication;
-using System.Text;
-using SuperSocket.ClientEngine;
+﻿using System.Security.Authentication;
 
 namespace WebSocket4Net
 {
@@ -12,7 +7,7 @@ namespace WebSocket4Net
 #if NETCORE
        private SslProtocols m_SecureProtocols = SslProtocols.Tls11 | SslProtocols.Tls12;
 #else
-       private SslProtocols m_SecureProtocols = SslProtocols.Default;
+        private SslProtocols m_SecureProtocols = SslProtocols.Default;
 #endif
 
         private TcpClientSession CreateSecureTcpSession()

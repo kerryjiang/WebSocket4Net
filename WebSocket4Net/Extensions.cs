@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using SuperSocket.ClientEngine;
 
 #if !NETFX_CORE
+
 using System.Security.Cryptography;
+
 #else
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 #endif
-
 
 namespace WebSocket4Net
 {
@@ -135,7 +134,6 @@ namespace WebSocket4Net
                 typeof(Guid)
             };
 
-
         internal static bool IsSimpleType(this Type type)
         {
 #if NETFX_CORE || NETCORE
@@ -177,7 +175,6 @@ namespace WebSocket4Net
 #else
             return MD5.Create().ComputeHash(source);
 #endif
-
         }
 
         public static string CalculateChallenge(this string source)
@@ -193,7 +190,6 @@ namespace WebSocket4Net
 #else
             return Convert.ToBase64String(SHA1.Create().ComputeHash(ASCIIEncoding.Instance.GetBytes(source)));
 #endif
-
         }
     }
 }

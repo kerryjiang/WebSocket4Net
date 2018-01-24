@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebSocket4Net
 {
-    interface IJsonExecutor
+    internal interface IJsonExecutor
     {
         Type Type { get; }
 

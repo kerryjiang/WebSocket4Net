@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Text;
-using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net
 {
@@ -46,49 +43,41 @@ namespace WebSocket4Net
         public JsonWebSocket(string uri)
             : this(uri, string.Empty)
         {
-
         }
 
         public JsonWebSocket(string uri, WebSocketVersion version)
             : this(uri, string.Empty, null, version)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol)
             : this(uri, subProtocol, null, WebSocketVersion.None)
         {
-
         }
 
         public JsonWebSocket(string uri, List<KeyValuePair<string, string>> cookies)
             : this(uri, string.Empty, cookies, WebSocketVersion.None)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
             : this(uri, subProtocol, cookies, WebSocketVersion.None)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol, WebSocketVersion version)
             : this(uri, subProtocol, null, version)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, WebSocketVersion version)
             : this(uri, subProtocol, cookies, null, string.Empty, string.Empty, version)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
             : this(uri, subProtocol, cookies, customHeaderItems, userAgent, string.Empty, version)
         {
-
         }
 
         public JsonWebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
@@ -155,7 +144,7 @@ namespace WebSocket4Net
             remove { m_Error -= value; }
         }
 
-        void m_WebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        private void m_WebSocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             if (m_Error == null)
                 return;
@@ -171,7 +160,7 @@ namespace WebSocket4Net
             remove { m_Opened -= value; }
         }
 
-        void m_WebSocket_Opened(object sender, EventArgs e)
+        private void m_WebSocket_Opened(object sender, EventArgs e)
         {
             if (m_Opened == null)
                 return;
@@ -179,7 +168,7 @@ namespace WebSocket4Net
             m_Opened(this, e);
         }
 
-        void m_WebSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
+        private void m_WebSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.Message))
                 return;
@@ -249,7 +238,7 @@ namespace WebSocket4Net
             remove { m_Closed -= value; }
         }
 
-        void m_WebSocket_Closed(object sender, EventArgs e)
+        private void m_WebSocket_Closed(object sender, EventArgs e)
         {
             if (m_Closed == null)
                 return;
@@ -267,7 +256,6 @@ namespace WebSocket4Net
         {
             RegisterExecutor<T>(name, string.Empty, new JsonExecutor<T>(executor));
         }
-
 
         /// <summary>
         /// Registers the message handler.
@@ -374,7 +362,7 @@ namespace WebSocket4Net
             return Query<T>(name, content, new JsonExecutorWithSenderAndState<T>(executor, state));
         }
 
-        string Query<T>(string name, object content, IJsonExecutor executor)
+        private string Query<T>(string name, object content, IJsonExecutor executor)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
@@ -398,7 +386,7 @@ namespace WebSocket4Net
 
         private Dictionary<string, IJsonExecutor> m_ExecutorDict = new Dictionary<string, IJsonExecutor>(StringComparer.OrdinalIgnoreCase);
 
-        void RegisterExecutor<T>(string name, string token, IJsonExecutor executor)
+        private void RegisterExecutor<T>(string name, string token, IJsonExecutor executor)
         {
             lock (m_ExecutorDict)
             {
@@ -409,7 +397,7 @@ namespace WebSocket4Net
             }
         }
 
-        IJsonExecutor GetExecutor(string name, string token)
+        private IJsonExecutor GetExecutor(string name, string token)
         {
             string key = name;
             bool removeExecutor = false;

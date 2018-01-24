@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using SuperSocket.ClientEngine;
 
 namespace WebSocket4Net
 {
@@ -25,7 +22,7 @@ namespace WebSocket4Net
 
                 var client = Client as SslStreamTcpSession;
 
-                if(client != null)
+                if (client != null)
                 {
                     client.Security.AllowUnstrustedCertificate = m_AllowUnstrustedCertificate;
                 }
@@ -40,7 +37,6 @@ namespace WebSocket4Net
         public WebSocket(string uri, WebSocketVersion version)
             : this(uri, string.Empty, null, version)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol)
@@ -56,37 +52,31 @@ namespace WebSocket4Net
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies)
             : this(uri, subProtocol, cookies, WebSocketVersion.None)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol, WebSocketVersion version)
             : this(uri, subProtocol, null, version)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, WebSocketVersion version)
             : this(uri, subProtocol, cookies, new List<KeyValuePair<string, string>>(), null, version)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, string userAgent, WebSocketVersion version)
             : this(uri, subProtocol, cookies, null, userAgent, version)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, WebSocketVersion version)
             : this(uri, subProtocol, cookies, customHeaderItems, userAgent, string.Empty, version)
         {
-
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version)
             : this(uri, subProtocol, cookies, customHeaderItems, userAgent, origin, version, null)
         {
-            
         }
 
         public WebSocket(string uri, string subProtocol, List<KeyValuePair<string, string>> cookies, List<KeyValuePair<string, string>> customHeaderItems, string userAgent, string origin, WebSocketVersion version, EndPoint httpConnectProxy)
