@@ -9,8 +9,6 @@
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net35.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net35\$(Configuration);SignAssembly=True;AssemblyOriginatorKeyFile=$(KeyFile)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net40.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net40\$(Configuration);SignAssembly=True;AssemblyOriginatorKeyFile=$(KeyFile)"/>
 		<MSBuild Projects="WebSocket4Net\WebSocket4Net.Net45.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\net45\$(Configuration);SignAssembly=True;AssemblyOriginatorKeyFile=$(KeyFile)"/>
-		<Exec Command="nuget restore WebSocket4Net.Silverlight.sln" />
-		<MSBuild Projects="WebSocket4Net.Silverlight\WebSocket4Net.SL50.csproj" Targets="Clean;Build" Properties="Configuration=$(Configuration);OutputPath=..\bin\sl50\$(Configuration);SignAssembly=True;AssemblyOriginatorKeyFile=$(KeyFile)"/>
 		<Exec Command="dotnet restore" WorkingDirectory="dotnet\WebSocket4Net" />
 		<Exec Command="dotnet build -c $(Configuration) -f netstandard1.3 -o ..\..\bin\netstandard1.3\$(Configuration) /p:SignAssembly=True /p:AssemblyOriginatorKeyFile=..\$(KeyFile)" WorkingDirectory="dotnet\WebSocket4Net" />
 	</Target>
