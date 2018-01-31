@@ -42,3 +42,6 @@ TestResults
 # not allways
 #[Dd]ebug*/
 #[Rr]elease*/
+
+# local nuget package dir
+packages
