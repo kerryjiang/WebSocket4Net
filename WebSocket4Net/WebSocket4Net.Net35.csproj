@@ -65,6 +65,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="IJsonExecutor.cs" />
+    <Compile Include="IWebSocket.cs" />
     <Compile Include="JsonExecutor.cs" />
     <Compile Include="JsonWebSocket.cs" />
     <Compile Include="JsonWebSocket.DataContractJson.cs" />

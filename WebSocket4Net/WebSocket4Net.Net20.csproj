@@ -57,6 +57,7 @@
     <Compile Include="Common\ICommand.cs" />
     <Compile Include="Common\ICommandInfo.cs" />
     <Compile Include="Common\StringCommandInfo.cs" />
+    <Compile Include="IWebSocket.cs" />
     <Compile Include="JsonWebSocket.JsonNotSet.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="ExtensionAttribute.cs" />
