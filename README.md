@@ -1,4 +1,9 @@
-# WebSocket4Net [![Build Status](https://travis-ci.org/kerryjiang/WebSocket4Net.svg?branch=master)](https://travis-ci.org/kerryjiang/WebSocket4Net) [![NuGet Version](https://img.shields.io/nuget/v/WebSocket4Net.svg?style=flat)](https://www.nuget.org/packages/WebSocket4Net/)
+# WebSocket4Net
+
+[![Build Status](https://travis-ci.org/kerryjiang/WebSocket4Net.svg?branch=master)](https://travis-ci.org/kerryjiang/WebSocket4Net)
+[![NuGet Version](https://img.shields.io/nuget/v/WebSocket4Net.svg?style=flat)](https://www.nuget.org/packages/WebSocket4Net/)
+[![NuGet](https://img.shields.io/nuget/dt/WebSocket4Net.svg)](https://www.nuget.org/packages/WebSocket4Net)
+[![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/en_US)
 
 a .NET websocket client implementation.
 
