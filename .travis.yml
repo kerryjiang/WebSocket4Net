@@ -1,2 +1,2 @@
 language: csharp
-solution: WebSocket4Net.sln
+solution: WebSocket4Net.sln /p:Configuration=Linux
