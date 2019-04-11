@@ -1,2 +1,6 @@
 language: csharp
-solution: WebSocket4Net.sln /p:Configuration=Linux
+solution: WebSocket4Net.sln
+install:
+  - nuget restore WebSocket4Net.sln
+script:
+  - msbuild /p:Configuration=Release WebSocket4Net.sln
