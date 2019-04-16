@@ -12,7 +12,7 @@ using WebSocket4Net.Protocol;
 
 namespace WebSocket4Net
 {
-    public partial class WebSocket : IDisposable
+    public partial class WebSocket : IWebSocket, IDisposable
     {
         internal TcpClientSession Client { get; private set; }
 
