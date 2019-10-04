@@ -44,9 +44,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.ClientEngine, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.10.0\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.10.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.0.10.0\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ProtoBase, Version=1.7.0.17, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ProtoBase.1.7.0.17\lib\net45\SuperSocket.ProtoBase.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
