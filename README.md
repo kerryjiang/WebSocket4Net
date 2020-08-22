@@ -5,20 +5,8 @@
 [![NuGet](https://img.shields.io/nuget/dt/WebSocket4Net.svg)](https://www.nuget.org/packages/WebSocket4Net)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/en_US)
 
-a .NET websocket client implementation.
 
-It originated from SuperWebSocket WebSocket Client. For better developing of the websocket client, it was separated from SuperWebSocket and was renamed to WebSocket4Net.
+A popular .NET WebSocket Client
 
-WebSocket4Net provides websocket client implementation for many different kinds of runtime:
-
-- .Net 2.0
-- .Net 3.5
-- .Net 4.0
-- .Net 4.5
-- Mono
-- Silverlight 4/5
-- WindowsPhone 7.5/8.0
-- Xamarin.Android
-- Xamarin.iOS (Classic and Unified API)
-- Universal Windows Platform
-- dotnet core
+It is a completely new version which is base on SuperSocket 2.0 and dotnet core.
+This version is still in progress, so please don't use it in production for now.

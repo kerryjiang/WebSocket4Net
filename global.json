@@ -1,8 +1,0 @@
-{
-  "projects": [
-    "dotnet", "WebSocket4Net"
-  ],
-  "sdk": {
-    "version": "1.0.0-rc2-*"
-  }
-}
