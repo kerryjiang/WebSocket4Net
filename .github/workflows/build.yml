@@ -7,7 +7,13 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            os:
+            - ubuntu-latest
+            - windows-latest
+            - macos-latest
+        runs-on: ${{matrix.os}}
         env:
             DOTNET_CLI_TELEMETRY_OPTOUT: 1
         steps:
@@ -18,3 +24,7 @@ jobs:
                 dotnet-version: 3.1.401
             - name: Build
               run: dotnet build -c Release
+            - name: Test
+              run: |
+                cd test/WebSocket4Net.Tests
+                dotnet test
