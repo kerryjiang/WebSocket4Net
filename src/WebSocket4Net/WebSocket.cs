@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Net;
@@ -19,6 +20,7 @@ namespace WebSocket4Net
     public class WebSocket : EasyClient<WebSocketPackage>
     {
         private static readonly Encoding _asciiEncoding = Encoding.ASCII;
+        private static readonly Encoding _utf8Encoding = new UTF8Encoding(false);
         private const string _magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
         public Uri Uri { get; private set; }
@@ -116,7 +118,7 @@ namespace WebSocket4Net
             // 101 switch
             if (responseHeader.StatusCode != "101")
             {
-                OnError($"Unexpected response: {responseHeader.StatusCode} - {responseHeader.StatusDescription}", null);
+                OnError($"Unexpected response: {responseHeader.StatusCode} - {responseHeader.StatusDescription}");
                 return false;
             }
 
@@ -124,7 +126,7 @@ namespace WebSocket4Net
 
             if (string.IsNullOrEmpty(acceptKeyResponse) || !acceptKeyResponse.Equals(acceptKey))
             {
-                OnError($"The value of Sec-WebSocket-Accept is incorrect.", null);
+                OnError($"The value of Sec-WebSocket-Accept is incorrect.");
                 return false;
             }
 
@@ -194,29 +196,64 @@ namespace WebSocket4Net
             return SendAsync(_packageEncoder, package);
         }
 
-        public new async ValueTask CloseAsync()
+        public async ValueTask CloseAsync(CloseReason closeReason)
         {
-            await CloseAsync(string.Empty);
+            await CloseAsync(closeReason, string.Empty);
         }
 
-        public async ValueTask CloseAsync(string message)
+        private byte[] GetBuffer(int size)
+        {
+            return new byte[size];
+        }
+
+        public async ValueTask CloseAsync(CloseReason closeReason, string message)
         {
             var package = new WebSocketPackage();
 
             package.OpCode = OpCode.Close;
-            package.Message = message;
+
+            var bufferSize = !string.IsNullOrEmpty(message) ? _utf8Encoding.GetMaxByteCount(message.Length) : 0;
+            bufferSize += 2;
+
+            var buffer = GetBuffer(bufferSize);
+            var len = 2;
+
+            BinaryPrimitives.WriteUInt16BigEndian(buffer, (ushort)package.OpCode);
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                len += _utf8Encoding.GetBytes(message, 0, message.Length, buffer, 2);
+            }
+
+            package.Data = new ReadOnlySequence<byte>(buffer, 0, len);
             
             await SendAsync(_packageEncoder, package);
 
-            var closeHandshakeResponse = await ReceiveAsync();
+            var closeHandshakeResponse = await ReceiveAsync();           
 
-            if (closeHandshakeResponse.OpCode != OpCode.Close)
+            ValidateCloseHandshake(buffer, closeHandshakeResponse);
+
+            await base.CloseAsync();
+        }
+
+        private void ValidateCloseHandshake(byte[] outData, WebSocketPackage inPack)
+        {
+            if (inPack.OpCode != OpCode.Close)
             {
-                OnError($"Unexpected close package, OpCode: {closeHandshakeResponse.OpCode}", null);
+                OnError($"Unexpected close package, OpCode: {inPack.OpCode}");
                 return;
             }
 
-            await base.CloseAsync();
+            var reader = new SequenceReader<byte>(inPack.Data);
+
+            for (var i = 0; i < 2; i++)
+            {
+                if (reader.TryRead(out var topByte) || outData[i] == topByte)
+                {
+                    OnError("The CloseReason we received doesn't match on one we sent.");
+                    return;
+                }
+            }
         }
     }
 }
