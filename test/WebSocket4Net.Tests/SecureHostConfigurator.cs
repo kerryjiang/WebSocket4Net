@@ -48,7 +48,7 @@ namespace WebSocket4Net.Tests
             return SslProtocols.Tls13 | SslProtocols.Tls12;
         }
 
-        public IEasyClient<TPackageInfo> ConfigureEasyClient<TPackageInfo>(IEasyClient<TPackageInfo> client) where TPackageInfo : class
+        public WebSocket ConfigureClient(WebSocket client)
         {
             client.Security = new SecurityOptions
             {

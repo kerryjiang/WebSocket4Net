@@ -30,7 +30,7 @@ namespace WebSocket4Net.Tests
                 });
         }
 
-        public IEasyClient<TPackageInfo> ConfigureEasyClient<TPackageInfo>(IEasyClient<TPackageInfo> client) where TPackageInfo : class
+        public WebSocket ConfigureClient(WebSocket client)
         {
             return client;
         }

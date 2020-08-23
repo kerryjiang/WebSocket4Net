@@ -20,7 +20,6 @@ namespace WebSocket4Net.Tests
 
         ListenOptions Listener { get; }
 
-        IEasyClient<TPackageInfo> ConfigureEasyClient<TPackageInfo>(IEasyClient<TPackageInfo> client)
-            where TPackageInfo : class;
+        WebSocket ConfigureClient(WebSocket client);
     }
 }

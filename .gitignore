@@ -1,0 +1,12 @@
+bin
+obj
+publish
+_ReSharper.*
+*.suo
+*.user
+*.lock.json
+*.log
+.vs
+.DS_Store
+*.nupkg
+*.snupkg

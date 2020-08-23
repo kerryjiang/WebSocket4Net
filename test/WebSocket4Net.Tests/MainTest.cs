@@ -52,10 +52,7 @@ namespace WebSocket4Net.Tests
 
                 var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://localhost:{hostConfigurator.Listener.Port}" + path);
 
-                websocket.Security = new SecurityOptions
-                {
-                    RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-                };
+                hostConfigurator.ConfigureClient(websocket);
 
                 await websocket.OpenAsync();
 

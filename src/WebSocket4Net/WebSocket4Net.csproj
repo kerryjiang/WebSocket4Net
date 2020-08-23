@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SuperSocket.Client" Version="2.0.0-beta7-gc0514ccd76" />
-    <PackageReference Include="SuperSocket.WebSocket" Version="2.0.0-beta7-gc0514ccd76" />
+    <PackageReference Include="SuperSocket.Client" Version="$(SuperSocketVersion)" />
+    <PackageReference Include="SuperSocket.WebSocket" Version="$(SuperSocketVersion)" />
   </ItemGroup>
 </Project>
