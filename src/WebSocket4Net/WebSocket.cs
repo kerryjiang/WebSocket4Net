@@ -25,6 +25,8 @@ namespace WebSocket4Net
 
         public Uri Uri { get; private set; }
 
+        public CloseStatus CloseStatus { get; private set; }
+
         private string _origin;
 
         private EndPoint _remoteEndPoint;
@@ -232,6 +234,12 @@ namespace WebSocket4Net
             var closeHandshakeResponse = await ReceiveAsync();           
 
             ValidateCloseHandshake(buffer, closeHandshakeResponse);
+
+            CloseStatus = new CloseStatus
+            {
+                Reason = closeReason,
+                ReasonText = message
+            };
 
             await base.CloseAsync();
         }

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using SuperSocket;
 using SuperSocket.Client;
+using SuperSocket.WebSocket;
 using SuperSocket.WebSocket.Server;
 using Xunit;
 using Xunit.Abstractions;
@@ -64,6 +65,10 @@ namespace WebSocket4Net.Tests
                 Assert.True(connected);
 
                 await websocket.CloseAsync();
+
+                Assert.NotNull(websocket.CloseStatus);
+                Assert.Equal(CloseReason.NormalClosure, websocket.CloseStatus.Reason);
+
                 await Task.Delay(1 * 1000);
 
                 //Assert.Equal(WebSocketState.Closed, websocket.State);
