@@ -35,7 +35,7 @@ namespace WebSocket4Net.Tests
                     connected = true;
                     await Task.CompletedTask;
                 },
-                async (s) =>
+                async (s, e) =>
                 {
                     connected = false;
                     await Task.CompletedTask;
@@ -54,9 +54,11 @@ namespace WebSocket4Net.Tests
 
                 hostConfigurator.ConfigureClient(websocket);
 
+                Assert.Equal(WebSocketState.None, websocket.State);
+
                 await websocket.OpenAsync();
 
-                //Assert.Equal(WebSocketState.Open, websocket.State);
+                Assert.Equal(WebSocketState.Open, websocket.State);
 
                 await Task.Delay(1 * 1000);
                 // test path
@@ -70,7 +72,7 @@ namespace WebSocket4Net.Tests
 
                 await Task.Delay(1 * 1000);
 
-                //Assert.Equal(WebSocketState.Closed, websocket.State);
+                Assert.Equal(WebSocketState.Closed, websocket.State);
                 Assert.False(connected);
 
                 await server.StopAsync();
@@ -95,7 +97,7 @@ namespace WebSocket4Net.Tests
                     connected = true;
                     await Task.CompletedTask;
                 },
-                async (s) =>
+                async (s, e) =>
                 {
                     connected = false;
                     await Task.CompletedTask;
@@ -120,7 +122,7 @@ namespace WebSocket4Net.Tests
 
                 await websocket.OpenAsync();
 
-                //Assert.Equal(WebSocketState.Open, websocket.State);
+                Assert.Equal(WebSocketState.Open, websocket.State);
 
                 await Task.Delay(1 * 1000);                
                 Assert.True(connected);
@@ -140,7 +142,7 @@ namespace WebSocket4Net.Tests
 
                 await Task.Delay(1 * 1000);
 
-                //Assert.Equal(WebSocketState.Closed, websocket.State);
+                Assert.Equal(WebSocketState.Closed, websocket.State);
                 Assert.False(connected);
 
                 await server.StopAsync();
