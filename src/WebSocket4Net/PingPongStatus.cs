@@ -7,20 +7,19 @@ namespace WebSocket4Net
 {
     public class PingPongStatus
     {
-
-        public bool AutoPingEnabled { get; set; }
+        public bool AutoPingEnabled { get; private set; }
 
         /// <summary>
         /// The interval of the auto ping
         /// </summary>
         /// <value>in seconds</value>
-        public int AutoPingInterval { get; set; }
+        public int AutoPingInterval { get; private set; }
 
         /// <summary>
         /// How long we expect receive pong after ping is sent
         /// </summary>
         /// <value>in seconds</value>
-        public int PongExpectAfterPing { get; set; }
+        public int ExpectedPongDelay { get; private set; }
 
         private TaskCompletionSource<WebSocketPackage> _pongReceivedTaskSource;
 
@@ -30,17 +29,14 @@ namespace WebSocket4Net
 
         internal WebSocket WebSocket { get; set; }
 
-        internal PingPongStatus(int autoPingInterval)
-            : this(autoPingInterval, autoPingInterval * 3)
+        internal PingPongStatus(AutoPingOptions options)
         {
-            
-        }
-
-        internal PingPongStatus(int autoPingInterval, int pongExpectAfterPing)
-        {
-            AutoPingEnabled = true;
-            AutoPingInterval = autoPingInterval;
-            PongExpectAfterPing = pongExpectAfterPing;
+            if (options != null)
+            {
+                AutoPingEnabled = true;
+                AutoPingInterval = options.AutoPingInterval;
+                ExpectedPongDelay = options.ExpectedPongDelay;
+            }
         }
 
         internal void Start()
@@ -63,7 +59,7 @@ namespace WebSocket4Net
                     OpCode = OpCode.Ping
                 });
 
-                var pongExpectAfterPing = Math.Max(PongExpectAfterPing, autoPingInterval * 3);
+                var pongExpectAfterPing = Math.Max(ExpectedPongDelay, autoPingInterval * 3);
                 var task = await Task.WhenAny(_pongReceivedTaskSource.Task, Task.Delay(pongExpectAfterPing));
 
                 if (task is Task<WebSocketPackage> pongTask)

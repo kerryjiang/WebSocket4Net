@@ -1,4 +1,7 @@
 using System;
+using System.Buffers;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using SuperSocket;
 using SuperSocket.Client;
@@ -11,16 +14,18 @@ namespace WebSocket4Net.Tests
 {
     public class MainTest : TestBase
     {
+        private string _loopbackIP;
         public MainTest(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
-
+            _loopbackIP = IPAddress.Loopback.ToString();
         }
+
 
         [Theory]
         [InlineData(typeof(RegularHostConfigurator))]
         [InlineData(typeof(SecureHostConfigurator))]
-        public async ValueTask TestHandshake(Type hostConfiguratorType) 
+        public async Task TestHandshake(Type hostConfiguratorType) 
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
 
@@ -49,14 +54,15 @@ namespace WebSocket4Net.Tests
                 OutputHelper.WriteLine("Server started.");
 
                 var path = "/app/talk";
+                var url = $"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}" + path;
 
-                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://localhost:{hostConfigurator.Listener.Port}" + path);
+                var websocket = new WebSocket(url);
 
                 hostConfigurator.ConfigureClient(websocket);
 
                 Assert.Equal(WebSocketState.None, websocket.State);
 
-                await websocket.OpenAsync();
+                Assert.True(await websocket.OpenAsync(), "Failed to connect");
 
                 Assert.Equal(WebSocketState.Open, websocket.State);
 
@@ -83,7 +89,7 @@ namespace WebSocket4Net.Tests
         [Theory]
         [InlineData(typeof(RegularHostConfigurator), 10)]
         [InlineData(typeof(SecureHostConfigurator), 10)]
-        public async ValueTask TestEchoMessage(Type hostConfiguratorType, int repeat) 
+        public async Task TestEchoMessage(Type hostConfiguratorType, int repeat) 
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
 
@@ -103,7 +109,7 @@ namespace WebSocket4Net.Tests
                     await Task.CompletedTask;
                 });
 
-                builder.UsePackageHandler(async (s, p) =>
+                builder.UseWebSocketMessageHandler(async (s, p) =>
                 {
                     var session = s as WebSocketSession;
                     await session.SendAsync(p.Message);
@@ -116,11 +122,11 @@ namespace WebSocket4Net.Tests
                 Assert.True(await server.StartAsync());
                 OutputHelper.WriteLine("Server started.");
 
-                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://localhost:{hostConfigurator.Listener.Port}");
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
 
                 hostConfigurator.ConfigureClient(websocket);
 
-                await websocket.OpenAsync();
+                Assert.True(await websocket.OpenAsync(), "Failed to connect");
 
                 Assert.Equal(WebSocketState.Open, websocket.State);
 
@@ -144,6 +150,63 @@ namespace WebSocket4Net.Tests
 
                 Assert.Equal(WebSocketState.Closed, websocket.State);
                 Assert.False(connected);
+
+                await server.StopAsync();
+            }
+        }
+
+        /*
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        */
+        public async Task TestPingFromServer(Type hostConfiguratorType) 
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            WebSocketSession session = null;
+
+            using (var server = CreateWebSocketSocketServerBuilder(builder =>
+            {
+                builder.UseSessionHandler(async (s) =>
+                {
+                    session = s as WebSocketSession;
+                    await Task.CompletedTask;
+                });
+                return builder;
+            }, hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+                OutputHelper.WriteLine("Server started.");
+
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.True(await websocket.OpenAsync(), "Failed to connect");
+
+                var lastPingReceived = websocket.PingPongStatus.LastPingReceived;
+
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                await Task.Delay(1 * 1000);
+
+                Assert.NotNull(session);                
+
+                // send ping from server
+                await session.SendAsync(new WebSocketPackage
+                {
+                    OpCode = OpCode.Ping,
+                    Data = new ReadOnlySequence<byte>(Utf8Encoding.GetBytes("Hello"))
+                });
+                
+                await Task.Delay(1 * 1000);
+                var lastPingReceivedNow = websocket.PingPongStatus.LastPingReceived;
+
+                Assert.NotEqual(lastPingReceived, lastPingReceivedNow);
+
+                await websocket.CloseAsync();
 
                 await server.StopAsync();
             }

@@ -77,7 +77,7 @@ namespace WebSocket4Net
                 throw new ArgumentException("Unexpected url schema.", nameof(url));
             }
 
-            PingPongStatus = new PingPongStatus(60 * 5);
+            PingPongStatus = new PingPongStatus(new AutoPingOptions(60 * 5, 5));
         }
 
         private EndPoint ResolveUri(Uri uri, int defaultPort)
@@ -113,7 +113,7 @@ namespace WebSocket4Net
         {
             State = WebSocketState.Connecting;
 
-            if (await this.ConnectAsync(_remoteEndPoint, cancellationToken))
+            if (!await this.ConnectAsync(_remoteEndPoint, cancellationToken))
             {
                 State = WebSocketState.Closed;
                 return false;
@@ -196,10 +196,10 @@ namespace WebSocket4Net
         {
             var package = await base.ReceiveAsync();
 
-            if (!returnControlPackage && package.OpCode != OpCode.Binary && package.OpCode != OpCode.Text)
+            if (!returnControlPackage && package.OpCode != OpCode.Binary && package.OpCode != OpCode.Text && package.OpCode != OpCode.Handshake)
             {
                 await HandleControlPackage(package);
-                return await ReceiveAsync();
+                return await ReceiveAsync(returnControlPackage);
             }
 
             return package;
@@ -272,6 +272,11 @@ namespace WebSocket4Net
         private byte[] GetBuffer(int size)
         {
             return new byte[size];
+        }
+
+        public override async ValueTask CloseAsync()
+        {
+            await CloseAsync(CloseReason.NormalClosure, string.Empty);
         }
 
         public async ValueTask CloseAsync(CloseReason closeReason, string message)
