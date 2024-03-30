@@ -6,6 +6,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/kerryjiang/WebSocket4Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kerryjiang/WebSocket4Net.git</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
