@@ -12,11 +12,15 @@
     <IncludeSource>true</IncludeSource>
     <Authors>Kerry Jiang and other contributors</Authors>
     <Owners>Kerry Jiang</Owners>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning">
       <Version>3.3.37</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
