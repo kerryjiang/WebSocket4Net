@@ -26,6 +26,8 @@ namespace WebSocket4Net
 
         public Uri Uri { get; private set; }
 
+        public bool AutoPingEnabled { get; set; }
+
         public CloseStatus CloseStatus { get; private set; }
 
         public PingPongStatus PingPongStatus { get; private set; }
@@ -77,7 +79,7 @@ namespace WebSocket4Net
                 throw new ArgumentException("Unexpected url schema.", nameof(url));
             }
 
-            PingPongStatus = new PingPongStatus(new AutoPingOptions(60 * 5, 5));
+            PingPongStatus = new PingPongStatus();
         }
 
         private EndPoint ResolveUri(Uri uri, int defaultPort)
@@ -152,7 +154,13 @@ namespace WebSocket4Net
             }
 
             State = WebSocketState.Open;
-            PingPongStatus.Start();
+
+            if (AutoPingEnabled)
+            {
+                var autoPingTask = PingPongStatus.RunAutoPing(this, new AutoPingOptions(60 * 5, 5));
+                _ = autoPingTask.ContinueWith(t => OnError("AutoPing failed", t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            }
+            
             return true;
         }
 
@@ -196,10 +204,14 @@ namespace WebSocket4Net
         {
             var package = await base.ReceiveAsync();
 
-            if (!returnControlPackage && package.OpCode != OpCode.Binary && package.OpCode != OpCode.Text && package.OpCode != OpCode.Handshake)
+            if (package.OpCode != OpCode.Binary && package.OpCode != OpCode.Text && package.OpCode != OpCode.Handshake)
             {
                 await HandleControlPackage(package);
-                return await ReceiveAsync(returnControlPackage);
+
+                if (!returnControlPackage)
+                {
+                    return await ReceiveAsync(returnControlPackage);
+                }
             }
 
             return package;
@@ -216,20 +228,24 @@ namespace WebSocket4Net
             await base.OnPackageReceived(package);
         }
 
-        private ValueTask HandleControlPackage(WebSocketPackage package)
+        private async ValueTask HandleControlPackage(WebSocketPackage package)
         {
-            if (package.OpCode == OpCode.Close)
+            switch (package.OpCode)
             {
-                HandleCloseHandshake(package);
-                return new ValueTask();
+                case (OpCode.Close):
+                    HandleCloseHandshake(package);
+                    break;
+
+                case (OpCode.Ping):
+                    PingPongStatus.OnPingReceived(package);
+                    package.OpCode = OpCode.Pong;
+                    await this.SendAsync(package);
+                    break;
+
+                case (OpCode.Pong):
+                    PingPongStatus.OnPongReceived(package);
+                    break;
             }
-
-            if (package.OpCode == OpCode.Ping)
-                return PingPongStatus.OnPingReceived(package);
-            else if (package.OpCode == OpCode.Pong)
-                return PingPongStatus.OnPongReceived(package);
-
-            return new ValueTask(); 
         }
 
         public async ValueTask SendAsync(string message)

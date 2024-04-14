@@ -7,87 +7,53 @@ namespace WebSocket4Net
 {
     public class PingPongStatus
     {
-        public bool AutoPingEnabled { get; private set; }
-
-        /// <summary>
-        /// The interval of the auto ping
-        /// </summary>
-        /// <value>in seconds</value>
-        public int AutoPingInterval { get; private set; }
-
-        /// <summary>
-        /// How long we expect receive pong after ping is sent
-        /// </summary>
-        /// <value>in seconds</value>
-        public int ExpectedPongDelay { get; private set; }
-
         private TaskCompletionSource<WebSocketPackage> _pongReceivedTaskSource;
 
         public DateTimeOffset LastPingReceived  { get; internal set; }
 
         public DateTimeOffset LastPongReceived  { get; internal set; }
 
-        internal WebSocket WebSocket { get; set; }
-
-        internal PingPongStatus(AutoPingOptions options)
+        internal PingPongStatus()
         {
-            if (options != null)
-            {
-                AutoPingEnabled = true;
-                AutoPingInterval = options.AutoPingInterval;
-                ExpectedPongDelay = options.ExpectedPongDelay;
-            }
         }
 
-        internal void Start()
+        internal async Task RunAutoPing(WebSocket webSocket, AutoPingOptions options)
         {
-            RunAutoPing();
-        }
-
-        private async void RunAutoPing()
-        {
-            while (AutoPingEnabled)
+            while (webSocket.State == WebSocketState.Open)
             {
-                var autoPingInterval = Math.Max(AutoPingInterval, 60) * 1000;
+                var autoPingInterval = Math.Max(options.AutoPingInterval, 60) * 1000;
 
                 await Task.Delay(autoPingInterval);
 
                 _pongReceivedTaskSource = new TaskCompletionSource<WebSocketPackage>();
 
-                await WebSocket.SendAsync(new WebSocketPackage
+                await webSocket.SendAsync(new WebSocketPackage
                 {
                     OpCode = OpCode.Ping
                 });
 
-                var pongExpectAfterPing = Math.Max(ExpectedPongDelay, autoPingInterval * 3);
+                var pongExpectAfterPing = Math.Max(options.ExpectedPongDelay, autoPingInterval * 3);
                 var task = await Task.WhenAny(_pongReceivedTaskSource.Task, Task.Delay(pongExpectAfterPing));
 
-                if (task is Task<WebSocketPackage> pongTask)
+                if (task is Task<WebSocketPackage>)
                 {
-                    LastPongReceived = DateTimeOffset.Now;
                     continue;
                 }
 
                 // Pong doesn't arrive on time
-                await WebSocket.CloseAsync(CloseReason.UnexpectedCondition, "Pong is not received on time.");
+                await webSocket.CloseAsync(CloseReason.UnexpectedCondition, "Pong is not received on time.");
+                break;
             }
         }
 
-        internal void Stop()
+        internal void OnPongReceived(WebSocketPackage pong)
         {
-            AutoPingEnabled = false;
-        }
-
-        internal ValueTask OnPongReceived(WebSocketPackage pong)
-        {
+            LastPongReceived = DateTimeOffset.Now;
             _pongReceivedTaskSource.SetResult(pong);
-            return new ValueTask();
         }
 
-        internal async ValueTask OnPingReceived(WebSocketPackage ping)
+        internal void OnPingReceived(WebSocketPackage ping)
         {
-            ping.OpCode = OpCode.Pong;
-            await WebSocket.SendAsync(ping);
             LastPingReceived = DateTimeOffset.Now;
         }
     }

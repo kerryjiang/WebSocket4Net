@@ -197,8 +197,11 @@ namespace WebSocket4Net.Tests
                     OpCode = OpCode.Ping,
                     Data = new ReadOnlySequence<byte>(Utf8Encoding.GetBytes("Hello"))
                 });
+
+                var package = await websocket.ReceiveAsync(true);
+
+                Assert.NotNull(package);
                 
-                await Task.Delay(1 * 1000);
                 var lastPingReceivedNow = websocket.PingPongStatus.LastPingReceived;
 
                 Assert.NotEqual(lastPingReceived, lastPingReceivedNow);
