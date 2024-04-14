@@ -4,9 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SuperSocket;
-using SuperSocket.Client;
-using SuperSocket.ProtoBase;
+using SuperSocket.Server.Abstractions;
 
 namespace WebSocket4Net.Tests
 {

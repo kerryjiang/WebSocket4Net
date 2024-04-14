@@ -1,10 +1,8 @@
 using System;
 using System.Buffers;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading.Tasks;
-using SuperSocket;
-using SuperSocket.Client;
+using SuperSocket.Server.Host;
 using SuperSocket.WebSocket;
 using SuperSocket.WebSocket.Server;
 using Xunit;
@@ -155,11 +153,10 @@ namespace WebSocket4Net.Tests
             }
         }
 
-        /*
+        
         [Theory]
         [InlineData(typeof(RegularHostConfigurator))]
         [InlineData(typeof(SecureHostConfigurator))]
-        */
         public async Task TestPingFromServer(Type hostConfiguratorType) 
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);

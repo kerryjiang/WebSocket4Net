@@ -1,8 +1,7 @@
 <Project>
   <Import Project="Dependencies.props" />
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
-    <LibTargetFramework>netstandard2.1</LibTargetFramework>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/kerryjiang/WebSocket4Net</PackageProjectUrl>

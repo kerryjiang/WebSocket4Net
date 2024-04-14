@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using SuperSocket.Channel;
+using SuperSocket.Connection;
 using SuperSocket.Client;
 using SuperSocket.ProtoBase;
 using SuperSocket.WebSocket;
@@ -52,13 +52,13 @@ namespace WebSocket4Net
         }
 
         public WebSocket(string url, ILogger logger)
-            : this(url, new ChannelOptions { Logger = logger })
+            : this(url, new ConnectionOptions { Logger = logger })
         {
 
         }
 
-        public WebSocket(string url, ChannelOptions channelOptions)
-            : base(new HandshakePipelineFilter(), channelOptions)
+        public WebSocket(string url, ConnectionOptions connectionOptions)
+            : base(new HandshakePipelineFilter(), connectionOptions)
         {
             Uri = new Uri(url);
 
@@ -120,7 +120,7 @@ namespace WebSocket4Net
             }
 
             var (key, acceptKey) = MakeSecureKey();
-            await this.Channel.SendAsync((writer) => WriteHandshakeRequest(writer, key));
+            await this.Connection.SendAsync((writer) => WriteHandshakeRequest(writer, key));
 
             var handshakeResponse = await ReceiveAsync();
 

@@ -6,11 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SuperSocket;
-using SuperSocket.ProtoBase;
+using SuperSocket.Server.Abstractions.Host;
 using SuperSocket.WebSocket;
 using SuperSocket.WebSocket.Server;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace WebSocket4Net.Tests
