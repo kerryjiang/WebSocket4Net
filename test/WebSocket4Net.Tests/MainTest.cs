@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using SuperSocket.Server.Host;
 using SuperSocket.WebSocket;
@@ -207,6 +208,192 @@ namespace WebSocket4Net.Tests
                 Assert.NotEqual(lastPingReceived, lastPingReceivedNow);
 
                 await websocket.CloseAsync();
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestIncorrectDNS(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+                OutputHelper.WriteLine("Server started.");
+
+                var wrongHost = "localhost_x";
+
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{wrongHost}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+                Assert.False(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestReconnect(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+                OutputHelper.WriteLine("Server started.");
+
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                for (var i = 0; i < 2000; i++)
+                {
+                    Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                    Assert.Equal(WebSocketState.Open, websocket.State);
+
+                    await Task.WhenAny(websocket.CloseAsync(CloseReason.NormalClosure).AsTask(), Task.Delay(TimeSpan.FromSeconds(30)));
+                    Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                    cancellationTokenSource.TryReset();
+                }
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestUnreachableReconnectA(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+            hostConfigurator.ConfigureClient(websocket);
+
+            using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+                
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+                await Task.WhenAny(websocket.CloseAsync(CloseReason.NormalClosure).AsTask(), Task.Delay(TimeSpan.FromSeconds(30)));
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                await server.StopAsync();
+
+                cancellationTokenSource.TryReset();
+
+                Assert.False(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                Assert.True(await server.StartAsync());
+
+                cancellationTokenSource.TryReset();
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+                await Task.WhenAny(websocket.CloseAsync(CloseReason.NormalClosure).AsTask(), Task.Delay(TimeSpan.FromSeconds(30)));
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestUnreachableReconnectB(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+            hostConfigurator.ConfigureClient(websocket);
+
+            using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                Assert.False(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                Assert.True(await server.StartAsync());
+
+                cancellationTokenSource.TryReset();
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+                await Task.WhenAny(websocket.CloseAsync(CloseReason.NormalClosure).AsTask(), Task.Delay(TimeSpan.FromSeconds(30)));
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestCloseWebSocket(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var manualResetEvent = new ManualResetEvent(false);
+
+            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+            websocket.Closed += (s, e) =>
+            {
+                manualResetEvent.Set();
+            };
+
+            hostConfigurator.ConfigureClient(websocket);
+
+            using (var server = CreateWebSocketSocketServerBuilder(
+                configurator: builder => {
+                    builder.UseWebSocketMessageHandler(async (s, p) =>
+                        {
+                            if (p.Message == "QUIT")
+                            {
+                                await s.CloseAsync();
+                            }
+                        });
+
+                    return builder;
+                },
+                hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                await websocket.SendAsync("QUIT");
+
+                Assert.True(manualResetEvent.WaitOne(TimeSpan.FromSeconds(30)), "The connection failed to close on time");
+                Assert.Equal(WebSocketState.Closed, websocket.State);
 
                 await server.StopAsync();
             }
