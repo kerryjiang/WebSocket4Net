@@ -282,13 +282,13 @@ namespace WebSocket4Net.Tests
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
 
-            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
-
-            hostConfigurator.ConfigureClient(websocket);
-
             using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
                 .BuildAsServer())
             {
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
                 Assert.True(await server.StartAsync());
 
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
@@ -325,13 +325,13 @@ namespace WebSocket4Net.Tests
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
 
-            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
-
-            hostConfigurator.ConfigureClient(websocket);
-
             using (var server = CreateWebSocketSocketServerBuilder(hostConfigurator: hostConfigurator)
                 .BuildAsServer())
             {
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
                 Assert.False(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
@@ -357,17 +357,6 @@ namespace WebSocket4Net.Tests
         {
             var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
 
-            var manualResetEvent = new ManualResetEvent(false);
-
-            var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
-
-            websocket.Closed += (s, e) =>
-            {
-                manualResetEvent.Set();
-            };
-
-            hostConfigurator.ConfigureClient(websocket);
-
             using (var server = CreateWebSocketSocketServerBuilder(
                 configurator: builder => {
                     builder.UseWebSocketMessageHandler(async (s, p) =>
@@ -383,6 +372,17 @@ namespace WebSocket4Net.Tests
                 hostConfigurator: hostConfigurator)
                 .BuildAsServer())
             {
+                var manualResetEvent = new ManualResetEvent(false);
+
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                websocket.Closed += (s, e) =>
+                {
+                    manualResetEvent.Set();
+                };
+
+                hostConfigurator.ConfigureClient(websocket);
+                
                 Assert.True(await server.StartAsync());
 
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
