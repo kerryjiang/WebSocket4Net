@@ -204,6 +204,9 @@ namespace WebSocket4Net
         {
             var package = await base.ReceiveAsync();
 
+            if (package == null)
+                return null;
+
             if (package.OpCode != OpCode.Binary && package.OpCode != OpCode.Text && package.OpCode != OpCode.Handshake)
             {
                 await HandleControlPackage(package);
