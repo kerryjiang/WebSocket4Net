@@ -199,7 +199,9 @@ namespace WebSocket4Net.Tests
                     Data = new ReadOnlySequence<byte>(Utf8Encoding.GetBytes("Hello"))
                 });
 
-                var package = await websocket.ReceiveAsync(true);
+                var package = await websocket.ReceiveAsync(
+                    handleControlPackage: true,
+                    returnControlPackage: true);
 
                 Assert.NotNull(package);
                 
@@ -363,7 +365,7 @@ namespace WebSocket4Net.Tests
                         {
                             if (p.Message == "QUIT")
                             {
-                                await s.CloseAsync();
+                                await s.CloseAsync(CloseReason.NormalClosure);
                             }
                         });
 
@@ -392,7 +394,9 @@ namespace WebSocket4Net.Tests
 
                 await websocket.SendAsync("QUIT");
 
-                Assert.True(manualResetEvent.WaitOne(TimeSpan.FromSeconds(30)), "The connection failed to close on time");
+                await Task.WhenAny(websocket.ReceiveAsync().AsTask(), Task.Delay(TimeSpan.FromSeconds(30)));
+
+                Assert.True(manualResetEvent.WaitOne(TimeSpan.FromSeconds(5)), "The connection failed to close on time");
                 Assert.Equal(WebSocketState.Closed, websocket.State);
 
                 await server.StopAsync();
