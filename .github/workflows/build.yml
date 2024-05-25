@@ -36,4 +36,4 @@ jobs:
               run: |
                 dotnet clean
                 dotnet pack -c Release -p:PackageVersion=${{ steps.nbgv.outputs.NuGetPackageVersion }}.${{ github.run_number }} -p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}.${{ github.run_number }} -p:AssemblyVersion=${{ steps.nbgv.outputs.AssemblyVersion }} -p:AssemblyFileVersion=${{ steps.nbgv.outputs.AssemblyFileVersion }} -p:AssemblyInformationalVersion=${{ steps.nbgv.outputs.AssemblyInformationalVersion }} /p:NoPackageAnalysis=true
-                dotnet nuget push **/*.nupkg --api-key ${{ secrets.MYGET_API_KEY }} --source https://www.myget.org/F/supersocket/api/v3/index.json
+                dotnet nuget push **/*.nupkg --api-key ${{ secrets.MYGET_API_KEY }} --source https://www.myget.org/F/websocket4net/api/v3/index.json
