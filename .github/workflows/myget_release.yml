@@ -5,6 +5,9 @@ jobs:
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v1
+            - name: Install required workloads
+              run:  |
+                dotnet workload install android ios maccatalyst tvos macos maui wasm-tools --source https://aka.ms/dotnet8/nuget/index.json --source https://api.nuget.org/v3/index.json
             - name: Setup .NET Core
               uses: actions/setup-dotnet@v3
               with:

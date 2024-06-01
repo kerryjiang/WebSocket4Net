@@ -35,5 +35,6 @@ jobs:
               if: runner.os == 'macOS'
               run: |
                 dotnet clean
+                dotnet workload install android ios maccatalyst tvos macos maui wasm-tools --source https://aka.ms/dotnet8/nuget/index.json --source https://api.nuget.org/v3/index.json
                 dotnet pack -c Release -p:IncludeMobileTargetFramework=true -p:PackageVersion=${{ steps.nbgv.outputs.NuGetPackageVersion }}.${{ github.run_number }} -p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}.${{ github.run_number }} -p:AssemblyVersion=${{ steps.nbgv.outputs.AssemblyVersion }} -p:AssemblyFileVersion=${{ steps.nbgv.outputs.AssemblyFileVersion }} -p:AssemblyInformationalVersion=${{ steps.nbgv.outputs.AssemblyInformationalVersion }} /p:NoPackageAnalysis=true
                 dotnet nuget push **/*.nupkg --api-key ${{ secrets.MYGET_API_KEY }} --source https://www.myget.org/F/websocket4net/api/v3/index.json
