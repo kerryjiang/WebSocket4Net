@@ -16,6 +16,7 @@
     <IncludeSource>true</IncludeSource>
     <Authors>Kerry Jiang and other contributors</Authors>
     <Owners>Kerry Jiang</Owners>
+    <Description>A popular .NET websocket client.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
