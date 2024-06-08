@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Condition="$(IncludeMobileTargetFramework) == 'true'">
-    <TargetFrameworks>$(TargetFrameworks);$(MobileTargetFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(DotNetTargetFrameworks);$(MobileTargetFrameworks)</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(IncludeMobileTargetFramework) != 'true'">
+    <TargetFrameworks>$(DotNetTargetFrameworks)</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="SuperSocket.Client" Version="$(SuperSocketVersion)" />
