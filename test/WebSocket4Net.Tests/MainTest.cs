@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SuperSocket.Server.Host;
@@ -398,6 +399,70 @@ namespace WebSocket4Net.Tests
 
                 Assert.True(manualResetEvent.WaitOne(TimeSpan.FromSeconds(5)), "The connection failed to close on time");
                 Assert.Equal(WebSocketState.Closed, websocket.State);
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestSendMessage(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            using (var server = CreateWebSocketSocketServerBuilder(
+                configurator: builder =>
+                {
+                    builder.UseWebSocketMessageHandler(async (s, p) =>
+                        {
+                            if (p.Message.StartsWith("ECHO", StringComparison.OrdinalIgnoreCase))
+                            {
+                                await s.SendAsync(p.Message.Substring(5));
+                            }
+                        });
+
+                    return builder;
+                },
+                hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.True(await server.StartAsync());
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                var sb = new StringBuilder();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    sb.Append(Guid.NewGuid().ToString());
+                }
+
+                string messageSource = sb.ToString();
+
+                var rd = new Random();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    int startPos = rd.Next(0, messageSource.Length - 2);
+                    int endPos = rd.Next(startPos + 1, messageSource.Length - 1);
+
+                    string message = messageSource.Substring(startPos, endPos - startPos);
+
+                    await websocket.SendAsync("ECHO " + message);
+
+                    var receivedMessage = await websocket.ReceiveAsync();
+
+                    Assert.NotNull(receivedMessage);
+                    Assert.Equal(message, receivedMessage.Message);
+                }
 
                 await server.StopAsync();
             }
