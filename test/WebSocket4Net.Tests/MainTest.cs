@@ -467,5 +467,66 @@ namespace WebSocket4Net.Tests
                 await server.StopAsync();
             }
         }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestSendData(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            using (var server = CreateWebSocketSocketServerBuilder(
+                configurator: builder =>
+                {
+                    builder.UseWebSocketMessageHandler(async (s, p) =>
+                        {
+                            await s.SendAsync(p.Data.ToArray());
+                        });
+
+                    return builder;
+                },
+                hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.True(await server.StartAsync());
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                var sb = new StringBuilder();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    sb.Append(Guid.NewGuid().ToString());
+                }
+
+                string messageSource = sb.ToString();
+
+                var rd = new Random();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    int startPos = rd.Next(0, messageSource.Length - 2);
+                    int endPos = rd.Next(startPos + 1, messageSource.Length - 1);
+
+                    string message = messageSource.Substring(startPos, endPos - startPos);
+
+                    await websocket.SendAsync(Encoding.UTF8.GetBytes(message));
+
+                    var receivedMessage = await websocket.ReceiveAsync();
+
+                    Assert.NotNull(receivedMessage);
+                    Assert.Equal(message, Encoding.UTF8.GetString(receivedMessage.Data));
+                }
+
+                await server.StopAsync();
+            }
+        }
     }
 }
