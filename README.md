@@ -20,9 +20,9 @@ using WebSocket4Net;
 
 var websocket = new WebSocket("https://localhost/live");
 
-websocket.PackageHandler += (s, p) =>
+websocket.PackageHandler += (sender, package) =>
 {
-    Console.WriteLine(p.ToString());
+    Console.WriteLine(package.Message);
 }
 
 await websocket.OpenAsync();
