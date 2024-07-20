@@ -18,7 +18,7 @@ using CloseReason = SuperSocket.WebSocket.CloseReason;
 
 namespace WebSocket4Net
 {
-    public class WebSocket : EasyClient<WebSocketPackage>
+    public class WebSocket : EasyClient<WebSocketPackage>, IWebSocket
     {
         private static readonly Encoding _asciiEncoding = Encoding.ASCII;
         private static readonly Encoding _utf8Encoding = new UTF8Encoding(false);
@@ -294,11 +294,6 @@ namespace WebSocket4Net
             return SendAsync(_packageEncoder, package);
         }
 
-        public async ValueTask CloseAsync(CloseReason closeReason)
-        {
-            await CloseAsync(closeReason, string.Empty);
-        }
-
         private byte[] GetBuffer(int size)
         {
             return new byte[size];
@@ -309,7 +304,7 @@ namespace WebSocket4Net
             await CloseAsync(CloseReason.NormalClosure, string.Empty);
         }
 
-        public async ValueTask CloseAsync(CloseReason closeReason, string message)
+        public async ValueTask CloseAsync(CloseReason closeReason, string message = null)
         {
             var package = new WebSocketPackage();
 
