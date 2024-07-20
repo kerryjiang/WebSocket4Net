@@ -201,6 +201,11 @@ namespace WebSocket4Net
             writer.Write($"{WebSocketConstant.SecWebSocketVersion}: 13\r\n\r\n", _asciiEncoding);
         }
 
+        public new void StartReceive()
+        {
+            base.StartReceive();
+        }
+
         public new async ValueTask<WebSocketPackage> ReceiveAsync()
         {
             return await ReceiveAsync(
