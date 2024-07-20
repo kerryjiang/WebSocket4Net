@@ -1,9 +1,13 @@
 using System;
 using System.Buffers;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SuperSocket;
 using SuperSocket.Server.Host;
 using SuperSocket.WebSocket;
 using SuperSocket.WebSocket.Server;
@@ -525,6 +529,69 @@ namespace WebSocket4Net.Tests
                     Assert.Equal(message, Encoding.UTF8.GetString(receivedMessage.Data));
                 }
 
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestConcurrentSend(Type hostConfiguratorType)
+        {
+            var lines = new string[100];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = Guid.NewGuid().ToString();
+            }
+
+            var messDict = new ConcurrentDictionary<string, string>(lines.Select(line => new KeyValuePair<string, string>(line, line)));
+
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var allMessageReceivedEvent = new ManualResetEventSlim(false);
+
+            using (var server = CreateWebSocketSocketServerBuilder(
+                configurator: builder =>
+                {
+                    builder.UseWebSocketMessageHandler((s, p) =>
+                        {
+                            if (messDict.Remove(p.Message, out _))
+                            {
+                                if (messDict.Count == 0)
+                                {
+                                    allMessageReceivedEvent.Set();
+                                }
+                            }
+
+                            return ValueTask.CompletedTask;
+                        });
+
+                    return builder;
+                },
+                hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.True(await server.StartAsync());
+
+                using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+
+                Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                await AsyncParallel.ForEach(
+                    lines,
+                    async line =>
+                    {
+                        await websocket.SendAsync(line);
+                    },
+                    lines.Length);
+
+                Assert.True(allMessageReceivedEvent.Wait(TimeSpan.FromSeconds(10)), "The server side didn't receive all messages in time.");
                 await server.StopAsync();
             }
         }
