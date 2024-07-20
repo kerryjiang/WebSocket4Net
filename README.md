@@ -10,5 +10,4 @@
 
 A popular .NET WebSocket Client
 
-It is a completely new version which is base on SuperSocket 2.0 and dotnet core.
-This version is still in progress, so please don't use it in production for now.
+This new version is built on SuperSocket 2.0 and modern .NET (.NET Core). It includes breaking changes from the previous WebSocket4Net version, so code adjustments may be necessary for upgrading.
