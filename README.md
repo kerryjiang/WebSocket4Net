@@ -11,3 +11,56 @@
 A popular .NET WebSocket Client
 
 This new version is built on SuperSocket 2.0 and modern .NET (.NET Core). It includes breaking changes from the previous WebSocket4Net version, so code adjustments may be necessary for upgrading.
+
+## Usage 1: Read messages from event handler.
+
+```csharp
+
+using WebSocket4Net;
+
+var websocket = new WebSocket("https://localhost/live");
+
+websocket.PackageHandler += (s, p) =>
+{
+    Console.WriteLine(p.ToString());
+}
+
+await websocket.OpenAsync();
+
+websocket.StartReceive();
+
+await websocket.SendAsync("Hello");
+
+//...
+
+await websocket.CloseAsync();
+
+```
+
+## Usage 1: Read messages on demand.
+
+```csharp
+
+using WebSocket4Net;
+
+var websocket = new WebSocket("https://localhost/live");
+
+await websocket.OpenAsync();
+
+await websocket.SendAsync("Hello");
+
+while (true)
+{
+    var package = await websocket.ReceiveAsync();
+
+    if (package == null)
+        break;
+
+    Console.WriteLine(package.Message);
+}
+
+//...
+
+await websocket.CloseAsync();
+
+```
