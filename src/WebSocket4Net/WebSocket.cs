@@ -166,9 +166,7 @@ namespace WebSocket4Net
         }
 
         private string CalculateChallenge(string secKey, string magic)
-        {
-            return Convert.ToBase64String(SHA1.Create().ComputeHash(_asciiEncoding.GetBytes(secKey + magic)));
-        }
+            => Convert.ToBase64String(SHA1.Create().ComputeHash(_asciiEncoding.GetBytes(secKey + magic)));
 
         private (string, string) MakeSecureKey()
         {
@@ -203,17 +201,12 @@ namespace WebSocket4Net
             writer.Write("\r\n", _asciiEncoding);
         }
 
-        public new void StartReceive()
-        {
-            base.StartReceive();
-        }
+        public new void StartReceive() => base.StartReceive();
 
         public new async ValueTask<WebSocketPackage> ReceiveAsync()
-        {
-            return await ReceiveAsync(
+            => await ReceiveAsync(
                 handleControlPackage: true,
                 returnControlPackage: false);
-        }
 
         internal async ValueTask<WebSocketPackage> ReceiveAsync(bool handleControlPackage, bool returnControlPackage)
         {
@@ -253,17 +246,17 @@ namespace WebSocket4Net
         {
             switch (package.OpCode)
             {
-                case (OpCode.Close):
+                case OpCode.Close:
                     await HandleCloseHandshake(package);
                     break;
 
-                case (OpCode.Ping):
+                case OpCode.Ping:
                     PingPongStatus.OnPingReceived(package);
                     package.OpCode = OpCode.Pong;
-                    await this.SendAsync(package);
+                    await SendAsync(package);
                     break;
 
-                case (OpCode.Pong):
+                case OpCode.Pong:
                     PingPongStatus.OnPongReceived(package);
                     break;
             }
@@ -280,9 +273,7 @@ namespace WebSocket4Net
         }
 
         internal async ValueTask SendAsync(WebSocketPackage package)
-        {
-            await SendAsync(_packageEncoder, package);
-        }
+            => await SendAsync(_packageEncoder, package);
 
         public new async ValueTask SendAsync(ReadOnlyMemory<byte> data)
         {
@@ -307,15 +298,10 @@ namespace WebSocket4Net
             return SendAsync(_packageEncoder, package);
         }
 
-        private byte[] GetBuffer(int size)
-        {
-            return new byte[size];
-        }
+        private byte[] GetBuffer(int size) => new byte[size];
 
         public override async ValueTask CloseAsync()
-        {
-            await CloseAsync(CloseReason.NormalClosure, string.Empty);
-        }
+            => await CloseAsync(CloseReason.NormalClosure, string.Empty);
 
         public async ValueTask CloseAsync(CloseReason closeReason, string message = null)
         {
@@ -388,7 +374,7 @@ namespace WebSocket4Net
 
             if (closeStatus == null)
             {
-                this.State = WebSocketState.CloseReceived;
+                State = WebSocketState.CloseReceived;
                 closeStatusFromRemote.RemoteInitiated = true;
                 CloseStatus = closeStatusFromRemote;
                 // Send close pong message to server side.
@@ -408,9 +394,7 @@ namespace WebSocket4Net
             }
         }
 
-        private void OnConnectionClosed(object sender, EventArgs eventArgs)
-        {
-            this.State = WebSocketState.Closed;
-        }
+        private void OnConnectionClosed(object sender, EventArgs eventArgs) 
+            => State = WebSocketState.Closed;
     }
 }
