@@ -32,18 +32,17 @@ namespace WebSocket4Net
 
         public PingPongStatus PingPongStatus { get; private set; }
 
-        private string _origin;
+        private readonly string _origin;
 
-        private EndPoint _remoteEndPoint;
+        private readonly EndPoint _remoteEndPoint;
 
         private static readonly IPackageEncoder<WebSocketPackage> _packageEncoder = new WebSocketEncoder();
 
         private List<string> _subProtocols;
 
-        public IReadOnlyList<string> SubProtocols
-        {
-            get { return _subProtocols; }
-        }
+        public IReadOnlyList<string> SubProtocols => _subProtocols;
+
+        public Dictionary<string, string> Headers = new();
 
         public WebSocketState State { get; private set; } = WebSocketState.None;
 
@@ -84,8 +83,6 @@ namespace WebSocket4Net
 
         private EndPoint ResolveUri(Uri uri, int defaultPort)
         {
-            IPAddress ipAddress;
-
             EndPoint remoteEndPoint;
 
             var port = uri.Port;
@@ -93,7 +90,7 @@ namespace WebSocket4Net
             if (port <= 0)
                 port = defaultPort;
 
-            if (IPAddress.TryParse(uri.Host, out ipAddress))
+            if (IPAddress.TryParse(uri.Host, out IPAddress ipAddress))
                 remoteEndPoint = new IPEndPoint(ipAddress, port);
             else
                 remoteEndPoint = new DnsEndPoint(uri.Host, port);
@@ -105,15 +102,13 @@ namespace WebSocket4Net
         {
             var subProtocols = _subProtocols;
 
-            if (subProtocols == null)
-                subProtocols = _subProtocols = new List<string>();
-
+            subProtocols ??= _subProtocols = new List<string>();
             subProtocols.Add(protocol);
         }
 
         protected override void SetupConnection(IConnection connection)
         {
-            this.Closed += OnConnectionClosed;
+            Closed += OnConnectionClosed;
             base.SetupConnection(connection);
         }
 
@@ -121,14 +116,14 @@ namespace WebSocket4Net
         {
             State = WebSocketState.Connecting;
 
-            if (!await this.ConnectAsync(_remoteEndPoint, cancellationToken))
+            if (!await ConnectAsync(_remoteEndPoint, cancellationToken))
             {
                 State = WebSocketState.Closed;
                 return false;
             }
 
             var (key, acceptKey) = MakeSecureKey();
-            await this.Connection.SendAsync((writer) => WriteHandshakeRequest(writer, key));
+            await Connection.SendAsync((writer) => WriteHandshakeRequest(writer, key));
 
             var handshakeResponse = await ReceiveAsync();
 
@@ -177,7 +172,7 @@ namespace WebSocket4Net
 
         private (string, string) MakeSecureKey()
         {
-            var secKey = Convert.ToBase64String(_asciiEncoding.GetBytes(Guid.NewGuid().ToString().Substring(0, 16)));
+            var secKey = Convert.ToBase64String(_asciiEncoding.GetBytes(Guid.NewGuid().ToString()[..16]));
             return (secKey, CalculateChallenge(secKey, _magic));
         }
 
@@ -189,7 +184,7 @@ namespace WebSocket4Net
             writer.Write($"{WebSocketConstant.ResponseConnectionLine}", _asciiEncoding);
             writer.Write($"{WebSocketConstant.SecWebSocketKey}: {secKey}\r\n", _asciiEncoding);
             writer.Write($"{WebSocketConstant.Origin}: {_origin}\r\n", _asciiEncoding);
-
+            
             var subProtocols = _subProtocols;
 
             if (subProtocols != null && subProtocols.Count > 0)
@@ -199,6 +194,13 @@ namespace WebSocket4Net
             }
 
             writer.Write($"{WebSocketConstant.SecWebSocketVersion}: 13\r\n\r\n", _asciiEncoding);
+
+            // Write extra headers
+            foreach (var header in Headers)
+                writer.Write($"{header.Key}: {header.Value}\r\n", _asciiEncoding);
+
+            // Ensure end of the handshake request handshake
+            writer.Write("\r\n", _asciiEncoding);
         }
 
         public new void StartReceive()
@@ -269,9 +271,11 @@ namespace WebSocket4Net
 
         public async ValueTask SendAsync(string message)
         {
-            var package = new WebSocketPackage();
-            package.OpCode = OpCode.Text;
-            package.Message = message;
+            var package = new WebSocketPackage
+            {
+                OpCode = OpCode.Text,
+                Message = message
+            };
             await SendAsync(package);
         }
 
@@ -282,8 +286,10 @@ namespace WebSocket4Net
 
         public new async ValueTask SendAsync(ReadOnlyMemory<byte> data)
         {
-            var package = new WebSocketPackage();
-            package.OpCode = OpCode.Binary;
+            var package = new WebSocketPackage
+            {
+                OpCode = OpCode.Binary
+            };
 
             var sequenceElement = new SequenceSegment(data);
             package.Data = new ReadOnlySequence<byte>(sequenceElement, 0, sequenceElement, sequenceElement.Memory.Length);
@@ -293,9 +299,11 @@ namespace WebSocket4Net
 
         public ValueTask SendAsync(ref ReadOnlySequence<byte> sequence)
         {
-            var package = new WebSocketPackage();
-            package.OpCode = OpCode.Binary;
-            package.Data = sequence;
+            var package = new WebSocketPackage
+            {
+                OpCode = OpCode.Binary,
+                Data = sequence
+            };
             return SendAsync(_packageEncoder, package);
         }
 
@@ -311,9 +319,10 @@ namespace WebSocket4Net
 
         public async ValueTask CloseAsync(CloseReason closeReason, string message = null)
         {
-            var package = new WebSocketPackage();
-
-            package.OpCode = OpCode.Close;
+            var package = new WebSocketPackage
+            {
+                OpCode = OpCode.Close
+            };
 
             var bufferSize = !string.IsNullOrEmpty(message) ? _utf8Encoding.GetMaxByteCount(message.Length) : 0;
             bufferSize += 2;
