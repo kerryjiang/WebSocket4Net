@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -74,6 +75,83 @@ namespace WebSocket4Net.Tests
                 // test path
                 Assert.Equal(path, serverSessionPath);
                 Assert.True(connected);
+
+                await websocket.CloseAsync();
+
+                Assert.NotNull(websocket.CloseStatus);
+                Assert.Equal(CloseReason.NormalClosure, websocket.CloseStatus.Reason);
+
+                await Task.Delay(1 * 1000);
+
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+                Assert.False(connected);
+
+                await server.StopAsync();
+            }
+        }
+
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator))]
+        [InlineData(typeof(SecureHostConfigurator))]
+        public async Task TestCustomHeaderItems(Type hostConfiguratorType)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var serverSessionPath = string.Empty;
+            var connected = false;
+
+            var httpHeaderFromServer = default(NameValueCollection);
+
+            var serverConnectedTaskSource = new TaskCompletionSource();
+
+            using (var server = CreateWebSocketSocketServerBuilder(builder =>
+            {
+                builder.UseSessionHandler(async (s) =>
+                {
+                    httpHeaderFromServer = (s as WebSocketSession).HttpHeader.Items;
+                    connected = true;
+                    serverConnectedTaskSource.SetResult();
+                    await Task.CompletedTask;
+                },
+                async (s, e) =>
+                {
+                    connected = false;
+                    await Task.CompletedTask;
+                });
+
+                return builder;
+            }, hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+                OutputHelper.WriteLine("Server started.");
+
+                var url = $"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}";
+
+                var websocket = new WebSocket(url);
+
+                var userId = Guid.NewGuid().ToString();
+
+                websocket.Headers["UserId"] = userId;
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.Equal(WebSocketState.None, websocket.State);
+
+                Assert.True(await websocket.OpenAsync(), "Failed to connect");
+
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                await serverConnectedTaskSource.Task.WaitAsync(TimeSpan.FromSeconds(30));
+
+                Assert.True(connected);
+
+                Assert.NotNull(httpHeaderFromServer);
+
+                var userIdFromHttpHeader = httpHeaderFromServer.Get("UserId");
+
+                Assert.NotNull(userIdFromHttpHeader);
+                Assert.Equal(userId, userIdFromHttpHeader);
 
                 await websocket.CloseAsync();
 

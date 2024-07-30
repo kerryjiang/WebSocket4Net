@@ -191,7 +191,7 @@ namespace WebSocket4Net
                 writer.Write($"{WebSocketConstant.SecWebSocketProtocol}: {strSubProtocols}\r\n", _asciiEncoding);
             }
 
-            writer.Write($"{WebSocketConstant.SecWebSocketVersion}: 13\r\n\r\n", _asciiEncoding);
+            writer.Write($"{WebSocketConstant.SecWebSocketVersion}: 13\r\n", _asciiEncoding);
 
             // Write extra headers
             foreach (var header in Headers)
