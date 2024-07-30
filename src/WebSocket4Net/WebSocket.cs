@@ -42,7 +42,15 @@ namespace WebSocket4Net
 
         public IReadOnlyList<string> SubProtocols => _subProtocols;
 
-        public Dictionary<string, string> Headers = new();
+        private Dictionary<string, string> _headers;
+
+        public Dictionary<string, string> Headers
+        {
+            get
+            {
+                return _headers ?? (_headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+            }
+        }
 
         public WebSocketState State { get; private set; } = WebSocketState.None;
 
@@ -192,10 +200,13 @@ namespace WebSocket4Net
             }
 
             writer.Write($"{WebSocketConstant.SecWebSocketVersion}: 13\r\n", _asciiEncoding);
-
-            // Write extra headers
-            foreach (var header in Headers)
-                writer.Write($"{header.Key}: {header.Value}\r\n", _asciiEncoding);
+            
+            if (_headers != null)
+            {
+                // Write extra headers
+                foreach (var header in _headers)
+                    writer.Write($"{header.Key}: {header.Value}\r\n", _asciiEncoding);
+            }
 
             // Ensure end of the handshake request handshake
             writer.Write("\r\n", _asciiEncoding);
