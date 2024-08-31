@@ -36,7 +36,15 @@ namespace WebSocket4Net
 
         private readonly EndPoint _remoteEndPoint;
 
-        private static readonly IPackageEncoder<WebSocketPackage> _packageEncoder = new WebSocketEncoder();
+        private static readonly IPackageEncoder<WebSocketPackage> _packageEncoder = new WebSocketMaskedEncoder(ArrayPool<byte>.Shared, new int[]
+            {
+                1024,
+                1024 * 4,
+                1024 * 8,
+                1024 * 16,
+                1024 * 32,
+                1024 * 64
+            });
 
         private List<string> _subProtocols;
 
