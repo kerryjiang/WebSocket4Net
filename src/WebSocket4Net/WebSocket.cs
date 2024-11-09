@@ -226,6 +226,11 @@ namespace WebSocket4Net
 
         public new void StartReceive()
         {
+            if (State != WebSocketState.Open)
+            {
+                throw new InvalidOperationException($"You cannot call the method {nameof(StartReceive)} when the websocket connection is not open.");
+            }
+
             base.StartReceive();
             _packageHandlerMode = true;
         }
