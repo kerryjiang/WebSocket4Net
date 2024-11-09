@@ -178,16 +178,20 @@ namespace WebSocket4Net.Tests
             var serverSessionPath = string.Empty;
             var connected = false;
 
+            var resetEvent = new AutoResetEvent(false);
+
             using (var server = CreateWebSocketSocketServerBuilder(builder =>
             {
                 builder.UseSessionHandler(async (s) =>
                 {
                     connected = true;
+                    resetEvent.Set();
                     await Task.CompletedTask;
                 },
                 async (s, e) =>
                 {
                     connected = false;
+                    resetEvent.Set();
                     await Task.CompletedTask;
                 });
 
@@ -212,7 +216,7 @@ namespace WebSocket4Net.Tests
 
                 Assert.Equal(WebSocketState.Open, websocket.State);
 
-                await Task.Delay(1 * 1000);                
+                Assert.True(resetEvent.WaitOne(1000));
                 Assert.True(connected);
 
                 for (var i = 0; i < repeat; i++)
@@ -228,7 +232,7 @@ namespace WebSocket4Net.Tests
                 Assert.NotNull(websocket.CloseStatus);
                 Assert.Equal(CloseReason.NormalClosure, websocket.CloseStatus.Reason);
 
-                await Task.Delay(1 * 1000);
+                Assert.True(resetEvent.WaitOne(1000));
 
                 Assert.Equal(WebSocketState.Closed, websocket.State);
                 Assert.False(connected);
@@ -237,7 +241,91 @@ namespace WebSocket4Net.Tests
             }
         }
 
-        
+        [Theory]
+        [InlineData(typeof(RegularHostConfigurator), 10)]
+        [InlineData(typeof(SecureHostConfigurator), 10)]
+        public async Task TestEchoMessageByPackageHandler(Type hostConfiguratorType, int repeat)
+        {
+            var hostConfigurator = CreateObject<IHostConfigurator>(hostConfiguratorType);
+
+            var serverSessionPath = string.Empty;
+            var connected = false;
+
+            var resetEvent = new AutoResetEvent(false);
+
+            using (var server = CreateWebSocketSocketServerBuilder(builder =>
+            {
+                builder.UseSessionHandler(async (s) =>
+                {
+                    connected = true;
+                    resetEvent.Set();
+                    await Task.CompletedTask;
+                },
+                async (s, e) =>
+                {
+                    connected = false;
+                    resetEvent.Set();
+                    await Task.CompletedTask;
+                });
+
+                builder.UseWebSocketMessageHandler(async (s, p) =>
+                {
+                    var session = s as WebSocketSession;
+                    await session.SendAsync(p.Message);
+                });
+
+                return builder;
+            }, hostConfigurator: hostConfigurator)
+                .BuildAsServer())
+            {
+                Assert.True(await server.StartAsync());
+                OutputHelper.WriteLine("Server started.");
+
+                var websocket = new WebSocket($"{hostConfigurator.WebSocketSchema}://{_loopbackIP}:{hostConfigurator.Listener.Port}");
+
+                hostConfigurator.ConfigureClient(websocket);
+
+                Assert.True(await websocket.OpenAsync(), "Failed to connect");
+
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                Assert.True(resetEvent.WaitOne(1000));
+                Assert.True(connected);
+
+                var lastReceivedMessage = string.Empty;
+
+                websocket.PackageHandler += (s, p) => 
+                {
+                    lastReceivedMessage = p.Message;
+                    resetEvent.Set();
+                    return ValueTask.CompletedTask;
+                };
+
+                websocket.StartReceive();
+
+                for (var i = 0; i < repeat; i++)
+                {
+                    var text = Guid.NewGuid().ToString();
+                    await websocket.SendAsync(text);
+                    Assert.True(resetEvent.WaitOne(1000));
+                    Assert.Equal(text, lastReceivedMessage);
+                }
+
+                await websocket.CloseAsync();
+
+                Assert.NotNull(websocket.CloseStatus);
+                Assert.Equal(CloseReason.NormalClosure, websocket.CloseStatus.Reason);
+
+                Assert.True(resetEvent.WaitOne(1000));
+
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+                Assert.False(connected);
+
+                await server.StopAsync();
+            }
+        }
+
+
         [Theory]
         [InlineData(typeof(RegularHostConfigurator))]
         [InlineData(typeof(SecureHostConfigurator))]
