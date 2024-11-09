@@ -9,4 +9,7 @@
     <PackageReference Include="SuperSocket.Client" Version="$(SuperSocketVersion)" />
     <PackageReference Include="SuperSocket.WebSocket" Version="$(SuperSocketVersion)" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
