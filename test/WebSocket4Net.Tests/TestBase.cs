@@ -51,7 +51,7 @@ namespace WebSocket4Net.Tests
 
         protected T CreateObject<T>(Type type)
         {
-            return (T)ActivatorUtilities.CreateFactory(type, new Type[0]).Invoke(null, null);
+            return (T)Activator.CreateInstance(type);
         }
 
         protected IHostBuilder Configure(IHostBuilder hostBuilder, IHostConfigurator configurator = null)
