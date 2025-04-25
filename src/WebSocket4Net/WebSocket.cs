@@ -224,15 +224,20 @@ namespace WebSocket4Net
             writer.Write("\r\n", _asciiEncoding);
         }
 
-        public new void StartReceive()
+        public void StartReceive()
         {
             if (State != WebSocketState.Open)
             {
                 throw new InvalidOperationException($"You cannot call the method {nameof(StartReceive)} when the websocket connection is not open.");
             }
 
-            base.StartReceive();
-            _packageHandlerMode = true;
+            StartReceiveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    OnError("Receive error", t.Exception);
+                }
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public new async ValueTask<WebSocketPackage> ReceiveAsync()
