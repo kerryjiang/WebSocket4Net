@@ -24,12 +24,25 @@ namespace WebSocket4Net.Tests
             services.Configure<ServerOptions>((options) =>
                 {
                     var listener = options.Listeners[0];
-                    listener.Security = GetServerEnabledSslProtocols();
-                    listener.CertificateOptions = new CertificateOptions
+
+                    var authenticationOptions = listener.AuthenticationOptions;
+
+                    if (authenticationOptions == null)
+                    {
+                        authenticationOptions = listener.AuthenticationOptions = new ServerAuthenticationOptions();
+                    }
+
+                    authenticationOptions.CertificateOptions = new CertificateOptions
                     {
                         FilePath = "supersocket.pfx",
                         Password = "supersocket"
                     };
+
+                    if (authenticationOptions.EnabledSslProtocols == SslProtocols.None)
+                    {
+                        authenticationOptions.EnabledSslProtocols = GetServerEnabledSslProtocols();
+                    }
+                    
                     Listener = listener;
                 });
         }
