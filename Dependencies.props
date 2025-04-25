@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>    
-    <SuperSocketVersion>2.0.0-beta.26</SuperSocketVersion>
+    <SuperSocketVersion>2.0.0</SuperSocketVersion>
   </PropertyGroup>
 </Project>
