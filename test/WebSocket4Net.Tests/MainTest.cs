@@ -14,6 +14,10 @@ using SuperSocket.WebSocket;
 using SuperSocket.WebSocket.Server;
 using Xunit;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using Meziantou.Extensions.Logging.Xunit;
 
 namespace WebSocket4Net.Tests
 {
@@ -164,6 +168,102 @@ namespace WebSocket4Net.Tests
                 Assert.False(connected);
 
                 await server.StopAsync();
+            }
+        }
+
+        [Fact]
+        public async Task TestWithAspNetCoreWebSocketServer()
+        {
+            // Create a test server with ASP.NET Core WebSocket support
+            var builder = new WebHostBuilder()
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddProvider(new XUnitLoggerProvider(OutputHelper));
+                    logging.SetMinimumLevel(LogLevel.Debug);
+                })
+                .UseKestrel()
+                .Configure(app =>
+                {
+                    app.UseWebSockets();                    
+                    app.Use(async (context, next) =>
+                    {
+                        if (context.Request.Path == "/ws")
+                        {
+                            if (context.WebSockets.IsWebSocketRequest)
+                            {
+                                using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                                var buffer = new byte[1024 * 4];
+
+                                while (webSocket.State == System.Net.WebSockets.WebSocketState.Open)
+                                {
+                                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                                    if (result.MessageType == System.Net.WebSockets.WebSocketMessageType.Text)
+                                    {
+                                        // Echo the message back
+                                        await webSocket.SendAsync(
+                                            new ArraySegment<byte>(buffer, 0, result.Count),
+                                            System.Net.WebSockets.WebSocketMessageType.Text,
+                                            result.EndOfMessage,
+                                            CancellationToken.None);
+                                    }
+                                    else if (result.MessageType == System.Net.WebSockets.WebSocketMessageType.Close)
+                                    {
+                                        await webSocket.CloseAsync(
+                                            System.Net.WebSockets.WebSocketCloseStatus.NormalClosure,
+                                            "Closing",
+                                            CancellationToken.None);
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                context.Response.StatusCode = 400;
+                            }
+                        }
+                        else
+                        {
+                            await next();
+                        }
+                    });
+                });
+
+            using var host = builder.Build();
+
+            try
+            {
+                await host.StartAsync();
+
+                // Get the server URL
+                var serverUrl = $"ws://localhost:5000/ws";
+
+                // Create WebSocket client
+                var websocket = new WebSocket(serverUrl);
+
+                // Connect to the server
+                Assert.True(await websocket.OpenAsync(), "Failed to connect to ASP.NET Core WebSocket server");
+                Assert.Equal(WebSocketState.Open, websocket.State);
+
+                // Test echo functionality
+                for (var i = 0; i < 10; i++)
+                {
+                    var text = Guid.NewGuid().ToString();
+                    await websocket.SendAsync(text);
+                    var receivedText = (await websocket.ReceiveAsync()).Message;
+                    Assert.Equal(text, receivedText);
+                }
+                
+                await websocket.CloseAsync();
+
+                Assert.NotNull(websocket.CloseStatus);
+                Assert.Equal(CloseReason.NormalClosure, websocket.CloseStatus.Reason);
+                Assert.Equal(WebSocketState.Closed, websocket.State);
+            }
+            finally
+            {
+                // Clean up
+                await host.StopAsync();
             }
         }
 
