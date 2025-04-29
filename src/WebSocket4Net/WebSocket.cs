@@ -4,6 +4,7 @@ using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Net;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -66,24 +67,18 @@ namespace WebSocket4Net
 
         public WebSocketState State { get; private set; } = WebSocketState.None;
 
-        public WebSocket(string url)
-            : this(url, NullLogger.Instance)
+        static ConnectionOptions PrepareConnectionOptions(ConnectionOptions connectionOptions, ILogger logger)
         {
-
+            connectionOptions ??= new ConnectionOptions();
+            connectionOptions.Logger = logger ?? NullLogger.Instance;
+            return connectionOptions;
         }
 
-        public WebSocket(string url, ILogger logger)
-            : this(url, new ConnectionOptions { Logger = logger })
-        {
-
-        }
-
-        public WebSocket(string url, ConnectionOptions connectionOptions)
-            : base(new HandshakePipelineFilter(), connectionOptions)
+        public WebSocket(string url, string origin = null, ILogger logger = null, ConnectionOptions connectionOptions = null)
+            : base(new HandshakePipelineFilter(), PrepareConnectionOptions(connectionOptions, logger))
         {
             Uri = new Uri(url);
-
-            _origin = Uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+            _origin = origin;
 
             if ("ws".Equals(Uri.Scheme, StringComparison.OrdinalIgnoreCase))
             {
@@ -113,7 +108,7 @@ namespace WebSocket4Net
             if (IPAddress.TryParse(uri.Host, out IPAddress ipAddress))
                 remoteEndPoint = new IPEndPoint(ipAddress, port);
             else
-                remoteEndPoint = new DnsEndPoint(uri.Host, port);
+                remoteEndPoint = new DnsEndPoint(uri.Host, port, AddressFamily.InterNetwork);
 
             return remoteEndPoint;
         }
@@ -201,7 +196,11 @@ namespace WebSocket4Net
             writer.Write($"{WebSocketConstant.ResponseUpgradeLine}", _asciiEncoding);
             writer.Write($"{WebSocketConstant.ResponseConnectionLine}", _asciiEncoding);
             writer.Write($"{WebSocketConstant.SecWebSocketKey}: {secKey}\r\n", _asciiEncoding);
-            writer.Write($"{WebSocketConstant.Origin}: {_origin}\r\n", _asciiEncoding);
+
+            if (!string.IsNullOrEmpty(_origin))
+            {
+                writer.Write($"{WebSocketConstant.Origin}: {_origin}\r\n", _asciiEncoding);
+            }
             
             var subProtocols = _subProtocols;
 
