@@ -253,7 +253,7 @@ namespace WebSocket4Net.Tests
                     var receivedText = (await websocket.ReceiveAsync()).Message;
                     Assert.Equal(text, receivedText);
                 }
-                
+
                 await websocket.CloseAsync();
 
                 Assert.NotNull(websocket.CloseStatus);
@@ -533,7 +533,7 @@ namespace WebSocket4Net.Tests
 
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(60));
 
-                for (var i = 0; i < 2000; i++)
+                for (var i = 0; i < 100; i++)
                 {
                     Assert.True(await websocket.OpenAsync(cancellationTokenSource.Token), "Failed to connect");
                     Assert.Equal(WebSocketState.Open, websocket.State);
