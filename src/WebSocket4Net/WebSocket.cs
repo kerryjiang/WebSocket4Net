@@ -108,7 +108,7 @@ namespace WebSocket4Net
             if (IPAddress.TryParse(uri.Host, out IPAddress ipAddress))
                 remoteEndPoint = new IPEndPoint(ipAddress, port);
             else
-                remoteEndPoint = new DnsEndPoint(uri.Host, port, AddressFamily.InterNetwork);
+                remoteEndPoint = new DnsEndPoint(uri.Host, port);
 
             return remoteEndPoint;
         }
@@ -229,6 +229,8 @@ namespace WebSocket4Net
             {
                 throw new InvalidOperationException($"You cannot call the method {nameof(StartReceive)} when the websocket connection is not open.");
             }
+
+            _packageHandlerMode = true;
 
             StartReceiveAsync().ContinueWith(t =>
             {
